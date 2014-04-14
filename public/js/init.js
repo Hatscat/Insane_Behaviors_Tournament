@@ -26,8 +26,8 @@ function init_game ()
 
 	document.body.appendChild(canvas);
 	manage_input_events(config.keys_down);
+	config.socket = io.connect();
 	manage_server_events(config);
-	config.socket.emit('new');
 }
 /*
 ** set keyboard inputs into config
@@ -46,7 +46,9 @@ function manage_input_events (p_keys_down)
 */
 function manage_server_events (p_config)
 {
-	p_config.socket.on('new', function(e){new_player(p_config,e)});
-	p_config.socket.on('move', function(e){update_an_ext_player(p_config,e)});
-	p_config.socket.on('deco', function(e){deco_player(p_config,e)});
+	p_config.socket.on('updateGhosts', function(e){update_ghosts(p_config,e)});
+	p_config.socket.on('newPlayer', function(e){new_player(p_config,e)});
+	p_config.socket.on('deleteGhost', function(e){delete_ghost(p_config,e)});
+	p_config.socket.on('kill', function(e){kill(p_config,e)});
+	p_config.socket.on('updateLife', function(e){update_life(p_config,e)});
 }
