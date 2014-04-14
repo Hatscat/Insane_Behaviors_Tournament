@@ -1,15 +1,13 @@
 /*
-** Player class
+** hud class
 */
-function Player (p_id)
+function Hud (p_)
 {
 	/*
 	** attributs
 	*/
-	this._id 	= p_id;
-	this.x 		= 0;
-	this.y 		= 0;
-	this.z 		= 0;
+	this._private_attribut 	= 0;
+	this.public_attribut 	= 0;
 
 	/*
 	** methods
