@@ -1,25 +1,28 @@
 /*
 ** Player class
 */
-function Player (p_id)
+function Player (p_config, p_id, p_position)
 {
-	/*
-	** attributs
-	*/
-	this._id 	= p_id;
-	this.x 		= 0;
-	this.y 		= 0;
-	this.z 		= 0;
+	this._config 	= p_config;
+	this._id 		= p_id;
+	this.x 			= p_position.x;
+	this.y 			= p_position.y;
+	this.z 			= p_position.z;
 
-	/*
-	** methods
-	*/
-	this._private_methods = function (p_)
-	{
-
-	};
-	this.public_methods = function (p_)
-	{
-
-	};
 }
+
+/*
+** methods
+*/
+Player.prototype._private_methods = function (p_)
+{
+
+};
+Player.prototype.move = function (p_)
+{
+
+};
+Player.prototype.shoot = function (p_)
+{
+
+};
