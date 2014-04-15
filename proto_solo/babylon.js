@@ -3821,7 +3821,7 @@ var BABYLON = BABYLON || {};
                 }
             };
             this._onMouseUp = function (evt) {
-                previousPosition = null;
+                //previousPosition = null;
                 if (!noPreventDefault) {
                     evt.preventDefault();
                 }
@@ -3834,17 +3834,21 @@ var BABYLON = BABYLON || {};
                 }
             };
             this._onMouseMove = function (evt) {
+                //console.log(previousPosition ,engine.isPointerLock)
                 if (!previousPosition && !engine.isPointerLock) {
                     return;
                 }
+                //console.log(evt);
                 var offsetX;
                 var offsetY;
                 if (!engine.isPointerLock) {
                     offsetX = evt.clientX - previousPosition.x;
                     offsetY = evt.clientY - previousPosition.y;
                 } else {
-                    offsetX = evt.movementX || evt.mozMovementX || evt.webkitMovementX || evt.msMovementX || 0;
-                    offsetY = evt.movementY || evt.mozMovementY || evt.webkitMovementY || evt.msMovementY || 0;
+                    offsetX = evt.movementX || evt.mozMovementX || evt.webkitMovementX || evt.msMovementX || (evt.clientX - previousPosition.x) || 0;
+                    offsetY = evt.movementY || evt.mozMovementY || evt.webkitMovementY || evt.msMovementY || (evt.clientY - previousPosition.y) || 0;
+                    //console.log(offsetX, offsetY);
+                    //console.log(offsetX, evt.clientX - previousPosition.x);
                 }
                 that.cameraRotation.y += offsetX / that.angularSensibility;
                 that.cameraRotation.x += offsetY / that.angularSensibility;
@@ -3852,9 +3856,6 @@ var BABYLON = BABYLON || {};
                     x: evt.clientX,
                     y: evt.clientY
                 };
-                if (!noPreventDefault) {
-                    evt.preventDefault();
-                }
             };
             this._onKeyDown = function (evt) {
                 if (that.keysUp.indexOf(evt.keyCode) !== -1 || that.keysDown.indexOf(evt.keyCode) !== -1 || that.keysLeft.indexOf(evt.keyCode) !== -1 || that.keysRight.indexOf(evt.keyCode) !== -1) {
@@ -3888,10 +3889,10 @@ var BABYLON = BABYLON || {};
                 that.cameraRotation = new BABYLON.Vector2(0, 0);
             };
         }
-        canvas.addEventListener("mousedown", this._onMouseDown, false);
-        canvas.addEventListener("mouseup", this._onMouseUp, false);
-        canvas.addEventListener("mouseout", this._onMouseOut, false);
-        canvas.addEventListener("mousemove", this._onMouseMove, false);
+        window.addEventListener("mousedown", this._onMouseDown, false);
+        window.addEventListener("mouseup", this._onMouseUp, false);
+        window.addEventListener("mouseout", this._onMouseOut, false);
+        window.addEventListener("mousemove", this._onMouseMove, false);
         window.addEventListener("keydown", this._onKeyDown, false);
         window.addEventListener("keyup", this._onKeyUp, false);
         window.addEventListener("blur", this._onLostFocus, false);
@@ -3900,10 +3901,10 @@ var BABYLON = BABYLON || {};
         if (this._attachedCanvas != canvas) {
             return;
         }
-        canvas.removeEventListener("mousedown", this._onMouseDown);
-        canvas.removeEventListener("mouseup", this._onMouseUp);
-        canvas.removeEventListener("mouseout", this._onMouseOut);
-        canvas.removeEventListener("mousemove", this._onMouseMove);
+        window.removeEventListener("mousedown", this._onMouseDown);
+        window.removeEventListener("mouseup", this._onMouseUp);
+        window.removeEventListener("mouseout", this._onMouseOut);
+        window.removeEventListener("mousemove", this._onMouseMove);
         window.removeEventListener("keydown", this._onKeyDown);
         window.removeEventListener("keyup", this._onKeyUp);
         window.removeEventListener("blur", this._onLostFocus);

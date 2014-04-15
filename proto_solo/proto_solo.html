@@ -10,15 +10,18 @@
 				height: 	100%;
 				padding: 	0;
 				margin: 	0;
-				overflow: 	hidden;
+				overflow:	hidden;
+				
+			}
+			canvas {
+				position:  absolute;
 			}
 		</style>
 	</head>
 	<body>
-		<div id="rootDiv">
-			<!-- Main Canvas -->
-			<canvas id="renderCanvas"></canvas>
-		</div>
+
+		<canvas id="renderCanvas"></canvas>
+		<canvas id="gui"></canvas>
 	</body>
 	<script src="babylon.js"></script>
 	<script>
@@ -33,7 +36,45 @@
 		}
 		else
 		{
-			var engine = new BABYLON.Engine(canvas, true);
+
+			var havePointerLock = 'pointerLockElement' in document ||
+							    'mozPointerLockElement' in document ||
+							    'webkitPointerLockElement' in document;
+
+			gui.requestPointerLock = gui.requestPointerLock ||
+			     gui.mozRequestPointerLock ||
+			     gui.webkitRequestPointerLock;
+			// Ask the browser to lock the pointer
+
+			
+			gui.requestPointerLock();
+
+			canvas.requestPointerLock = canvas.requestPointerLock ||
+			     canvas.mozRequestPointerLock ||
+			     canvas.webkitRequestPointerLock;
+			// Ask the browser to lock the pointer
+
+			canvas.requestPointerLock();
+
+			console.log(havePointerLock)
+
+			// Ask the browser to release the pointer
+			/*document.exitPointerLock = document.exitPointerLock ||
+						   document.mozExitPointerLock ||
+						   document.webkitExitPointerLock;
+			document.exitPointerLock();*/
+
+			var engine = new BABYLON.Engine(canvas, true); // ------------------------------
+			canvas.style.cursor = "none"; // ------------------------------
+			gui.style.cursor = "none"; // ------------------------------
+			engine.isPointerLock = true; // ------------------------------
+
+			gui.width = canvas.width;
+			gui.height = canvas.height;
+			gui_size = 8;
+			console.log(gui)
+			gui_ctx = gui.getContext('2d');
+			
 
 			//Load the collision tuto
 			// --------------------
@@ -44,7 +85,7 @@
 			scene.activeCamera.attachControl(canvas);
 
 			// import a scene
-			BABYLON.SceneLoader.Load("", "skeleton.babylon", engine, function (newScene) {
+			/*BABYLON.SceneLoader.Load("", "skeleton.babylon", engine, function (newScene) {
 				// Wait for textures and shaders to be ready
 				newScene.executeWhenReady(function () {
 					// Attach camera to canvas inputs
@@ -54,34 +95,55 @@
 					//engine.runRenderLoop(function() {
 						//newScene.render();
 					//});
-					
+					console.log("newScene", newScene)
 					// import a mesh
-					BABYLON.SceneLoader.ImportMesh("Cube", "", "blender.babylon", scene, function (newMeshes, particleSystems) //skeleton.babylon
+					BABYLON.SceneLoader.ImportMesh("Skeleton", "", "skeleton.babylon", scene, function (newMeshes, particleSystems, skeletons) //skeleton.babylon
 					{
-						console.log(newMeshes);
+						console.log("newMeshes", newMeshes);
 					});
 
 				});
 			}, function (progress) {
 				// To do: give progress feedback to user
-			});
+			});*/
 
 			// import a mesh
-			BABYLON.SceneLoader.ImportMesh("Skeleton", "", "skeleton.babylon", scene, function (newMeshes, particleSystems) //Skeleton - skeleton.babylon // Cube - blender
+			BABYLON.SceneLoader.ImportMesh("Skeleton", "", "skeleton.babylon", scene, function (newMeshes, particleSystems, skeletons) //Skeleton - skeleton.babylon // Cube - blender
 			{
-				console.log(newMeshes);
+				console.log("newMeshes", newMeshes);
+
+				var dude = newMeshes[0];
+
+				dude.rotation.y = Math.PI;
+				//dude.position = new BABYLON.Vector3(0, 0, -80);
+				console.log("skeletons", skeletons);
+				scene.beginAnimation(skeletons[0], 0, 100, true, 5.0); //function (target, from, to, loop, speedRatio, onAnimationEnd)
 			});
 
 			// Once the scene is loaded, just register a render loop to render it
 			engine.runRenderLoop(function () {
 				scene.render();
+
+				
 			});
 
 			// Resize
 			window.addEventListener("resize", function () {
 				engine.resize();
 			});
+
+			// shoot
+			window.addEventListener('click', function ()
+			{
+				var pickResult = scene.pick(canvas.width / 2, canvas.height / 2);
+				console.log(pickResult.pickedMesh.name);
+			});
+
+			//console.log(gui_ctx);
+			gui_ctx.fillStyle = '#f50';
+			gui_ctx.fillRect(canvas.width / 2 - gui_size / 2, canvas.height / 2 - gui_size / 2, gui_size, gui_size);
 		}
+
 	});
 
 	function createSceneTutoCollisions (engine)
@@ -125,6 +187,31 @@
 		//finally, say which mesh will be collisionable
 		ground.checkCollisions = true;
 		box.checkCollisions = true;
+
+
+		// ------------------------
+
+		console.log(camera);
+
+		camera.speed = 0.5;
+		camera.angularSensibility = 2500;
+		camera.keysUp = [90]; // Touche Z
+		camera.keysDown = [83]; // Touche S
+		camera.keysLeft = [81]; // Touche Q
+		camera.keysRight = [68]; // Touche D;
+
+		window.addEventListener('keydown', function (e)
+		{
+			//console.log(e.keyCode);
+			if (e.keyCode == 32) // space bare
+			{
+				console.log("je saute !");
+				// http://blogs.msdn.com/b/eternalcoding/archive/2013/12/19/create-wonderful-interactive-games-for-the-web-using-webgl-and-a-physics-engine-babylon-js-amp-cannon-js.aspx
+			}
+		});
+
+		console.log(camera)
+		
 
 		return scene;
 	};

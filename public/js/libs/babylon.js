@@ -3821,7 +3821,7 @@ var BABYLON = BABYLON || {};
                 }
             };
             this._onMouseUp = function (evt) {
-                previousPosition = null;
+                //previousPosition = null;
                 if (!noPreventDefault) {
                     evt.preventDefault();
                 }
@@ -3837,14 +3837,17 @@ var BABYLON = BABYLON || {};
                 if (!previousPosition && !engine.isPointerLock) {
                     return;
                 }
+                //console.log(evt);
                 var offsetX;
                 var offsetY;
                 if (!engine.isPointerLock) {
                     offsetX = evt.clientX - previousPosition.x;
                     offsetY = evt.clientY - previousPosition.y;
                 } else {
-                    offsetX = evt.movementX || evt.mozMovementX || evt.webkitMovementX || evt.msMovementX || 0;
-                    offsetY = evt.movementY || evt.mozMovementY || evt.webkitMovementY || evt.msMovementY || 0;
+                    offsetX = evt.movementX || evt.mozMovementX || evt.webkitMovementX || evt.msMovementX || (evt.clientX - previousPosition.x) || 0;
+                    offsetY = evt.movementY || evt.mozMovementY || evt.webkitMovementY || evt.msMovementY || (evt.clientY - previousPosition.y) || 0;
+                    //console.log(offsetX, offsetY);
+                    //console.log(offsetX, evt.clientX - previousPosition.x);
                 }
                 that.cameraRotation.y += offsetX / that.angularSensibility;
                 that.cameraRotation.x += offsetY / that.angularSensibility;
@@ -3852,9 +3855,6 @@ var BABYLON = BABYLON || {};
                     x: evt.clientX,
                     y: evt.clientY
                 };
-                if (!noPreventDefault) {
-                    evt.preventDefault();
-                }
             };
             this._onKeyDown = function (evt) {
                 if (that.keysUp.indexOf(evt.keyCode) !== -1 || that.keysDown.indexOf(evt.keyCode) !== -1 || that.keysLeft.indexOf(evt.keyCode) !== -1 || that.keysRight.indexOf(evt.keyCode) !== -1) {
