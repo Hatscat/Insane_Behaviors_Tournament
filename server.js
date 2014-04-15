@@ -16,11 +16,10 @@ io.sockets.on('connection', function (socket)
 	{
 		if(socket.co == false)
 		{
-			listPlayers[socket.id] = ({ x: Math.random()*1280, y: Math.random()*720, life:life});
+			listPlayers[socket.id] = ({ x: Math.random()*1280, y: Math.random()*3, z:Math.random()*720, life:life, frag:0, death:0});
 			listSockets[socket.id] = socket;
 			socket.emit('newPlayer', {player: listPlayers[socket.id], id: socket.id});
 			io.sockets.emit('updateGhosts', {players: listPlayers});
-
 			socket.co = true;
 		}
 	}
@@ -32,6 +31,7 @@ io.sockets.on('connection', function (socket)
 		{
 			listPlayers[data.id].x = data.x;
 			listPlayers[data.id].y = data.y;
+			listPlayers[data.id].z = data.z;
 		}
 
 		socket.broadcast.emit('updateGhosts', {players: listPlayers});
@@ -44,6 +44,7 @@ io.sockets.on('connection', function (socket)
 		{
 			listPlayers[data.id].x = data.x;
 			listPlayers[data.id].y = data.y;
+			listPlayers[data.id].y = data.z;
 			listPlayers[data.id].life = life;
 		}
 		socket.emit('updateLife', {life: listPlayers[data.id].life})
@@ -58,9 +59,13 @@ io.sockets.on('connection', function (socket)
 			listPlayers[data.idJoueurTouche].life--;
 
 			if(listPlayers[data.idJoueurTouche].life <= 0)
-				socket.emit('kill', '');
+			{
+				listPlayers[data.id].frag++;
+				listPlayers[data.idJoueurTouche].death++;
+				socket.emit('kill', listPlayers[data.id].frag);
+			}
 
-			listSockets[data.idJoueurTouche].emit('updateLife', {life: listPlayers[data.idJoueurTouche].life});
+			listSockets[data.idJoueurTouche].emit('updateLife', listPlayers[data.idJoueurTouche]);
 		}
 
 	});
@@ -71,7 +76,6 @@ io.sockets.on('connection', function (socket)
 		delete listPlayers[socket.id];
 		delete listSockets[socket.id];
 
-		console.log('disconnect')
 		socket.broadcast.emit('deleteGhost', {id: socket.id});
 
 	});
