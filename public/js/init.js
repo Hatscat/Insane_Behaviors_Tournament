@@ -25,7 +25,9 @@ function init_game ()
 	*/
 	var canvas = document.createElement('canvas');
 	var config = new_config(canvas);
-	//on récupère le login avec une value config.joueurName
+
+	if(localStorage['id'])
+		config.id = localStorage['id']
 
 	if (!BABYLON.Engine.isSupported())
 	{

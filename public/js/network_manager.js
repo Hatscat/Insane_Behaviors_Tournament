@@ -4,6 +4,7 @@
 function new_player (p_config, p_data)
 {
 	window.config = p_config;
+	localStorage['id'] = p_data.id;
 	p_config.player = new Player(p_config, p_data);
 	p_config.socket.emit('playerCreated', '');
 
