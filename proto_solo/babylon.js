@@ -3820,6 +3820,11 @@ var BABYLON = BABYLON || {};
                     evt.preventDefault();
                 }
             };
+
+            /////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////
+            
             this._onMouseUp = function (evt) {
                 //previousPosition = null;
                 if (!noPreventDefault) {
@@ -3834,6 +3839,11 @@ var BABYLON = BABYLON || {};
                 }
             };
             this._onMouseMove = function (evt) {
+
+                /////////////////////////////////////////////////////////////////////////////////////////////
+                /////////////////////////////////////////////////////////////////////////////////////////////
+                /////////////////////////////////////////////////////////////////////////////////////////////
+
                 //console.log(previousPosition ,engine.isPointerLock)
                 if (!previousPosition && !engine.isPointerLock) {
                     return;
@@ -3856,6 +3866,10 @@ var BABYLON = BABYLON || {};
                     x: evt.clientX,
                     y: evt.clientY
                 };
+
+                /////////////////////////////////////////////////////////////////////////////////////////////
+                /////////////////////////////////////////////////////////////////////////////////////////////
+                /////////////////////////////////////////////////////////////////////////////////////////////
             };
             this._onKeyDown = function (evt) {
                 if (that.keysUp.indexOf(evt.keyCode) !== -1 || that.keysDown.indexOf(evt.keyCode) !== -1 || that.keysLeft.indexOf(evt.keyCode) !== -1 || that.keysRight.indexOf(evt.keyCode) !== -1) {
@@ -3951,14 +3965,24 @@ var BABYLON = BABYLON || {};
         this._checkInputs();
         var needToMove = this._needMoveForGravity || Math.abs(this.cameraDirection.x) > 0 || Math.abs(this.cameraDirection.y) > 0 || Math.abs(this.cameraDirection.z) > 0;
         var needToRotate = Math.abs(this.cameraRotation.x) > 0 || Math.abs(this.cameraRotation.y) > 0;
+
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////
+
+        if (this.checkCollisions && this._scene.collisionsEnabled && this.applyGravity) {
+            var oldPosition = this.position;
+            this._collideWithWorld(this._scene.gravity);
+            this._needMoveForGravity = (BABYLON.Vector3.DistanceSquared(oldPosition, this.position) != 0);
+        }
+
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////
+
         if (needToMove) {
             if (this.checkCollisions && this._scene.collisionsEnabled) {
                 this._collideWithWorld(this.cameraDirection);
-                if (this.applyGravity) {
-                    var oldPosition = this.position;
-                    this._collideWithWorld(this._scene.gravity);
-                    this._needMoveForGravity = (BABYLON.Vector3.DistanceSquared(oldPosition, this.position) != 0);
-                }
             } else {
                 this.position.addInPlace(this.cameraDirection);
             }

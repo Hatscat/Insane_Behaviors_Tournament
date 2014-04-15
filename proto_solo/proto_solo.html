@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 		<title>proto_solo</title>
 		<!-- CSS -->
 		<style>
@@ -45,18 +45,14 @@
 			     gui.mozRequestPointerLock ||
 			     gui.webkitRequestPointerLock;
 			// Ask the browser to lock the pointer
+			//gui.requestPointerLock();
 
-			
-			gui.requestPointerLock();
-
-			canvas.requestPointerLock = canvas.requestPointerLock ||
-			     canvas.mozRequestPointerLock ||
-			     canvas.webkitRequestPointerLock;
+			renderCanvas.requestPointerLock = renderCanvas.requestPointerLock ||
+			     renderCanvas.mozRequestPointerLock ||
+			     renderCanvas.webkitRequestPointerLock;
 			// Ask the browser to lock the pointer
+			//renderCanvas.requestPointerLock();
 
-			canvas.requestPointerLock();
-
-			console.log(havePointerLock)
 
 			// Ask the browser to release the pointer
 			/*document.exitPointerLock = document.exitPointerLock ||
@@ -65,9 +61,16 @@
 			document.exitPointerLock();*/
 
 			var engine = new BABYLON.Engine(canvas, true); // ------------------------------
-			canvas.style.cursor = "none"; // ------------------------------
-			gui.style.cursor = "none"; // ------------------------------
-			engine.isPointerLock = true; // ------------------------------
+
+			gui.addEventListener("click", function(event) {
+		        gui.requestPointerLock();
+				engine.isPointerLock = true; // ------------------------------
+		       	renderCanvas.requestPointerLock();
+		        console.log("havePointerLock", havePointerLock)
+		        renderCanvas.style.cursor = "none"; // ------------------------------
+				gui.style.cursor = "none"; // ------------------------------
+				
+		    }, false);
 
 			gui.width = canvas.width;
 			gui.height = canvas.height;
@@ -132,11 +135,79 @@
 				engine.resize();
 			});
 
+			//particles
+			var particleSystem = new BABYLON.ParticleSystem("particles", 200, scene);
+			particleSystem.particleTexture = new BABYLON.Texture("Flare.png", scene);
+			particleSystem.emitter = new BABYLON.Vector3(0, 0, 0);
+			particleSystem.minEmitBox = new BABYLON.Vector3(-1, 0, 0); // Starting all From
+			particleSystem.maxEmitBox = new BABYLON.Vector3(1, 0, 0); // To...
+			particleSystem.color1 = new BABYLON.Color4(0.7, 0.8, 1.0, 1.0);
+			particleSystem.color2 = new BABYLON.Color4(0.2, 0.5, 1.0, 1.0);
+			particleSystem.colorDead = new BABYLON.Color4(0, 0, 0.2, 0.0);
+			particleSystem.minSize = 0.1;
+			particleSystem.maxSize = 0.5;
+			particleSystem.minLifeTime = 0.3;
+			particleSystem.maxLifeTime = 1.5;
+			particleSystem.emitRate = 100;
+
 			// shoot
 			window.addEventListener('click', function ()
 			{
 				var pickResult = scene.pick(canvas.width / 2, canvas.height / 2);
 				console.log(pickResult.pickedMesh.name);
+				console.log(pickResult.pickedPoint);
+				var particleSystem = new BABYLON.ParticleSystem("particles", 200, scene);
+				particleSystem.particleTexture = new BABYLON.Texture("Flare.png", scene);
+				// Where the particles comes from
+			    particleSystem.emitter = pickResult.pickedMesh; // the starting object, the emitter
+			    particleSystem.minEmitBox = new BABYLON.Vector3(-1, 0, 1); // Starting all From
+			    particleSystem.maxEmitBox = new BABYLON.Vector3(1, 0, -1); // To...
+
+			    // Colors of all particles (splited in 2 + specific color before dispose)
+			    particleSystem.color1 = new BABYLON.Color4(0.5, 0.5, 0.5, 1e-100);
+			    particleSystem.color2 = new BABYLON.Color4(0.5, 0.5, 0.5, 1e-100);
+			    particleSystem.colorDead = new BABYLON.Color4(0.0, 0.0, 0.0, 0.0);
+
+			    // Size of each particle (random between...
+			    particleSystem.minSize = 2;
+			    particleSystem.maxSize = 3;
+
+			    // Life time of each particle (random between...
+			    particleSystem.minLifeTime = 0.8;
+			    particleSystem.maxLifeTime = 0.8;
+
+			    // Emission rate
+			    particleSystem.emitRate = 100;
+			    // OR
+			    //particleSystem.manualEmitCount = 1000;
+
+
+			    // Blend mode : BLENDMODE_ONEONE, or BLENDMODE_STANDARD
+			    particleSystem.blendMode = BABYLON.ParticleSystem.BLENDMODE_ONEONE;
+
+			    //Set the gravity of all particles (not necessary down)
+			    //particleSystem.gravity = new BABYLON.Vector3(0, -9.81, 0);
+
+			    //Direction of each particle after it has been emitted
+			    particleSystem.direction1 = new BABYLON.Vector3(-10, 0, 10);
+			    particleSystem.direction2 = new BABYLON.Vector3(10, 0, -10);
+
+			    //angular speed, in radian
+			    particleSystem.minAngularSpeed = 0;
+			    particleSystem.maxAngularSpeed = Math.PI;
+
+			    //particleSystem.targetStopDuration = 3;
+
+			    //speed
+			    particleSystem.minEmitPower = 0.2;
+			    particleSystem.maxEmitPower = 0.2;
+			    particleSystem.updateSpeed = 0.005;
+
+			    //dispose
+			    particleSystem.disposeOnStop = true;
+
+			    //Start the particle system
+			    particleSystem.start();
 			});
 
 			//console.log(gui_ctx);
@@ -200,13 +271,20 @@
 		camera.keysLeft = [81]; // Touche Q
 		camera.keysRight = [68]; // Touche D;
 
+		on_ground = true;
+
 		window.addEventListener('keydown', function (e)
 		{
 			//console.log(e.keyCode);
 			if (e.keyCode == 32) // space bare
 			{
-				console.log("je saute !");
-				// http://blogs.msdn.com/b/eternalcoding/archive/2013/12/19/create-wonderful-interactive-games-for-the-web-using-webgl-and-a-physics-engine-babylon-js-amp-cannon-js.aspx
+				if (on_ground)
+				{
+					on_ground = false;
+					console.log("je saute !");
+					// http://blogs.msdn.com/b/eternalcoding/archive/2013/12/19/create-wonderful-interactive-games-for-the-web-using-webgl-and-a-physics-engine-babylon-js-amp-cannon-js.aspx
+					is_jumping (camera, ground, 0, 7, false, 0);
+				}
 			}
 		});
 
@@ -215,6 +293,22 @@
 
 		return scene;
 	};
+
+	function is_jumping (camera, ground, velocity, velocity_max, is_falling, ts)
+	{
+		var value = velocity_max / 9;
+		velocity += velocity < velocity_max ? is_falling ? -value : value : (is_falling = true, -value);
+		camera.position.y += velocity;
+
+		if (velocity <= 0)
+		{
+			on_ground = true;
+		}
+		else
+		{
+			requestAnimationFrame(function(t){is_jumping(camera,ground,velocity,velocity_max,is_falling,t)});
+		}
+	}
 
 
 	</script>
