@@ -86,7 +86,6 @@ function manage_server_events (p_config)
 {
 	p_config.socket.on('updateGhosts', function(e){update_ghosts(p_config,e)});
 	p_config.socket.on('newPlayer', function(e){
-		debugger;
 		new_player(p_config,e)});
 	p_config.socket.on('deleteGhost', function(e){delete_ghost(p_config,e)});
 	p_config.socket.on('kill', function(e){kill(p_config,e)});

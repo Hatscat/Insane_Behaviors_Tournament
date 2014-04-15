@@ -17,18 +17,24 @@ io.sockets.on('connection', function (socket, data)
 	{
 		if(!data)
 		{
+			socket.identif = socket.id;
 			listPlayers[socket.identif] = ({ x: Math.random()*1280, y: Math.random()*3, z:Math.random()*720, life:life, frag:0, death:0, active:true});
 			listSockets[socket.identif] = socket;
 		}
 
-		else
+		else if(listPlayers[data])
 		{
+
 			socket.identif = data;
 			listPlayers[socket.identif].active = true;
 			listSockets[socket.identif] = socket;
 		}
+		else
+		{
+			socket.disconnect();
+		}
 
-		socket.emit('newPlayer', {player: listPlayers[socket.identif], id: socket.identif});
+		socket.emit('newPlayer', {player: listPlayers[socket.identif], id:socket.identif});
 	});
 
 	socket.on('playerCreated', function (data)
