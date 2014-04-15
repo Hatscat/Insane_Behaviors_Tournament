@@ -5,6 +5,9 @@ function new_config (p_canvas)
 {
 	var config = {
 		socket					: null,
+		engine					: null,
+		map						: null,
+		id 						: null,
 		canvas_width 			: window.innerWidth,
 		canvas_height 			: window.innerHeight,
 		keys_down 				: {},
@@ -13,7 +16,26 @@ function new_config (p_canvas)
 		time 					: 0,
 		old_time 				: 0,
 		delta_time 				: 1,
-		hp_max 					: 100
+
+		babylon_lights 			: {
+
+			torch1: 
+			{
+				name : "torch1",	
+				x : 0,
+				y : 100,
+				z : 0,
+				angle: 0,
+				intesity: 1,
+			},		
+		},
+
+		skybox : 
+		{
+			size : 750.0,
+			images : "img/skybox/skybox",
+		},
+
 	};
 
 	p_canvas.width = config.canvas_width;

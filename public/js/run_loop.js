@@ -8,13 +8,13 @@ function run (p_config)
 	p_config.old_time 		= p_config.time;
 	p_config.delta_time 	= elapsed_time * 0.06;
 
-	player.move(p_config);
-	player.shoot(p_config);
-	player.check_constraint(p_config);
+	p_config.player.move(p_config);
+	p_config.player.shoot(p_config);
+	p_config.player.check_constraint(p_config);
 
-	if (player.y < p_config.min_y)
+	if (p_config.player.y < p_config.min_y)
 	{
-		player.respawn(p_config);
+		p_config.player.respawn(p_config);
 	}
 
 	for (var i1 in p_config.ghosts)
