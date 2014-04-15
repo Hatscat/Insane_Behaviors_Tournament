@@ -25,9 +25,19 @@ function init_game ()
 	*/
 	var canvas = document.createElement('canvas');
 	var config = new_config(canvas);
+	config.gui_canvas = canvas.cloneNode(false);
+	config.gui_context = config.gui_canvas.getContext('2d');
+
+	config.gui_canvas.requestPointerLock = config.gui_canvas.requestPointerLock
+										|| config.gui_canvas.mozRequestPointerLock
+										|| config.gui_canvas.webkitRequestPointerLock;
+				 
+	console.log(config.gui_canvas);
 
 	if(localStorage['id'])
-		config.id = localStorage['id']
+	{
+		config.id = localStorage['id'];
+	}
 
 	if (!BABYLON.Engine.isSupported())
 	{
@@ -52,9 +62,9 @@ function init_game ()
 		manage_input_events(config.keys_down);
 		config.socket = io.connect();
 
-		config.socket.on('connectionEstablished', function(e)
+		config.socket.on('connectionEstablished', function (e)
 		{
-			config.socket.emit('iWantToPlay', config.id)
+			config.socket.emit('iWantToPlay', config);
 		});
 
 		manage_server_events(config);
@@ -62,8 +72,20 @@ function init_game ()
 
 	if(config.player && window.lauchGame == false)
 	{
-		window.lauchGame = true
+		window.lauchGame = true;
 		document.body.appendChild(canvas);
+		document.body.appendChild(config.gui_canvas);
+
+		config.gui_canvas.addEventListener("click", function (event)
+		{
+			config.gui_canvas.requestPointerLock();
+			config.engine.isPointerLock = true;
+			config.gui_canvas.style.cursor = "none";
+		}, false);
+
+		gui_ctx.fillStyle = '#f50';
+		gui_ctx.fillRect(config.canvas.width / 2 - 4, config.canvas.height / 2 - 4, 8, 8); // arg
+
 		config.scene.registerBeforeRender(function(){run(config)});	
 	}
 }
@@ -87,8 +109,7 @@ function manage_input_events (p_keys_down)
 function manage_server_events (p_config)
 {
 	p_config.socket.on('updateGhosts', function(e){update_ghosts(p_config,e)});
-	p_config.socket.on('newPlayer', function(e){
-		new_player(p_config,e)});
+	p_config.socket.on('newPlayer', function(e){new_player(p_config,e)});
 	p_config.socket.on('deleteGhost', function(e){delete_ghost(p_config,e)});
 	p_config.socket.on('kill', function(e){kill(p_config,e)});
 	p_config.socket.on('updateLife', function(e){update_life(p_config,e)});

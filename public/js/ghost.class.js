@@ -8,6 +8,7 @@ function Ghost (p_config, p_data)
 	this.x 				= p_data.x;
 	this.y 				= p_data.y;
 	this.z 				= p_data.z;
+	this.mesh 			= p_config.ghost_mesh_model.clone(this._id);
 }
 
 /*
@@ -15,9 +16,9 @@ function Ghost (p_config, p_data)
 */
 Ghost.prototype.anim = function (p_config)
 {
-
+	
 };
 Ghost.prototype.move = function (p_config)
 {
-
+	
 };
