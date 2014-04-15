@@ -5,7 +5,7 @@ function new_player (p_config, p_data)
 {
 	/*on va créer le player il faut qu'il ai un ID en deuxième paramètre*/
 	window.config = p_config
-	p_config.player = {x:p_data.player.x, y:p_data.player.y, id:p_data.id, life: p_data.player.life};
+	p_config.player = {x:p_data.player.x, y:p_data.player.y, z:p_data.player.z, id:p_data.id, life: p_data.player.life};
 	p_config.player.x +=10;
 	p_config.player.y +=10;
 	p_config.player.config = p_config;
@@ -13,11 +13,11 @@ function new_player (p_config, p_data)
 	{
 		this.x = 10;
 		this.y = 10;
-		this.config.socket.emit('respawn', {id:this.id, x:this.x, y:this.y})
+		this.z = 10;
+		this.config.socket.emit('respawn', {id:this.id, x:this.x, y:this.y, z:this.z})
 	}
-	p_config.socket.emit('playerMove', {x:p_config.player.x, y:p_config.player.y, id:p_config.player.id})
+	p_config.socket.emit('playerMove', {x:p_config.player.x, y:p_config.player.y, z:p_config.player.z, id:p_config.player.id})
 
-	console.log("event new_player", p_config.player)
 
 }
 
@@ -40,11 +40,11 @@ function update_ghosts (p_config, p_data)
 
 			p_config.ghosts[p].x = p_data.players[p].x;
 			p_config.ghosts[p].y = p_data.players[p].y;
+			p_config.ghosts[p].z = p_data.players[p].z;
 			p_config.ghosts[p].id = p
 			
 		}
 	}
-	console.log("event new_player", p_config.ghosts)
 }
 
 function kill (p_config, p_data)
@@ -60,7 +60,6 @@ function update_life (p_config, p_data)
 	{
 		p_config.player.respawn();
 	}
-
 }
 
 
