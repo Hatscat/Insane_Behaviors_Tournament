@@ -44,38 +44,49 @@ background-color:rgb(255, 255, 153);
 }
 
 
-#Button {
+.Button {
 
-
-margin-left: auto;
-margin-right: auto;
+position:absolute;
+margin-left: 45%;
+margin-right: 45%;
 margin-top: 100px;
-margin-bottom: auto;
-width:200px;
-height:39px;
+width:214px;
+height:53px;
 
 
 }
 
 #Titre  {
 
+position:absolute;
 background-image:url('img/Lofo.png');
 width:454px;
 height:340px;
-margin-left: auto;
-margin-right: auto;
-margin-bottom:50px;
+margin-left: 38%;
+margin-right: 38%;
 
 }
 
 form  {
 
-margin-top:50px;
 font-family:Arial;
 font-size:35px;
 font-weight:bold;
 font-style:normal;
-margin-left: auto;
-margin-right: auto;
-width:150px;
+margin-left:115px;
 }
+
+.Ensemble  {
+
+position:absolute;
+margin-top:400px;
+width:200px;
+height:50px;
+margin-left: 40%;
+margin-right: 40%;
+
+
+
+
+}
+
