@@ -1,28 +1,25 @@
 /*
 ** run loop, every frames
 */
-function run (p_config, p_timestamp)
+function run (p_config)
 {
-	p_config.time 			= p_timestamp;
+	p_config.time 			= Date.now() || function(){return new Date().getTime()};
 	var elapsed_time 		= p_config.time - p_config.old_time;
 	p_config.old_time 		= p_config.time;
 	p_config.delta_time 	= elapsed_time * 0.06;
 
-	for (var i1 in p_config.players)
+	player.move(p_config);
+	player.shoot(p_config);
+	player.check_constraint(p_config);
+
+	if (player.y < p_config.min_y)
 	{
-		//p_config.players[i1].move(p_config);
+		player.respawn(p_config);
 	}
 
-	//
-
-	draw(p_config);
-	requestAnimationFrame(function(p_ts){run(p_config, p_ts)});
-}
-
-/*
-** render loop, called by "run()"
-*/
-function draw (p_config)
-{
-
+	for (var i1 in p_config.ghosts)
+	{
+		p_config.ghosts[i1].anim(p_config);
+		p_config.ghosts[i1].move(p_config);
+	}
 }

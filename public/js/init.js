@@ -16,7 +16,7 @@ function init_home_page ()
 /*
 ** create a canvas balise,
 ** create client & server events,
-** initialise WebGl
+** load everything
 ** launch the run loop
 */
 function init_game ()
@@ -28,6 +28,8 @@ function init_game ()
 	manage_input_events(config.keys_down);
 	config.socket = io.connect();
 	manage_server_events(config);
+
+	config.scene.registerBeforeRender(function(){run(p_config)});
 }
 /*
 ** set keyboard inputs into config

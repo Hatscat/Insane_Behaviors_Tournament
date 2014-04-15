@@ -1,0 +1,3 @@
+AddType application/fx .fx
+AddType application/babylon .babylon
+AddType application/babylonmeshdata .babylonmeshdata
