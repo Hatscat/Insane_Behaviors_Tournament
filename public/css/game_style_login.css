@@ -43,7 +43,7 @@ margin:0;
 }
 
 
-.Button {
+.ButtonLogin {
 
 position:absolute;
 margin-left: auto;
@@ -54,7 +54,7 @@ margin-top: 100px;
 
 }
 
-.ButtonBack {
+.ButtonBackLogin {
 
 position:absolute;
 margin-left: auto;
@@ -65,7 +65,7 @@ margin-top: 200px;
 
 }
 
-#Titre  {
+#TitreLogin  {
 
 position:absolute;
 margin-left: auto;
@@ -87,7 +87,7 @@ font-style:normal;
 
 }
 
-.Ensemble  {
+.EnsembleLogin  {
 
 position:absolute;
 margin-left: auto;

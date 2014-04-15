@@ -1,7 +1,6 @@
 /*
 ** first script launched, initialize things
 */
-window.lauchGame = false;
 
 addEventListener('load', init_home_page);
 
@@ -12,88 +11,29 @@ addEventListener('load', init_home_page);
 function init_home_page ()
 {
 	// on lance juste le jeu dans un premier temps
-
 	init_game();
 }
+/*
+** create a canvas balise,
+** create client & server events,
+** load everything
+** launch the run loop
+*/
 function init_game ()
 {
-	/*
-	** create a canvas balise,
-	** create client & server events,
-	** load everything
-	** launch the run loop
-	*/
 	var canvas = document.createElement('canvas');
 	var config = new_config(canvas);
-	config.gui_canvas = canvas.cloneNode(false);
-	config.gui_context = config.gui_canvas.getContext('2d');
 
-	config.gui_canvas.requestPointerLock = config.gui_canvas.requestPointerLock
-										|| config.gui_canvas.mozRequestPointerLock
-										|| config.gui_canvas.webkitRequestPointerLock;
-				 
-	console.log(config.gui_canvas);
+	document.body.appendChild(canvas);
+	manage_input_events(config.keys_down);
+	config.socket = io.connect();
+	manage_server_events(config);
 
-	if(localStorage['id'])
-	{
-		config.id = localStorage['id'];
-	}
-
-	if (!BABYLON.Engine.isSupported())
-	{
-		window.alert('Browser not supported');
-	}
-	else
-	{
-		config.engine = new BABYLON.Engine(canvas, true);
-		createScene(config);
-		
-		
-		config.engine.runRenderLoop(function ()
-		{
-			config.scene.render();
-		});
-
-		window.onresize = function ()
-		{
-			config.engine.resize();
-		};
-
-		manage_input_events(config.keys_down);
-		config.socket = io.connect();
-
-		config.socket.on('connectionEstablished', function (e)
-		{
-			config.socket.emit('iWantToPlay', config);
-		});
-
-		manage_server_events(config);
-	}	
-
-	if(config.player && window.lauchGame == false)
-	{
-		window.lauchGame = true;
-		document.body.appendChild(canvas);
-		document.body.appendChild(config.gui_canvas);
-
-		config.gui_canvas.addEventListener("click", function (event)
-		{
-			config.gui_canvas.requestPointerLock();
-			config.engine.isPointerLock = true;
-			config.gui_canvas.style.cursor = "none";
-		}, false);
-
-		gui_ctx.fillStyle = '#f50';
-		gui_ctx.fillRect(config.canvas.width / 2 - 4, config.canvas.height / 2 - 4, 8, 8); // arg
-
-		config.scene.registerBeforeRender(function(){run(config)});	
-	}
+	config.scene.registerBeforeRender(function(){run(p_config)});
 }
-
 /*
 ** set keyboard inputs into config
 */
-
 function manage_input_events (p_keys_down)
 {
 	addEventListener('keydown', function (e) {

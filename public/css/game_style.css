@@ -1,7 +1,14 @@
 body  {
 
 margin:0;
-
+background-image:url('img/Back.png');
+background-repeat: repeat;
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
 }
 
 .classname {
@@ -56,7 +63,7 @@ margin:0;
 
 
 
-#Button {
+#ButtonIndex {
 
 position:absolute;
 margin-left: auto;
@@ -71,7 +78,7 @@ height:39px;
 
 }
 
-#Titre  {
+#TitreIndex  {
 
 position:absolute;
 margin-left: auto;
@@ -85,7 +92,7 @@ height:340px;
 
 }
 
-#ButtonScreen  {
+#ButtonScreenIndex  {
 
 position:absolute;
 margin-left: auto;
@@ -97,3 +104,67 @@ width:214px;
 height:39px;
 
 }
+
+.ButtonLogin {
+
+position:absolute;
+margin-left: auto;
+margin-right: auto;
+left: -25px;
+right: 0;
+margin-top: 100px;
+
+
+}
+
+.ButtonBackLogin {
+
+position:absolute;
+margin-left: auto;
+margin-right: auto;
+left: -25px;
+right: 0;
+margin-top: 200px;
+
+
+
+}
+
+.TitreLogin  {
+
+position:absolute;
+margin-left: auto;
+margin-right: auto;
+left: 0;
+right: 0;
+background-image:url('img/Lofo.png');
+width:454px;
+height:340px;
+display:none;
+
+
+}
+
+form  {
+
+font-family:Arial;
+font-size:35px;
+font-weight:bold;
+font-style:normal;
+
+}
+
+.EnsembleLogin  {
+
+position:absolute;
+margin-left: auto;
+margin-right: auto;
+left: 0;
+right: 0;
+margin-top:400px;
+width:150px;
+height:600px;
+display:none;
+
+}
+
