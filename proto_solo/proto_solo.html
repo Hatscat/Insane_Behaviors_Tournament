@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>proto_solo</title>
+		<!-- CSS -->
+		<style>
+			html, body, div, canvas {
+				width: 		100%;
+				height: 	100%;
+				padding: 	0;
+				margin: 	0;
+				overflow: 	hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="rootDiv">
+			<!-- Main Canvas -->
+			<canvas id="renderCanvas"></canvas>
+		</div>
+	</body>
+	<script src="babylon.js"></script>
+	<script>
+
+	addEventListener('load', function ()
+	{
+		var canvas = document.getElementById("renderCanvas");
+
+		if (!BABYLON.Engine.isSupported())
+		{
+			window.alert('Browser not supported');
+		}
+		else
+		{
+			var engine = new BABYLON.Engine(canvas, true);
+
+			//Load the collision tuto
+			// --------------------
+			scene = createSceneTutoCollisions(engine);
+			// --------------------
+
+			//Attach the camera to the scene
+			scene.activeCamera.attachControl(canvas);
+
+			// import a scene
+			BABYLON.SceneLoader.Load("", "skeleton.babylon", engine, function (newScene) {
+				// Wait for textures and shaders to be ready
+				newScene.executeWhenReady(function () {
+					// Attach camera to canvas inputs
+					//newScene.activeCamera.attachControl(canvas);
+
+					// Once the scene is loaded, just register a render loop to render it
+					//engine.runRenderLoop(function() {
+						//newScene.render();
+					//});
+					
+					// import a mesh
+					BABYLON.SceneLoader.ImportMesh("Cube", "", "blender.babylon", scene, function (newMeshes, particleSystems) //skeleton.babylon
+					{
+						console.log(newMeshes);
+					});
+
+				});
+			}, function (progress) {
+				// To do: give progress feedback to user
+			});
+
+			// import a mesh
+			BABYLON.SceneLoader.ImportMesh("Skeleton", "", "skeleton.babylon", scene, function (newMeshes, particleSystems) //Skeleton - skeleton.babylon // Cube - blender
+			{
+				console.log(newMeshes);
+			});
+
+			// Once the scene is loaded, just register a render loop to render it
+			engine.runRenderLoop(function () {
+				scene.render();
+			});
+
+			// Resize
+			window.addEventListener("resize", function () {
+				engine.resize();
+			});
+		}
+	});
+
+	function createSceneTutoCollisions (engine)
+	{
+		//Load a basic scene (see tuto1 and tuto2)
+		var scene = new BABYLON.Scene(engine);
+		var light0 = new BABYLON.DirectionalLight("Omni", new BABYLON.Vector3(-2, -5, 2), scene);
+		//var light1 = new BABYLON.PointLight("Omni", new BABYLON.Vector3(2, -5, -2), scene);
+		var camera = new BABYLON.FreeCamera("FreeCamera", new BABYLON.Vector3(0, 0, -20), scene);
+
+		//Ground
+		var ground = BABYLON.Mesh.CreatePlane("ground", 100.0, scene);
+		ground.material = new BABYLON.StandardMaterial("groundMat", scene);
+		ground.material.diffuseColor = new BABYLON.Color3(1,1,1);
+		ground.material.backFaceCulling = false;
+		ground.position = new BABYLON.Vector3(5, -10, -15);
+		ground.rotation = new BABYLON.Vector3(Math.PI / 2, 0, 0);
+
+		//Simple crate
+		var box = new BABYLON.Mesh.CreateBox("crate", 2, scene);
+		box.material = new BABYLON.StandardMaterial("Mat", scene);
+		box.material.diffuseTexture = new BABYLON.Texture("crate.png", scene);
+		box.material.diffuseTexture.hasAlpha = true;
+		box.position = new BABYLON.Vector3(5,-9,-10);
+
+		//COLLISIONS BY GRAVITY
+		//---------------------
+
+		//Set gravity to the scene (G force like, on Y-axis. Very low here, welcome on moon)
+		scene.gravity = new BABYLON.Vector3(0, -10, 0);
+	   
+		// Enable Collisions
+		scene.collisionsEnabled = true;
+
+		//Then apply collisions and gravity to the active camera
+		camera.checkCollisions = true;
+		camera.applyGravity = true;
+		//Set the ellipsoid around the camera (e.g. your player's size)
+		camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
+
+		//finally, say which mesh will be collisionable
+		ground.checkCollisions = true;
+		box.checkCollisions = true;
+
+		return scene;
+	};
+
+
+	</script>
+</html>
