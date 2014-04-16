@@ -1823,14 +1823,14 @@ var BABYLON = BABYLON || {};
         document.addEventListener("mozfullscreenchange", this._onFullscreenChange, false);
         document.addEventListener("webkitfullscreenchange", this._onFullscreenChange, false);
         document.addEventListener("msfullscreenchange", this._onFullscreenChange, false);
-        this.isPointerLock = false;
-        this._onPointerLockChange = function () {
+        //this.isPointerLock = false;
+        /*this._onPointerLockChange = function () {
             that.isPointerLock = (document.mozPointerLockElement === canvas || document.webkitPointerLockElement === canvas || document.msPointerLockElement === canvas || document.pointerLockElement === canvas);
         };
         document.addEventListener("pointerlockchange", this._onPointerLockChange, false);
         document.addEventListener("mspointerlockchange", this._onPointerLockChange, false);
         document.addEventListener("mozpointerlockchange", this._onPointerLockChange, false);
-        document.addEventListener("webkitpointerlockchange", this._onPointerLockChange, false);
+        document.addEventListener("webkitpointerlockchange", this._onPointerLockChange, false);*/
     };
     BABYLON.Engine.prototype.getAspectRatio = function (camera) {
         var viewport = camera.viewport;
@@ -3844,22 +3844,23 @@ var BABYLON = BABYLON || {};
                 /////////////////////////////////////////////////////////////////////////////////////////////
                 /////////////////////////////////////////////////////////////////////////////////////////////
 
-                //console.log(previousPosition ,engine.isPointerLock)
+                //console.log(previousPosition, engine.isPointerLock)
                 if (!previousPosition && !engine.isPointerLock) {
                     return;
                 }
                 //console.log(evt);
                 var offsetX;
                 var offsetY;
-                if (!engine.isPointerLock) {
-                    offsetX = evt.clientX - previousPosition.x;
-                    offsetY = evt.clientY - previousPosition.y;
-                } else {
+                //if (!engine.isPointerLock) {
+                    //offsetX = evt.clientX - previousPosition.x;
+                    //offsetY = evt.clientY - previousPosition.y;
+                //} else {
                     offsetX = evt.movementX || evt.mozMovementX || evt.webkitMovementX || evt.msMovementX || (previousPosition ? evt.clientX - previousPosition.x : 0);
                     offsetY = evt.movementY || evt.mozMovementY || evt.webkitMovementY || evt.msMovementY || (previousPosition ? evt.clientY - previousPosition.y : 0);
-                    //console.log(offsetX, offsetY);? 
+                    //console.log(offsetX, offsetY);
                     //console.log(offsetX, evt.clientX - previousPosition.x);
-                }
+                //}
+                //console.log(offsetX, evt.clientX - previousPosition.x);
                 that.cameraRotation.y += offsetX / that.angularSensibility;
                 that.cameraRotation.x += offsetY / that.angularSensibility;
                 previousPosition = {

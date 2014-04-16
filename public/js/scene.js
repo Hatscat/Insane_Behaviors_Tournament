@@ -44,10 +44,10 @@ function createMapMesh (p_config)
 	var ground 	= BABYLON.Mesh.CreatePlane("ground", 200.0, p_config.scene);
 
 	ground.material = new BABYLON.StandardMaterial("groundMat", p_config.scene);
-	ground.material.diffuseColor = new BABYLON.Color3(1, 1, 1);
+	ground.material.diffuseColor = new BABYLON.Color3(0.1, 0.2, 0.1);
 	ground.material.backFaceCulling = false;
-	//ground.position = new BABYLON.Vector3(0, -10, 0);
-	//ground.rotation = new BABYLON.Vector3(Math.PI / 2, 0, 0);
+	ground.position = new BABYLON.Vector3(0, -1, 0);
+	ground.rotation = new BABYLON.Vector3(Math.PI / 2, 0, 0);
 	ground.checkCollisions = true;
 
 	return ground;

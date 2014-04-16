@@ -59,9 +59,9 @@ Player.prototype.init = function (p_data)
 {
 	this._id 					= p_data.id;
 	localStorage['id'] 			= this._id;
-	this.x 						= p_data.player.x;
-	this.y 						= p_data.player.y;
-	this.z 						= p_data.player.z;
+	this.camera.position.x 		= p_data.player.x;
+	this.camera.position.y 		= p_data.player.y;
+	this.camera.position.z 		= p_data.player.z;
 	this.frag					= p_data.player.frag;
 	this.death					= p_data.player.death;
 	this.hp_max 				= this._config.max_hp;
@@ -77,9 +77,10 @@ Player.prototype._new_constraint = function ()
 
 Player.prototype.move = function ()
 {
-	this._config.camera.position.x = this.x;
-	this._config.camera.position.y = this.y;
-	this._config.camera.position.z = this.z;
+	//console.log()
+	// this.x = this._config.camera.position.x;
+	// this.y = this._config.camera.position.y;
+	// this.z = this._config.camera.position.z;
 
 	/*if(hasMoved)
 	{

@@ -39,9 +39,8 @@ function new_config (p_canvas)
 		main_light 				: {
 			name : "main_light",
 			x : 0,
-			y : 10,
+			y : -1,
 			z : 0,
-			angle : 0,
 			intesity : 1,
 			r :1,
 			g: 1,
