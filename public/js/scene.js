@@ -2,6 +2,7 @@ function createScene (p_config)
 {
 	if (!p_config.scene)
 	{
+
 		p_config.scene = new BABYLON.Scene(p_config.engine);
 
 		p_config.main_light.light = new BABYLON.DirectionalLight(p_config.main_light.name, new BABYLON.Vector3(p_config.main_light.x, p_config.main_light.y, p_config.main_light.z), p_config.scene);
@@ -12,6 +13,8 @@ function createScene (p_config)
 		var skybox = createSkybox(p_config);
 		//import meshses
 		//lenflare
+		p_config.player = new Player(p_config);
+
 		p_config.map_mesh = createMapMesh(p_config);
 		p_config.ghost_mesh_model = createGhostsMeshModel(p_config);
 

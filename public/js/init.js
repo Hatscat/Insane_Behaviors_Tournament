@@ -31,10 +31,8 @@ function init_game ()
 	config.gui_canvas.requestPointerLock = config.gui_canvas.requestPointerLock
 										|| config.gui_canvas.mozRequestPointerLock
 										|| config.gui_canvas.webkitRequestPointerLock;
-				 
-	console.log(config.gui_canvas);
 
-	if(localStorage['id'])
+	if (localStorage['id'])
 	{
 		config.id = localStorage['id'];
 	}
@@ -83,8 +81,8 @@ function init_game ()
 			config.gui_canvas.style.cursor = "none";
 		}, false);
 
-		gui_ctx.fillStyle = '#f50';
-		gui_ctx.fillRect(config.canvas.width / 2 - 4, config.canvas.height / 2 - 4, 8, 8); // arg
+		config.gui_context.fillStyle = '#f50';
+		config.gui_context.fillRect(config.canvas.width / 2 - 4, config.canvas.height / 2 - 4, 8, 8); // arg
 
 		config.scene.registerBeforeRender(function(){run(config)});	
 	}

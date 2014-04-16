@@ -55,7 +55,7 @@ function new_config (p_canvas)
 		skybox : 
 		{
 			size : 750.0,
-			images : "img/skybox/skybox",
+			images : "assets/skybox/skybox",
 		},
 
 		spwan_points			: [
