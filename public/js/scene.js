@@ -76,7 +76,8 @@ function createLaserMeshModel (p_config)
 	var laser_mat 	= new BABYLON.StandardMaterial("laser_mat", p_config.scene);
 	
 	laser.position = new BABYLON.Vector3(0, -1000, 0);
-	laser_mat.specularColor = new BABYLON.Color3(0, 0, 0);
+	laser_mat.diffuseColor = new BABYLON.Color3(1, 0.1, 0);
+	laser_mat.specularColor = new BABYLON.Color3(1, 0.1, 0);
 	laser_mat.emissiveColor = new BABYLON.Color3(1, 0, 0);
 	laser_mat.alpha = 0.5;
 	laser.material = laser_mat;

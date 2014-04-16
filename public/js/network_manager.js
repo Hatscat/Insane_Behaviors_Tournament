@@ -62,15 +62,15 @@ function update_life (p_config, p_data)
 
 function show_laser (p_config, p_data)
 {
-	p_config.lasers.push(p_data);
 	console.log(p_data);
+	p_config.lasers.push(new Laser(p_config, p_data.emitter, p_data.receptor));
 }
 
 function casseToi (p_config, p_data)
 {
 	localStorage.removeItem("id");
 	localStorage["EROR_INSANE_TOURNAMENT"] = "Problème de connexion, veuillez rééssayer";
-	window.location.reload()
+	window.location.reload();
 }
 
 

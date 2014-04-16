@@ -44,5 +44,6 @@ Ghost.prototype.move = function (p_data)
 
 Ghost.prototype.kill = function (p_data)
 {
-	this.mesh.dispose()
+	this._config.scene._toBeDisposed.push(this.mesh);
+	//this.mesh.dispose();
 };

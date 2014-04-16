@@ -6,7 +6,7 @@ function run (p_config)
 	p_config.time 			= Date.now() || function(){return new Date().getTime()};
 	var elapsed_time 		= p_config.time - p_config.old_time;
 	p_config.old_time 		= p_config.time;
-	p_config.delta_time 	= elapsed_time * 0.06;
+	p_config.delta_time 	= elapsed_time * 0.04;
 
 	if (p_config.player._id)
 	{

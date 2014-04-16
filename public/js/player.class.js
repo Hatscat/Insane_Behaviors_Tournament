@@ -117,7 +117,7 @@ Player.prototype.shoot = function (that)
 		
 		if (pickResult.pickedMesh)
 		{
-			console.log("touché :", pickResult.pickedMesh.name);
+			//console.log("touché :", pickResult.pickedMesh.name);
 			//console.log("point touché :", pickResult.pickedPoint);
 
 			that._config.lasers.push(new Laser(that._config, that.camera, pickResult.pickedMesh, pickResult.distance));
