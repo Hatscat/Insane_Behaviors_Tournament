@@ -12,6 +12,7 @@ addEventListener('load', init_home_page);
 function init_home_page ()
 {
 	// on lance juste le jeu dans un premier temps
+/*	init_game();*/
 }
 function init_game ()
 {

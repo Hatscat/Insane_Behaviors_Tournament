@@ -15,7 +15,7 @@ function new_player (p_config, p_data)
 		this.z = 10;
 		this.config.socket.emit('respawn', {id:this.id, x:this.x, y:this.y, z:this.z})
 	}*/
-	p_config.socket.emit('playerMove', {x:p_config.player.x, y:p_config.player.y, z:p_config.player.z, id:p_config.player.id})
+	
 
 
 }
@@ -33,13 +33,17 @@ function update_ghosts (p_config, p_data)
 	for(var p in p_data.players)
 	{	
 
-		if(p != p_config.player._id && !p_config.ghosts[p] && p_data.players[p].active)
+		if(p != p_config.player._id && p_data.players[p].active)
 		{
+			if(!p_config.ghosts[p])
 			p_config.ghosts[p] = new Ghost(p_config, p_data.players[p], p);
+		
+			if(!p_data.players[p].x)
+				debugger;
+			
+			p_config.ghosts[p].anim(p_data.players[p]);
+			p_config.ghosts[p].move(p_data.players[p]);
 		}
-
-		p_config.ghosts[p].anim(p_config.ghosts[p], p_data.players[p]);
-		p_config.ghosts[p].move(p_config.ghosts[p], p_data.players[p]);
 	}
 }
 
