@@ -99,9 +99,9 @@ function init_game ()
 			}
 		}, false);
 
+		config.gui_context.drawImage(config.player.constraintImage, 500, 500);
 		config.gui_context.fillStyle = '#f50';
 		config.gui_context.fillRect(window.innerWidth / 2 - 4, window.innerHeight / 2 - 4, 8, 8); // arg
-		config.gui_context.drawImage(config.player.constraintImage, window.innerWidth-(config.player.constraintImage.with+10), 10);
 
 		config.scene.registerBeforeRender(function(){run(config)});	
 	}
