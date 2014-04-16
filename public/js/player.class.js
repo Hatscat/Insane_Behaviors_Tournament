@@ -69,6 +69,10 @@ Player.prototype._collide = function ()
 };
 Player.prototype.move = function ()
 {
+	this._config.camera.position.x = this.x;
+	this._config.camera.position.y = this.y;
+	this._config.camera.position.z = this.z;
+
 	this._collide();
 
 	/*if(hasMoved)

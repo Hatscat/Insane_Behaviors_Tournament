@@ -8,6 +8,8 @@ function run (p_config)
 	p_config.old_time 		= p_config.time;
 	p_config.delta_time 	= elapsed_time * 0.06;
 
+	//console.log(p_config.player)
+
 	p_config.player.move();
 	//p_config.player.shoot(); // event
 	if (p_config.player.is_jumping)
