@@ -5,7 +5,6 @@ function new_player (p_config, p_data)
 {
 	/*on va créer le player il faut qu'il ai un ID en deuxième paramètre*/
 	window.config = p_config
-
 	p_config.player.x = 0;
 	p_config.player.y = 0;
 	p_config.player.z = 0;

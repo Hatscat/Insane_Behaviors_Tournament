@@ -22,16 +22,6 @@ $(".ButtonBackLogin").click(function () {
 
 });
 
-
-
-$('#ButtonScreenIndex').click(function() 
-{
-
- 	localStorage['FullScreen'] = localStorage['FullScreen'] == true ? false:true;
- 	screenfull.toggle();
-
- 	});
-
 $(".ButtonLogin").click(function () {
 
     localStorage['Username'] = document.getElementById("text-1").value;

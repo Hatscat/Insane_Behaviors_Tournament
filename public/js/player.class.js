@@ -47,6 +47,7 @@ function Player (p_config)
 Player.prototype.init = function (p_data)
 {
 	this._id 					= p_data.id;
+	localStorage['id'] 			= this._id;
 	this.x 						= p_data.player.x;
 	this.y 						= p_data.player.y;
 	this.z 						= p_data.player.z;
