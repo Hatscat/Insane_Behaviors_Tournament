@@ -3855,9 +3855,9 @@ var BABYLON = BABYLON || {};
                     offsetX = evt.clientX - previousPosition.x;
                     offsetY = evt.clientY - previousPosition.y;
                 } else {
-                    offsetX = evt.movementX || evt.mozMovementX || evt.webkitMovementX || evt.msMovementX || (evt.clientX - previousPosition.x) || 0;
-                    offsetY = evt.movementY || evt.mozMovementY || evt.webkitMovementY || evt.msMovementY || (evt.clientY - previousPosition.y) || 0;
-                    //console.log(offsetX, offsetY);
+                    offsetX = evt.movementX || evt.mozMovementX || evt.webkitMovementX || evt.msMovementX || (previousPosition ? evt.clientX - previousPosition.x : 0);
+                    offsetY = evt.movementY || evt.mozMovementY || evt.webkitMovementY || evt.msMovementY || (previousPosition ? evt.clientY - previousPosition.y : 0);
+                    //console.log(offsetX, offsetY);? 
                     //console.log(offsetX, evt.clientX - previousPosition.x);
                 }
                 that.cameraRotation.y += offsetX / that.angularSensibility;

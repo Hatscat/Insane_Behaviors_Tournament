@@ -54,7 +54,7 @@ function new_config (p_canvas)
 
 		skybox : 
 		{
-			size : 2000.0,
+			size : 1000.0,
 			images : "assets/skybox/skybox",
 		},
 
