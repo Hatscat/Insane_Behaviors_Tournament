@@ -38,6 +38,7 @@ function Player (p_config)
 				that.is_jumping = true;
 			}
 		}
+		
 	});
 
 	//console.log(this._config)
@@ -66,6 +67,7 @@ Player.prototype.init = function (p_data)
 	this.death					= p_data.player.death;
 	this.hp_max 				= this._config.max_hp;
 	this.current_hp 			= p_data.player.life;
+	this._config.socket.emit('playerCreated');
 }
 
 Player.prototype._new_constraint = function ()

@@ -43,6 +43,7 @@ io.sockets.on('connection', function (socket, data)
 
 	socket.on('playerCreated', function (data)
 	{
+		console.log(listPlayers)
 		io.sockets.emit('updateGhosts', {players: listPlayers});		
 	})
 
@@ -54,7 +55,7 @@ io.sockets.on('connection', function (socket, data)
 			listPlayers[data.id].y = data.y;
 			listPlayers[data.id].z = data.z;
 		}
-
+		
 		socket.broadcast.emit('updateGhosts', {players: listPlayers});
 
 	});

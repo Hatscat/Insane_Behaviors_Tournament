@@ -12,6 +12,9 @@ function run (p_config)
 
 	p_config.player.move();
 
+	if(p_config.player._id)
+		p_config.socket.emit('playerMove', {x:p_config.camera.position.x, y:p_config.camera.position.y, z:p_config.camera.position.z, id:p_config.player._id})
+
 	if (p_config.player.is_jumping)
 	{
 		p_config.player.jump();
