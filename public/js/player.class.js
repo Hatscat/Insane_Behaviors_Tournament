@@ -11,6 +11,8 @@ function Player (p_config)
 	this.accelation 				= p_config.gravity;
 	this.velocity_max 				= 4;
 	this.constraint 				= this._new_constraint();
+	this.constraintImage			= new Image();
+	this.constraintImage.src		= /*this._config.constraintImages[this.constraint.id]*/ '/assets/imageStock.png';
 	this.camera 					= new BABYLON.FreeCamera('client_camera', new BABYLON.Vector3(this.x, this.y, this.z), p_config.scene);
 
 	this.camera.checkCollisions 	= true;
