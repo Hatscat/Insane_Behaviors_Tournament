@@ -97,7 +97,7 @@ io.sockets.on('connection', function (socket, data)
 			}
 			else
 			{
-				listSockets[data.idJoueurTouche].emit('showLaser', {emitter: listPlayers[data.id], receptor: data.pickedPoint});
+				socket.broadcast.emit('showLaser', {emitter: listPlayers[data.id], receptor: data.pickedPoint});
 			}
 			
 		}

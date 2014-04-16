@@ -1,38 +1,44 @@
 var Sound = function(ctx, url, volume, autoPlay, loop)
 {
-	if(ctx === "useHowler")
-	{
-
-	}
-	else
-	{
-		
-	}
-	this.ctx = ctx
 	this.volume = volume || 1;
 	this.autoPlay = autoPlay || false;
 	this.loop = loop || false
-	this.soundBuffer = null;
-	var request = new XMLHttpRequest();
-	request.open('GET', url, true);
-	request.responseType = 'arraybuffer';
-	// Create a gain node.
-	this.gainNode = ctx.createGain();
-
-	// Decode asynchronously
-	var that = this;
-	request.onload = function() 
+	
+	if(ctx === "useHowler")
 	{
-		var thut = that;
-		that.ctx.decodeAudioData(request.response, function(buffer) 
-		{
-		that.soundBuffer = buffer;
-		
-		if(that.autoPlay)
-			that.play();
-		});
+		var sound = new Howl({  urls: [url],  
+			autoplay: this.autoPlay,  loop: this.loop,  volume: this.volume,  
+			});
+		this.play = sound.play;
+		this.stop = sound.stop;
 	}
-	request.send();
+
+	else
+	{
+		this.ctx = ctx
+		this.soundBuffer = null;
+		var request = new XMLHttpRequest();
+		request.open('GET', url, true);
+		request.responseType = 'arraybuffer';
+		// Create a gain node.
+		this.gainNode = ctx.createGain();
+
+		// Decode asynchronously
+		var that = this;
+		request.onload = function() 
+		{
+			var thut = that;
+			that.ctx.decodeAudioData(request.response, function(buffer) 
+			{
+			that.soundBuffer = buffer;
+			
+			if(that.autoPlay)
+				that.play();
+			});
+		}
+		request.send();
+		
+	}
 
 
 }
