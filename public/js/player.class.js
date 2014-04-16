@@ -22,6 +22,8 @@ function Player (p_config)
 	this._config.camera 			= this.camera;
 	this._config.scene.activeCamera.attachControl(this._config.canvas);
 
+	console.log(this._config.camera);
+	
 	// jump event
 	window.addEventListener('keydown', function (event)
 	{
