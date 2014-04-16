@@ -64,7 +64,7 @@ function init_game ()
 
 		config.socket.on('connectionEstablished', function (e)
 		{
-			config.socket.emit('iWantToPlay', config);
+			config.socket.emit('iWantToPlay', config.server);
 		});
 
 		manage_server_events(config);

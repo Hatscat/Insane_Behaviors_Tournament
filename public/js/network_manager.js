@@ -6,7 +6,6 @@ function new_player (p_config, p_data)
 	/*on va créer le player il faut qu'il ai un ID en deuxième paramètre*/
 	window.config = p_config
 	p_config.player = {x:p_data.player.x, y:p_data.player.y, z:p_data.player.z, id:p_data.id, life: p_data.player.life, death:p_data.player.death, frag: p_data.player.frag};
-	console.log("caca")
 	p_config.player.x +=10;
 	p_config.player.y +=10;
 	p_config.player.config = p_config;

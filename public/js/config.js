@@ -62,8 +62,19 @@ function new_config (p_canvas)
 			{x:0, y:0, z:0},
 			{x:3, y:0, z:7},
 			{x:5, y:0, z:8},
-		]
+		],
+
+		server 						: {
+			max_frag : 10,
+			max_life : 100,
+			spwan_points : [
+				{x:0, y:0, z:0},
+				{x:3, y:0, z:7},
+				{x:5, y:0, z:8},
+			],
+		},
 	};
+
 
 	p_canvas.width = config.canvas_width;
 	p_canvas.height = config.canvas_height;
