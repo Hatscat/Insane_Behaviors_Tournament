@@ -2,14 +2,23 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
-var listPlayers = {};
-var listSockets = {};
 var queue = [];
 var config = {};
-io.set('log level', 1);
+var cpt = 1;
+var rooms = {
+	room1 :{active: false, maxConnect: 10, numberCo: 0, listSockets: {}, listPlayers: {}},
+
+	};
+/*io.set('log level', 1);*/
+function createRoom()
+{
+	cpt++;
+	rooms['room' + cpt] = {active: false, maxConnect: 10, numberCo: 0, listPlayers: {}};
+};
 
 io.sockets.on('connection', function (socket, data) 
 {
+	socket.co = false;
 	socket.emit('connectionEstablished', '')
 
 	socket.on('iWantToPlay', function (data)
@@ -21,87 +30,130 @@ io.sockets.on('connection', function (socket, data)
 		if(!data.id)
 		{
 			console.log("new")
-			var spwan = (Math.random()*(config.spwan_points.length-1)) | 0
-			socket.identif = socket.id;
-			listPlayers[socket.identif] = ({ x: config.spwan_points[spwan].x, y: config.spwan_points[spwan].y, z:config.spwan_points[spwan].z, life:config.max_life, frag:0, death:0, active:true});
-			listSockets[socket.identif] = socket;
+			queue.push(socket);
+			for(q in queue)
+			{
+				for(var i in rooms)
+				{
+					if(rooms[i].numberCo < rooms[i].maxConnect && socket.co == false && rooms[i].active == false)
+					{
+						socket.room = i;
+						console.log(i)
+						socket.join(i);
+						rooms[i].numberCo++;
+						socket.co = true;
+					}
+				}
+				if(socket.co == false)
+				{
+					createRoom();
+					socket.room = 'room' + cpt;
+					socket.join(socket.room);
+					rooms[socket.room].numberCo++;
+					socket.co = true;
+				}
+			}
+			queue = [];
+
+			if(socket.co)
+			{
+				var spwan = (Math.random()*(config.spwan_points.length-1)) | 0
+				socket.identif = socket.id;
+				rooms[socket.room].listPlayers[socket.identif] = ({ x: config.spwan_points[spwan].x, y: config.spwan_points[spwan].y, z:config.spwan_points[spwan].z, life:config.max_life, frag:0, death:0, active:true});
+				rooms[socket.room].listSockets[socket.identif] = socket;
+				
+			}
 		}
 
-		else if(listPlayers[data.id])
+		else 
 		{
-			console.log(data.id)
-			socket.identif = data.id;
-			listPlayers[socket.identif].active = true;
-			listSockets[socket.identif] = socket;
+			for(var i in rooms)
+			{
+				if(rooms[i].listPlayers[data.id] && rooms[i].active == true)
+				{
+					console.log("reconect")
+					socket.room = i;
+					socket.join(socket.room)
+					socket.co = true
+					socket.identif = data.id;
+					rooms[socket.room].listPlayers[socket.identif].active = true;
+					rooms[socket.room].listSockets[socket.identif] = socket;
+				}
+				
+			}
+			if(!socket.co)
+			{
+				console.log("wrong")
+				socket.emit('wrongID');
+				socket.disconnect();
+			}
 		}
-		else
-		{
-			console.log("wrong")
-			socket.emit('wrongID');
-			socket.disconnect();
-		}
-		socket.emit('newPlayer', {player: listPlayers[socket.identif], id:socket.identif});
+		if(socket.co)
+			socket.emit('newPlayer', {player: rooms[socket.room].listPlayers[socket.identif], id:socket.identif});
 	});
 
 	socket.on('playerCreated', function (data)
 	{
-		io.sockets.emit('updateGhosts', {players: listPlayers});		
+		io.sockets.in(socket.room).emit('updateGhosts', {players: rooms[socket.room].listPlayers});		
 	})
 
 	socket.on('playerMove', function (data)
 	{
-		if(listPlayers[data.id])
+		if(socket.room)
 		{
-			listPlayers[data.id].x = data.x;
-			listPlayers[data.id].y = data.y;
-			listPlayers[data.id].z = data.z;
+			if(rooms[socket.room].listPlayers[data.id])
+			{
+				rooms[socket.room].listPlayers[data.id].x = data.x;
+				rooms[socket.room].listPlayers[data.id].y = data.y;
+				rooms[socket.room].listPlayers[data.id].z = data.z;
+			}
+			
+			socket.broadcast.to(socket.room).emit('updateGhosts', {players: rooms[socket.room].listPlayers});	
 		}
-		
-		socket.broadcast.emit('updateGhosts', {players: listPlayers});
 
 	});
 
 	socket.on('respawn', function (data)
 	{
-		if(listPlayers[data.id])
+		if(rooms[socket.room].listPlayers[data.id])
 		{
-			listPlayers[data.id].x = data.x;
-			listPlayers[data.id].y = data.y;
-			listPlayers[data.id].y = data.z;
-			listPlayers[data.id].life = config.max_life;
+			rooms[socket.room].listPlayers[data.id].x = data.x;
+			rooms[socket.room].listPlayers[data.id].y = data.y;
+			rooms[socket.room].listPlayers[data.id].y = data.z;
+			rooms[socket.room].listPlayers[data.id].life = config.max_life;
 		}
-		socket.emit('updateLife', {life: listPlayers[data.id].life})
-		socket.broadcast.emit('updateGhosts', {players: listPlayers});
+		socket.emit('updateLife', {life: rooms[socket.room].listPlayers[data.id].life})
+		socket.broadcast.to(socket.room).emit('updateGhosts', {players: rooms[socket.room].listPlayers});
 
 	});
 
 	socket.on('shootPlayer', function (data)
 	{
-		if(listPlayers[data.id])
+		if(rooms[socket.room].listPlayers[data.id])
 		{
-			if(listPlayers[data.idJoueurTouche])
+			if(rooms[socket.room].listPlayers[data.idJoueurTouche])
 			{
+				rooms[socket.room].active = true;
+				rooms[socket.room].listPlayers[data.idJoueurTouche].life--;
 
-				listPlayers[data.idJoueurTouche].life--;
-
-				if(listPlayers[data.idJoueurTouche].life <= 0)
+				if(rooms[socket.room].listPlayers[data.idJoueurTouche].life <= 0)
 				{
-					listPlayers[data.id].frag++;
+					rooms[socket.room].listPlayers[data.id].frag++;
 
-					if(listPlayers[data.id].frag > config.maxFrag)
-						io.sockets.emit('GameOver', listPlayers)
+					if(rooms[socket.room].listPlayers[data.id].frag > config.maxFrag)
+						io.sockets.in(socket.room).emit('GameOver', rooms[socket.room].listPlayers)
 
-					listPlayers[data.idJoueurTouche].death++;
-					socket.emit('kill', listPlayers[data.id].frag);
+					rooms[socket.room].listPlayers[data.idJoueurTouche].death++;
+					socket.emit('kill', rooms[socket.room].listPlayers[data.id].frag);
 				}
 
-				listSockets[data.idJoueurTouche].emit('updateLife', listPlayers[data.idJoueurTouche]);
-				listSockets[data.idJoueurTouche].emit('showLaser', {emitter: listPlayers[data.id], receptor: listPlayers[data.idJoueurTouche]});
+				rooms[socket.room].listSockets[data.idJoueurTouche].emit('updateLife', rooms[socket.room].listPlayers[data.idJoueurTouche]);
+				rooms[socket.room].listSockets[data.idJoueurTouche].emit('showLaser', {emitter: rooms[socket.room].listPlayers[data.id], receptor: rooms[socket.room].listPlayers[data.idJoueurTouche]});
 					
 			}
 			else
 			{
-				socket.broadcast.emit('showLaser', {emitter: listPlayers[data.id], receptor: data.pickedPoint});
+				socket.broadcast.to(socket.room).emit('showLaser', {emitter: rooms[socket.room].listPlayers[data.id], receptor: data.pickedPoint});
 			}
 			
 		}
@@ -110,12 +162,16 @@ io.sockets.on('connection', function (socket, data)
 
 	socket.on('disconnect', function() 
 	{
-		if(listPlayers[socket.identif])
+		if(socket.room)
 		{
-			listPlayers[socket.identif].active = false;
-			delete listSockets[socket.identif];
+			if(rooms[socket.room].listPlayers[socket.identif])
+			{
+				rooms[socket.room].listPlayers[socket.identif].active = false;
+				delete rooms[socket.room].listSockets[socket.identif];
+			}
+			socket.broadcast.to(socket.room).emit('deleteGhost', {id: socket.identif});
+			
 		}
-		socket.broadcast.emit('deleteGhost', {id: socket.identif});
 
 	});
 });
