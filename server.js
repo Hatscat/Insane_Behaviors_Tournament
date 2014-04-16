@@ -17,6 +17,7 @@ io.sockets.on('connection', function (socket, data)
 		config.max_frag = data.max_frag;
 		config.max_life = data.max_life;
 		config.spwan_points = data.spwan_points;
+		console.log(data.spwan_points)
 
 		if(!data.id)
 		{
@@ -74,22 +75,31 @@ io.sockets.on('connection', function (socket, data)
 
 	socket.on('shootPlayer', function (data)
 	{
-		if(listPlayers[data.id] && listPlayers[data.idJoueurTouche])
+		if(listPlayers[data.id])
 		{
-			listPlayers[data.idJoueurTouche].life--;
-
-			if(listPlayers[data.idJoueurTouche].life <= 0)
+			if(listPlayers[data.idJoueurTouche])
 			{
-				listPlayers[data.id].frag++;
+				listPlayers[data.idJoueurTouche].life--;
 
-				if(listPlayers[data.id].frag > maxFrag)
-					io.sockets.emit('GameOver', listPlayers)
+				if(listPlayers[data.idJoueurTouche].life <= 0)
+				{
+					listPlayers[data.id].frag++;
 
-				listPlayers[data.idJoueurTouche].death++;
-				socket.emit('kill', listPlayers[data.id].frag);
+					if(listPlayers[data.id].frag > maxFrag)
+						io.sockets.emit('GameOver', listPlayers)
+
+					listPlayers[data.idJoueurTouche].death++;
+					socket.emit('kill', listPlayers[data.id].frag);
+				}
+
+				listSockets[data.idJoueurTouche].emit('updateLife', {life: listPlayers[data.idJoueurTouche]});
+				listSockets[data.idJoueurTouche].emit('showLaser', {emitter: listPlayers[data.id], receptor: listPlayers[data.idJoueurTouche]});
 			}
-
-			listSockets[data.idJoueurTouche].emit('updateLife', listPlayers[data.idJoueurTouche]);
+			else
+			{
+				listSockets[data.idJoueurTouche].emit('showLaser', {emitter: listPlayers[data.id], receptor: data.pickedPoint});
+			}
+			
 		}
 
 	});

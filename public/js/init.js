@@ -113,4 +113,5 @@ function manage_server_events (p_config)
 	p_config.socket.on('deleteGhost', function(e){delete_ghost(p_config,e)});
 	p_config.socket.on('kill', function(e){kill(p_config,e)});
 	p_config.socket.on('updateLife', function(e){update_life(p_config,e)});
+	p_config.socket.on('showLaser', function(e){show_laser(p_config,e)});
 }
