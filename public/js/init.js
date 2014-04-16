@@ -12,8 +12,6 @@ addEventListener('load', init_home_page);
 function init_home_page ()
 {
 	// on lance juste le jeu dans un premier temps
-
-	init_game();
 }
 function init_game ()
 {
@@ -23,6 +21,10 @@ function init_game ()
 	** load everything
 	** launch the run loop
 	*/
+
+	if(!localStorage['FullScreen'])
+		screenfull.toggle();
+
 	var canvas = document.createElement('canvas');
 	var config = new_config(canvas);
 	config.gui_canvas = canvas.cloneNode(false);
