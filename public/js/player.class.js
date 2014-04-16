@@ -84,8 +84,6 @@ Player.prototype._new_constraint = function ()
 
 Player.prototype.jump = function ()
 {
-	//console.log(this.velocity, this.velocity_max)
-
 	if ((this.velocity += this.accelation) >= this.velocity_max)
 	{
 		this.is_jumping = false;
@@ -94,22 +92,6 @@ Player.prototype.jump = function ()
 	{
 		this.camera.position.y += this.velocity;
 	}
-
-	/*is_jumping (camera, ground, velocity, velocity_max, is_falling, ts)
-	{
-		var value = velocity_max / 9;
-		velocity += velocity < velocity_max ? is_falling ? -value : value : (is_falling = true, -value);
-		camera.position.y += velocity;
-
-		if (velocity <= 0)
-		{
-			on_ground = true;
-		}
-		else
-		{ // pas ça !
-			requestAnimationFrame(function(t){is_jumping(camera,ground,velocity,velocity_max,is_falling,t)});
-		}
-	}*/
 }
 Player.prototype.shoot = function (that)
 {
@@ -122,64 +104,16 @@ Player.prototype.shoot = function (that)
 			//console.log("touché :", pickResult.pickedMesh.name);
 			//console.log("point touché :", pickResult.pickedPoint);
 
-			that._config.lasers.push(new Laser(that._config, that.camera, pickResult.pickedMesh, pickResult.distance));
-
-			that._config.socket.emit('shootPlayer', {id: that._id, idJoueurTouche: pickResult.pickedMesh.name, pickedPoint: pickResult.pickedPoint});
+			var laser = new Laser_client(that._config, that.camera, pickResult.pickedMesh, pickResult.distance);
+			that._config.lasers.push(laser);
+			that._config.socket.emit('shootPlayer',
+			{
+				id: that._id, idJoueurTouche: pickResult.pickedMesh.name,
+				laserPos: laser.position,
+				laserRot: laser.rotation,
+				distance: pickResult.distance
+			});
 		}
-		
-		
-		/*var particleSystem = new BABYLON.ParticleSystem("particles", 200, scene);
-		particleSystem.particleTexture = new BABYLON.Texture("Flare.png", scene);
-		// Where the particles comes from
-		particleSystem.emitter = pickResult.pickedMesh; // the starting object, the emitter
-		particleSystem.minEmitBox = new BABYLON.Vector3(-1, 0, 1); // Starting all From
-		particleSystem.maxEmitBox = new BABYLON.Vector3(1, 0, -1); // To...
-
-		// Colors of all particles (splited in 2 + specific color before dispose)
-		particleSystem.color1 = new BABYLON.Color4(0.5, 0.5, 0.5, 1e-100);
-		particleSystem.color2 = new BABYLON.Color4(0.5, 0.5, 0.5, 1e-100);
-		particleSystem.colorDead = new BABYLON.Color4(0.0, 0.0, 0.0, 0.0);
-
-		// Size of each particle (random between...
-		particleSystem.minSize = 2;
-		particleSystem.maxSize = 3;
-
-		// Life time of each particle (random between...
-		particleSystem.minLifeTime = 0.8;
-		particleSystem.maxLifeTime = 0.8;
-
-		// Emission rate
-		particleSystem.emitRate = 100;
-		// OR
-		//particleSystem.manualEmitCount = 1000;
-
-
-		// Blend mode : BLENDMODE_ONEONE, or BLENDMODE_STANDARD
-		particleSystem.blendMode = BABYLON.ParticleSystem.BLENDMODE_ONEONE;
-
-		//Set the gravity of all particles (not necessary down)
-		//particleSystem.gravity = new BABYLON.Vector3(0, -9.81, 0);
-
-		//Direction of each particle after it has been emitted
-		particleSystem.direction1 = new BABYLON.Vector3(-10, 0, 10);
-		particleSystem.direction2 = new BABYLON.Vector3(10, 0, -10);
-
-		//angular speed, in radian
-		particleSystem.minAngularSpeed = 0;
-		particleSystem.maxAngularSpeed = Math.PI;
-
-		//particleSystem.targetStopDuration = 3;
-
-		//speed
-		particleSystem.minEmitPower = 0.2;
-		particleSystem.maxEmitPower = 0.2;
-		particleSystem.updateSpeed = 0.005;
-
-		//dispose
-		particleSystem.disposeOnStop = true;
-
-		//Start the particle system
-		particleSystem.start();*/
 	}
 };
 Player.prototype.check_constraint = function ()
