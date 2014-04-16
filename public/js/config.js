@@ -27,6 +27,7 @@ function new_config (p_canvas)
 		old_time 				: 0,
 		delta_time 				: 1,
 		max_hp 					: 1,
+		backSoundUrl			: "/assets/AMBIANCEnewversion",
 		max_frag 				: 10,
 		
 		keys 					: {
