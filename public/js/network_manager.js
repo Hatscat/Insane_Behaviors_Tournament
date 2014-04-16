@@ -40,6 +40,9 @@ function update_ghosts (p_config, p_data)
 		
 			p_config.ghosts[p].anim(p_data.players[p]);
 			p_config.ghosts[p].move(p_data.players[p]);
+			p_config.ghosts[p].death = p_data.players[p].death;
+			p_config.ghosts[p].frag = p_data.players[p].frag;
+
 		}
 	}
 }
@@ -47,6 +50,9 @@ function update_ghosts (p_config, p_data)
 function kill (p_config, p_data)
 {
 	p_config.player.frag++;
+	p_config.gui_context.fillStyle = "rgb(0,0,0)";
+	p_config.gui_context.clearRect(0, (window.innerHeight-300),400, window.innerHeight);
+	p_config.gui_context.fillText("FRAGS :"  + (p_config.player.frag || 0), 10,window.innerHeight-50);
 }
 
 function update_life (p_config, p_data)

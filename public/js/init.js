@@ -83,6 +83,7 @@ function init_game ()
 		window.lauchGame = true;
 		document.body.appendChild(canvas);
 		document.body.appendChild(config.gui_canvas);
+		$('body').append("<table id='leaderBoard'><tbody id='leaderBoardBody'></tbody></table>");
 
 		window.addEventListener("click", function (event)
 		{
@@ -99,7 +100,9 @@ function init_game ()
 			}
 		}, false);
 
-		config.gui_context.drawImage(config.player.constraintImage, 500, 500);
+		config.gui_context.font = "20pt Tahoma,Geneva,Arial";
+		config.gui_context.fillStyle = "rgb(0,0,0)";
+		config.gui_context.fillText("FRAGS :" + (config.player.frag || 0), 10, window.innerHeight-50);
 		config.gui_context.fillStyle = '#f50';
 		config.gui_context.fillRect(window.innerWidth / 2 - 4, window.innerHeight / 2 - 4, 8, 8); // arg
 

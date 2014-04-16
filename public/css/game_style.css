@@ -70,8 +70,6 @@ canvas {
 }
 
 
-
-
 #ButtonIndex {
 
 position:absolute;
@@ -85,6 +83,18 @@ width:214px;
 height:39px;
 
 
+}
+
+#leaderBoard {
+	position: absolute;
+	display: none;
+	margin:auto;
+	left:0;
+	right:0;
+	bottom:0;
+	top:0;
+	width: 500px;
+	border:5px solid black;
 }
 
 #TitreIndex  {

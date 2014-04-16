@@ -15,7 +15,7 @@ function run (p_config)
 
 	if (p_config.aieGUI)
 	{
-		config.gui_context.drawImage(config.player.constraintImage, 500, 500);
+/*		config.gui_context.drawImage(config.player.constraintImage, 500, 500);*/
 		config.gui_context.clearRect(0,0,window.innerWidth, window.innerHeight);
 		config.gui_context.fillStyle = "rgba(255, 0, 0," + p_config.aieGUI + ")";
 		config.gui_context.fillRect(0,0,window.innerWidth, window.innerHeight);

@@ -13,7 +13,7 @@ var rooms = {
 function createRoom()
 {
 	cpt++;
-	rooms['room' + cpt] = {active: false, maxConnect: 10, numberCo: 0, listPlayers: {}};
+	rooms['room' + cpt] = {active: false, maxConnect: 10, numberCo: 0, listPlayers: {}, listSockets: {}};
 };
 
 io.sockets.on('connection', function (socket, data) 
@@ -38,6 +38,7 @@ io.sockets.on('connection', function (socket, data)
 					if(rooms[i].numberCo < rooms[i].maxConnect && socket.co == false && rooms[i].active == false)
 					{
 						socket.room = i;
+						console.log("cucu");
 						console.log(i)
 						socket.join(i);
 						rooms[i].numberCo++;
@@ -47,6 +48,7 @@ io.sockets.on('connection', function (socket, data)
 				if(socket.co == false)
 				{
 					createRoom();
+					console.log("caca");
 					socket.room = 'room' + cpt;
 					socket.join(socket.room);
 					rooms[socket.room].numberCo++;
@@ -55,8 +57,9 @@ io.sockets.on('connection', function (socket, data)
 			}
 			queue = [];
 
-			if(socket.co)
+			if(socket.co && socket.room)
 			{
+				console.log("caaaaa");
 				var spwan = (Math.random()*(config.spwan_points.length-1)) | 0
 				socket.identif = socket.id;
 				rooms[socket.room].listPlayers[socket.identif] = ({ x: config.spwan_points[spwan].x, y: config.spwan_points[spwan].y, z:config.spwan_points[spwan].z, life:config.max_life, frag:0, death:0, active:true});

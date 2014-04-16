@@ -5,6 +5,8 @@ function Ghost (p_config, p_data, id)
 {
 	this._config 						= p_config;
 	this._id 							= id;
+	this.frag							= p_data.frag;
+	this.death							= p_data.death;
 	this.mesh 							= p_config.ghost_mesh_model.clone(this._id);
 	this.mesh.position.x 				= p_data.x;
 	this.mesh.position.y 				= p_data.y;
