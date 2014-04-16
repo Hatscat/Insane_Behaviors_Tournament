@@ -22,7 +22,7 @@ function new_player (p_config, p_data)
 
 function delete_ghost (p_config, p_data)
 {
-
+	p_config.ghosts[p_data.id].kill();
 	delete p_config.ghosts[p_data.id];
 }
 
@@ -38,9 +38,6 @@ function update_ghosts (p_config, p_data)
 			if(!p_config.ghosts[p])
 			p_config.ghosts[p] = new Ghost(p_config, p_data.players[p], p);
 		
-			if(!p_data.players[p].x)
-				debugger;
-			
 			p_config.ghosts[p].anim(p_data.players[p]);
 			p_config.ghosts[p].move(p_data.players[p]);
 		}

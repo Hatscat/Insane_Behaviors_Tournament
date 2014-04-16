@@ -17,7 +17,6 @@ io.sockets.on('connection', function (socket, data)
 		config.max_frag = data.max_frag;
 		config.max_life = data.max_life;
 		config.spwan_points = data.spwan_points;
-		console.log(data.spwan_points)
 
 		if(!data.id)
 		{
@@ -35,6 +34,7 @@ io.sockets.on('connection', function (socket, data)
 		}
 		else
 		{
+			socket.broadcast.emit('deleteGhost', {id: socket.identif});
 			socket.disconnect();
 		}
 
@@ -43,7 +43,6 @@ io.sockets.on('connection', function (socket, data)
 
 	socket.on('playerCreated', function (data)
 	{
-		console.log(listPlayers)
 		io.sockets.emit('updateGhosts', {players: listPlayers});		
 	})
 
@@ -80,6 +79,7 @@ io.sockets.on('connection', function (socket, data)
 		{
 			if(listPlayers[data.idJoueurTouche])
 			{
+
 				listPlayers[data.idJoueurTouche].life--;
 
 				if(listPlayers[data.idJoueurTouche].life <= 0)
@@ -93,8 +93,9 @@ io.sockets.on('connection', function (socket, data)
 					socket.emit('kill', listPlayers[data.id].frag);
 				}
 
-				listSockets[data.idJoueurTouche].emit('updateLife', {life: listPlayers[data.idJoueurTouche]});
+				listSockets[data.idJoueurTouche].emit('updateLife', listPlayers[data.idJoueurTouche]);
 				listSockets[data.idJoueurTouche].emit('showLaser', {emitter: listPlayers[data.id], receptor: listPlayers[data.idJoueurTouche]});
+					
 			}
 			else
 			{

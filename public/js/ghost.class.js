@@ -41,3 +41,8 @@ Ghost.prototype.move = function (p_data)
 	this.mesh.position.y 	= p_data.y;
 	this.mesh.position.z 	= p_data.z;
 };
+
+Ghost.prototype.kill = function (p_data)
+{
+	this.mesh.dispose()
+};
