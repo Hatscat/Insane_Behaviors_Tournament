@@ -38,14 +38,14 @@ function init_game ()
 										|| config.gui_canvas.mozRequestPointerLock
 										|| config.gui_canvas.webkitRequestPointerLock;
 
-	if (localStorage['id'])
+/*	if (localStorage['id'])
 	{
 		config.server.id = localStorage['id'];
 	}
 	else
 	{
 		config.server.id = null;
-	}
+	}*/
 
 	if (!BABYLON.Engine.isSupported())
 	{
@@ -101,6 +101,7 @@ function init_game ()
 
 		config.gui_context.fillStyle = '#f50';
 		config.gui_context.fillRect(window.innerWidth / 2 - 4, window.innerHeight / 2 - 4, 8, 8); // arg
+		config.gui_context.drawImage(config.player.constraintImage, window.innerWidth-(config.player.constraintImage.with+10), 10);
 
 		config.scene.registerBeforeRender(function(){run(config)});	
 	}

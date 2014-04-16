@@ -13,6 +13,19 @@ function run (p_config)
 		p_config.socket.emit('playerMove', {x:p_config.camera.position.x, y:p_config.camera.position.y, z:p_config.camera.position.z, id:p_config.player._id});
 	}
 
+	if(p_config.aieGUI)
+	{
+		config.gui_context.clearRect(0,0,window.innerWidth, window.innerHeight);
+		config.gui_context.fillStyle = "rgba(255, 0, 0," + p_config.aieGUI + ")";
+		config.gui_context.fillRect(0,0,window.innerWidth, window.innerHeight);
+		config.gui_context.fillStyle = '#f50';
+		config.gui_context.fillRect(window.innerWidth / 2 - 4, window.innerHeight / 2 - 4, 8, 8); // arg
+		p_config.aieGUI -= 0.01;
+
+		if(p_config.aieGUI <= 0)
+			p_config.aieGUI = false;
+	}
+
 	if (p_config.player.is_jumping)
 	{
 		p_config.player.jump();

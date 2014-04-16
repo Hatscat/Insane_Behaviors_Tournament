@@ -51,6 +51,11 @@ function kill (p_config, p_data)
 
 function update_life (p_config, p_data)
 {
+	if(p_config.player.current_hp > p_data)
+	{
+		p_config.aieGUI = 0.4;
+	}
+	
 	p_config.player.current_hp = p_data.life;
 
 	if(p_data.life <= 0)
