@@ -1,13 +1,14 @@
 /*
 ** ghost class
 */
-function Ghost (p_config, p_id, p_position)
+function Ghost (p_config, p_data)
 {
 	this._config 		= p_config;
-	this._id 			= p_id;
-	this.x 				= p_position.x;
-	this.y 				= p_position.y;
-	this.z 				= p_position.z;
+	this._id 			= p_data.id;
+	this.x 				= p_data.x;
+	this.y 				= p_data.y;
+	this.z 				= p_data.z;
+	this.mesh 			= p_config.ghost_mesh_model.clone(this._id);
 }
 
 /*
@@ -15,9 +16,9 @@ function Ghost (p_config, p_id, p_position)
 */
 Ghost.prototype.anim = function (p_config)
 {
-
+	
 };
 Ghost.prototype.move = function (p_config)
 {
-
+	
 };
