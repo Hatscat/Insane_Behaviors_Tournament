@@ -5,9 +5,6 @@ function new_config (p_canvas)
 {
 	var config = {
 		socket					: null,
-		engine					: null,
-		map						: null,
-		id 						: null,
 		canvas_width 			: window.innerWidth,
 		canvas_height 			: window.innerHeight,
 		keys_down 				: {},
@@ -16,6 +13,7 @@ function new_config (p_canvas)
 		time 					: 0,
 		old_time 				: 0,
 		delta_time 				: 1,
+		hp_max 					: 100,
 
 		babylon_lights 			: {
 
@@ -40,7 +38,6 @@ function new_config (p_canvas)
 			{x:3, y:0, z:7},
 			{x:5, y:0, z:8},
 		]
-
 	};
 
 	p_canvas.width = config.canvas_width;
