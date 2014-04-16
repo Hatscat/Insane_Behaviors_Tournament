@@ -1,14 +1,14 @@
 body  {
 
 margin:0;
-background-image:url('img/Back.png');
-background-repeat: repeat;
 -webkit-touch-callout: none;
 -webkit-user-select: none;
 -khtml-user-select: none;
 -moz-user-select: none;
 -ms-user-select: none;
 user-select: none;
+background-image:url('img/Back.jpg');
+background-repeat: repeat;
 }
 
 .classname {
@@ -57,7 +57,7 @@ user-select: none;
 }.classname:active {
 
 	position:relative;
-	top:1px;
+	top:2px;
 }
 
 
@@ -110,7 +110,7 @@ height:39px;
 position:absolute;
 margin-left: auto;
 margin-right: auto;
-left: -25px;
+left: -30px;
 right: 0;
 margin-top: 100px;
 
@@ -122,7 +122,7 @@ margin-top: 100px;
 position:absolute;
 margin-left: auto;
 margin-right: auto;
-left: -25px;
+left: -30px;
 right: 0;
 margin-top: 200px;
 
@@ -163,7 +163,7 @@ left: 0;
 right: 0;
 margin-top:400px;
 width:150px;
-height:600px;
+height:350px;
 display:none;
 
 }

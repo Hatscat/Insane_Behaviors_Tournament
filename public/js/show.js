@@ -1,17 +1,17 @@
 
 $("#ButtonIndex").click(function () {
 
-	$("#ButtonIndex, #ButtonScreenIndex").hide();
+	$("#ButtonIndex, #ButtonScreenIndex").fadeOut('fast');
 
-    $(".EnsembleLogin").show();
+    $(".EnsembleLogin").fadeIn('fast');
 
 });
 
 $(".ButtonBackLogin").click(function () {
 
-	$(".EnsembleLogin").hide();
+	$(".EnsembleLogin").fadeOut('fast');
 
-	$("#ButtonIndex, #ButtonScreenIndex").show();
+	$("#ButtonIndex, #ButtonScreenIndex").fadeIn('fast');
 
 });
 
@@ -24,4 +24,11 @@ $('#ButtonScreenIndex').click(function()
  	screenfull.toggle();
 
  	});
+
+$(".ButtonLogin").click(function () {
+
+    localStorage['Username'] = document.getElementById("text-1").value;
+
+});
+
 
