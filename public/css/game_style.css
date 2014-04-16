@@ -1,14 +1,23 @@
 body  {
 
-margin:0;
--webkit-touch-callout: none;
--webkit-user-select: none;
--khtml-user-select: none;
--moz-user-select: none;
--ms-user-select: none;
-user-select: none;
-background-image:url('img/Back.jpg');
-background-repeat: repeat;
+	margin:0;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	background-image:url('img/Back.jpg');
+	background-repeat: repeat;
+}
+
+canvas {
+	width: 		100%;
+	height: 	100%;
+	padding: 	0;
+	margin: 	0;
+	overflow:	hidden;
+	position:  absolute;
 }
 
 .classname {

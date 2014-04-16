@@ -12,8 +12,6 @@ addEventListener('load', init_home_page);
 function init_home_page ()
 {
 	// on lance juste le jeu dans un premier temps
-
-	init_game();
 }
 function init_game ()
 {
@@ -23,6 +21,10 @@ function init_game ()
 	** load everything
 	** launch the run loop
 	*/
+
+	if(!localStorage['FullScreen'])
+		screenfull.toggle();
+
 	var canvas = document.createElement('canvas');
 	var config = new_config(canvas);
 	config.gui_canvas = canvas.cloneNode(false);
@@ -74,11 +76,19 @@ function init_game ()
 		document.body.appendChild(canvas);
 		document.body.appendChild(config.gui_canvas);
 
-		config.gui_canvas.addEventListener("click", function (event)
+		window.addEventListener("click", function (event)
 		{
 			config.gui_canvas.requestPointerLock();
 			config.engine.isPointerLock = true;
-			config.gui_canvas.style.cursor = "none";
+		}, false);
+
+		window.addEventListener('keydown', function (event)
+		{
+			if (event.keyCode == 27) // esc key
+			{
+				config.gui_canvas.exitPointerLock();
+				config.engine.isPointerLock = false;
+			}
 		}, false);
 
 		config.gui_context.fillStyle = '#f50';

@@ -11,7 +11,7 @@ function run (p_config)
 	//console.log(p_config.player)
 
 	p_config.player.move();
-	//p_config.player.shoot(); // event
+
 	if (p_config.player.is_jumping)
 	{
 		p_config.player.jump();

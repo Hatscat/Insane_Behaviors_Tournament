@@ -39,7 +39,7 @@ function new_config (p_canvas)
 		main_light 				: {
 			name : "main_light",
 			x : 0,
-			y : 100,
+			y : 10,
 			z : 0,
 			angle : 0,
 			intesity : 1,
@@ -54,7 +54,7 @@ function new_config (p_canvas)
 
 		skybox : 
 		{
-			size : 750.0,
+			size : 1000.0,
 			images : "assets/skybox/skybox",
 		},
 
