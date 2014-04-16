@@ -17,7 +17,7 @@ var Sound = function(ctx, url, volume, autoPlay, loop)
 	{
 		this.soundBuffer = null;
 		var request = new XMLHttpRequest();
-		request.open('GET', url + "ogg", true);
+		request.open('GET', url + ".ogg", true);
 		request.responseType = 'arraybuffer';
 		// Create a gain node.
 		this.gainNode = ctx.createGain();

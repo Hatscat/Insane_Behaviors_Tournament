@@ -29,6 +29,8 @@ function init_game ()
 
 	var canvas = document.createElement('canvas');
 	var config = new_config(canvas);
+	config.ctxAudio = init_sound_context();
+	config.backSound = new Sound(config.ctxAudio, config.backSoundUrl, 1, false, true)
 	config.gui_canvas = canvas.cloneNode(false);
 	config.gui_context = config.gui_canvas.getContext('2d');
 
