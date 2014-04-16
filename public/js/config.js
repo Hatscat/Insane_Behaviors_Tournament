@@ -26,6 +26,7 @@ function new_config (p_canvas)
 		delta_time 				: 1,
 		max_hp 					: 100,
 		max_frag 				: 10,
+		
 		keys 					: {
 			up 		: 90, // Touche Z
 			down 	: 83, // Touche S
@@ -34,6 +35,7 @@ function new_config (p_canvas)
 			jump 	: 32  // Touche Space Bare
 
 		},
+
 		main_light 				: {
 			name : "main_light",
 			x : 0,
@@ -45,15 +47,22 @@ function new_config (p_canvas)
 			g: 1,
 			b: 1
 		},
-		babylon_camera : {
+
+		babylon_camera 			: {
 			
 		},
+
 		skybox : 
 		{
 			size : 750.0,
 			images : "img/skybox/skybox",
 		},
 
+		spwan_points			: [
+			{x:0, y:0, z:0},
+			{x:3, y:0, z:7},
+			{x:5, y:0, z:8},
+		]
 	};
 
 	p_canvas.width = config.canvas_width;

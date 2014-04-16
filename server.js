@@ -5,8 +5,7 @@ var io = require('socket.io').listen(server);
 var listPlayers = {};
 var listSockets = {};
 var queue = [];
-var life = 1;
-var maxFrag = 10;
+var config = {};
 /*io.set('log level', 1);*/
 
 io.sockets.on('connection', function (socket, data) 
@@ -15,16 +14,20 @@ io.sockets.on('connection', function (socket, data)
 
 	socket.on('iWantToPlay', function (data)
 	{
-		if(!data)
+		config.max_frag = data.max_frag;
+		config.max_life = data.max_life;
+		config.spwan_points = data.spwan_points;
+
+		if(!data.id)
 		{
+			var spwan = (Math.random()*(config.spwan_points.length-1)) | 0
 			socket.identif = socket.id;
-			listPlayers[socket.identif] = ({ x: Math.random()*1280, y: Math.random()*3, z:Math.random()*720, life:life, frag:0, death:0, active:true});
+			listPlayers[socket.identif] = ({ x: config.spwan_points[spwan].x, y: config.spwan_points[spwan].y, z:config.spwan_points[spwan].z, life:config.max_life, frag:0, death:0, active:true});
 			listSockets[socket.identif] = socket;
 		}
 
-		else if(listPlayers[data])
+		else if(listPlayers[data.id])
 		{
-
 			socket.identif = data;
 			listPlayers[socket.identif].active = true;
 			listSockets[socket.identif] = socket;
@@ -93,9 +96,11 @@ io.sockets.on('connection', function (socket, data)
 
 	socket.on('disconnect', function() 
 	{
-
-		listPlayers[socket.identif].active = false;
-		delete listSockets[socket.identif];
+		if(listPlayers[socket.identif])
+		{
+			listPlayers[socket.identif].active = false;
+			delete listSockets[socket.identif];
+		}
 
 		socket.broadcast.emit('deleteGhost', {id: socket.identif});
 
