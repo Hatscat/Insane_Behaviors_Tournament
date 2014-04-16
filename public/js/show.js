@@ -31,9 +31,8 @@ $(".ButtonLogin").click(function () {
 });
 function show_leaderboard(p_config)
 {
-	$("#leaderBoard").empty()
 	var tabOrdo = [];
-	var balises ="";
+	var balises ="<tr><td>Joueur</td><td>Kill</td><td>Death</td></tr>";
 
 	for(var g in p_config.ghosts)
 	{
@@ -57,9 +56,6 @@ function show_leaderboard(p_config)
 		{
 			var phrase = "<tr id='player'><td>" + p_config.player._id + "</td><td>"+p_config.player.frag+"</td><td>"+p_config.player.death+"</td></tr>"
 			balises += phrase
-								
-								
-								
 						
 		}
 	}
@@ -67,5 +63,10 @@ function show_leaderboard(p_config)
 	$("#leaderBoard").append(balises);
 	$("#leaderBoard").show();
 	
+}
+function hide_leaderboard(p_config)
+{
+	$("#leaderBoard").empty();
+	$("#leaderBoard").hide();
 }
 
