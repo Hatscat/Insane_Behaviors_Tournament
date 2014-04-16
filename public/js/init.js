@@ -13,7 +13,7 @@ function init_home_page ()
 {
 	// on lance juste le jeu dans un premier temps
 
-
+	init_game();
 }
 function init_game ()
 {
@@ -23,9 +23,6 @@ function init_game ()
 	** load everything
 	** launch the run loop
 	*/
-	if(!localStorage['FullScreen'])
-		screenfull.toggle();
-
 	var canvas = document.createElement('canvas');
 	var config = new_config(canvas);
 	config.gui_canvas = canvas.cloneNode(false);
@@ -81,7 +78,6 @@ function init_game ()
 		{
 			config.gui_canvas.requestPointerLock();
 			config.engine.isPointerLock = true;
-			config.gui_canvas.style.cursor = "none";
 		}, false);
 
 		window.addEventListener('keydown', function (event)
@@ -90,7 +86,6 @@ function init_game ()
 			{
 				config.gui_canvas.exitPointerLock();
 				config.engine.isPointerLock = false;
-				config.gui_canvas.style.cursor = "auto";
 			}
 		}, false);
 
