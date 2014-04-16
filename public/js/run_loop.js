@@ -16,10 +16,4 @@ function run (p_config)
 	{
 		p_config.player.respawn(p_config);
 	}
-
-	for (var i1 in p_config.ghosts)
-	{
-		p_config.ghosts[i1].anim(p_config);
-		p_config.ghosts[i1].move(p_config);
-	}
 }

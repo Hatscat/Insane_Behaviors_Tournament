@@ -30,11 +30,16 @@ function new_config (p_canvas)
 			},		
 		},
 
-		skybox : 
-		{
+		skybox 					: {
 			size : 750.0,
 			images : "img/skybox/skybox",
 		},
+
+		spwan_points			: [
+			{x:0, y:0, z:0},
+			{x:3, y:0, z:7},
+			{x:5, y:0, z:8},
+		]
 
 	};
 

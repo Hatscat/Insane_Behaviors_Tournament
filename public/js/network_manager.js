@@ -20,18 +20,13 @@ function update_ghosts (p_config, p_data)
 	/* on va mettre tout les autres players en tant que "ghost" des images rémanentes des persos*/
 	for(var p in p_data.players)
 	{	
-		if(p != p_config.player._id && !p_config.ghosts[p])
+		if(p != p_config.player._id && !p_config.ghosts[p] && p_data.players[p].active)
 		{
-			if(p_data.players[p].active == true)
-			{
-				p_config.ghosts[p] = new Ghost(p_config, p_data.players[p], p);
-				p_config.ghosts[p].x = p_data.players[p].x;
-				p_config.ghosts[p].y = p_data.players[p].y;
-				p_config.ghosts[p].z = p_data.players[p].z;
-				p_config.ghosts[p].id = p;
-
-			}
+			p_config.ghosts[p] = new Ghost(p_config, p_data.players[p], p);
 		}
+
+		p_config.ghosts[p].anim(p_config.ghosts[p], p_data.players[p]);
+		p_config.ghosts[p].move(p_config.ghosts[p], p_data.players[p]);
 	}
 }
 
