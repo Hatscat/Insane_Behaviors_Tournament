@@ -28,4 +28,9 @@ function run (p_config)
 	{
 		p_config.player.respawn();
 	}
+
+	for (var i1 in p_config.lasers)
+	{
+		p_config.lasers[i1].update();
+	}
 }

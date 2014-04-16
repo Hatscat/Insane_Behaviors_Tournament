@@ -36,7 +36,6 @@ function Player (p_config)
 		{
 			if (that.on_ground)
 			{
-				console.log("je saute !");
 				that.velocity = 0;
 				that.on_ground = false;
 				that.is_jumping = true;
@@ -120,6 +119,9 @@ Player.prototype.shoot = function (that)
 		{
 			console.log("touché :", pickResult.pickedMesh.name);
 			//console.log("point touché :", pickResult.pickedPoint);
+
+			that._config.lasers.push(new Laser(that._config, that.camera, pickResult.pickedMesh, pickResult.distance));
+
 			that._config.socket.emit('shootPlayer', {id: that._id, idJoueurTouche: pickResult.pickedMesh.name, pickedPoint: pickResult.pickedPoint});
 		}
 		
