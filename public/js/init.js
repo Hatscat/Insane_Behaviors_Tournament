@@ -77,11 +77,21 @@ function init_game ()
 		document.body.appendChild(canvas);
 		document.body.appendChild(config.gui_canvas);
 
-		config.gui_canvas.addEventListener("click", function (event)
+		window.addEventListener("click", function (event)
 		{
 			config.gui_canvas.requestPointerLock();
 			config.engine.isPointerLock = true;
 			config.gui_canvas.style.cursor = "none";
+		}, false);
+
+		window.addEventListener('keydown', function (event)
+		{
+			if (event.keyCode == 27) // esc key
+			{
+				config.gui_canvas.exitPointerLock();
+				config.engine.isPointerLock = false;
+				config.gui_canvas.style.cursor = "auto";
+			}
 		}, false);
 
 		config.gui_context.fillStyle = '#f50';
