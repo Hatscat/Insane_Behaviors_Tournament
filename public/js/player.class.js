@@ -7,6 +7,9 @@ function Player (p_config)
 	this._config 					= p_config;
 	this.on_ground 					= true;
 	this.is_jumping 				= false;
+	this.velocity 					= 0;
+	this.accelation 				= p_config.gravity;
+	this.velocity_max 				= 4;
 	this.constraint 				= this._new_constraint();
 	this.camera 					= new BABYLON.FreeCamera('client_camera', new BABYLON.Vector3(this.x, this.y, this.z), p_config.scene);
 
@@ -34,6 +37,7 @@ function Player (p_config)
 			if (that.on_ground)
 			{
 				console.log("je saute !");
+				that.velocity = 0;
 				that.on_ground = false;
 				that.is_jumping = true;
 			}
@@ -75,20 +79,19 @@ Player.prototype._new_constraint = function ()
 	return constraint;
 };
 
-Player.prototype.move = function ()
-{
-	//console.log()
-	// this.x = this._config.camera.position.x;
-	// this.y = this._config.camera.position.y;
-	// this.z = this._config.camera.position.z;
-
-	/*if(hasMoved)
-	{
-		this._config.socket.emit('playerMove', {x:this.x, y:this.y, id:this._id})
-	}*/
-};
 Player.prototype.jump = function ()
-{	
+{
+	//console.log(this.velocity, this.velocity_max)
+
+	if ((this.velocity += this.accelation) >= this.velocity_max)
+	{
+		this.is_jumping = false;
+	}
+	else
+	{
+		this.camera.position.y += this.velocity;
+	}
+
 	/*is_jumping (camera, ground, velocity, velocity_max, is_falling, ts)
 	{
 		var value = velocity_max / 9;
@@ -110,10 +113,14 @@ Player.prototype.shoot = function (that)
 	if (that._config && that._config.scene)
 	{
 		var pickResult = that._config.scene.pick(that._config.canvas.width / 2, that._config.canvas.height / 2);
-		console.log("touché :", (pickResult.pickedMesh.name || null));
-		//console.log("point touché :", pickResult.pickedPoint);
-
-		that._config.socket.emit('shootPlayer', {id: that._id, idJoueurTouche: pickResult.pickedMesh.name || null, pickedPoint: pickResult.pickedPoint});
+		
+		if (pickResult.pickedMesh)
+		{
+			console.log("touché :", pickResult.pickedMesh.name);
+			//console.log("point touché :", pickResult.pickedPoint);
+			that._config.socket.emit('shootPlayer', {id: that._id, idJoueurTouche: pickResult.pickedMesh.name, pickedPoint: pickResult.pickedPoint});
+		}
+		
 		
 		/*var particleSystem = new BABYLON.ParticleSystem("particles", 200, scene);
 		particleSystem.particleTexture = new BABYLON.Texture("Flare.png", scene);

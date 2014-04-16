@@ -45,6 +45,7 @@ function createMapMesh (p_config)
 
 	ground.material = new BABYLON.StandardMaterial("groundMat", p_config.scene);
 	ground.material.diffuseColor = new BABYLON.Color3(0.1, 0.2, 0.1);
+	ground.material.specularColor = new BABYLON.Color3(0, 0, 0);
 	ground.material.backFaceCulling = false;
 	ground.position = new BABYLON.Vector3(0, -1, 0);
 	ground.rotation = new BABYLON.Vector3(Math.PI / 2, 0, 0);
@@ -58,6 +59,7 @@ function createGhostsMeshModel (p_config)
 	var sphere 		= BABYLON.Mesh.CreateSphere("sphere", 10.0, 3.0, p_config.scene);
 	var sphere_mat 	= new BABYLON.StandardMaterial("sphere_mat", p_config.scene);
 	
+	sphere.position = new BABYLON.Vector3(0, -100, 0);
 	sphere_mat.diffuseColor = new BABYLON.Color3(1, 0.5, 0);
 	sphere_mat.specularColor = new BABYLON.Color3(0.1, 0.1, 0);
 	sphere_mat.emissiveColor = new BABYLON.Color4(1, 0.5, 0, 1);

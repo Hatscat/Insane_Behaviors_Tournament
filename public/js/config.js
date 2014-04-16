@@ -20,7 +20,7 @@ function new_config (p_canvas)
 		player 					: null,
 		player_speed_max 		: 0.6,
 		camera_speed_max 		: 3000,
-		gravity 				: 3,
+		gravity 				: 0.6,
 		time 					: 0,
 		old_time 				: 0,
 		delta_time 				: 1,

@@ -10,11 +10,13 @@ function run (p_config)
 
 	//console.log(p_config.player)
 
-	p_config.player.move();
-
 	if (p_config.player.is_jumping)
 	{
 		p_config.player.jump();
+	}
+	else if (p_config.camera.position.y < 2)
+	{
+		p_config.player.on_ground = true;
 	}
 	
 	p_config.player.check_constraint();
