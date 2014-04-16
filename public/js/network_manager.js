@@ -51,7 +51,7 @@ function kill (p_config, p_data)
 
 function update_life (p_config, p_data)
 {
-	p_config.player.life = p_data.life;
+	p_config.player.current_hp = p_data.life;
 
 	if(p_data.life <= 0)
 	{
@@ -64,6 +64,13 @@ function show_laser (p_config, p_data)
 {
 	p_config.lasers.push(p_data);
 	console.log(p_data);
+}
+
+function casseToi (p_config, p_data)
+{
+	localStorage.removeItem("id");
+	localStorage["EROR_INSANE_TOURNAMENT"] = "Problème de connexion, veuillez rééssayer";
+	window.location.reload()
 }
 
 

@@ -24,7 +24,7 @@ function new_config (p_canvas)
 		time 					: 0,
 		old_time 				: 0,
 		delta_time 				: 1,
-		max_hp 					: 100,
+		max_hp 					: 1,
 		max_frag 				: 10,
 		
 		keys 					: {
@@ -65,7 +65,7 @@ function new_config (p_canvas)
 
 		server 						: {
 			max_frag : 10,
-			max_life : 100,
+			max_life : 1,
 			spwan_points : [
 				{x:0, y:0, z:0},
 				{x:3, y:0, z:7},

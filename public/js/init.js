@@ -11,6 +11,8 @@ addEventListener('load', init_home_page);
 */
 function init_home_page ()
 {
+	$("#textEror").empty();
+	$("#textEror").text(localStorage['EROR_INSANE_TOURNAMENT']);
 	// on lance juste le jeu dans un premier temps
 /*	init_game();*/
 }
@@ -36,7 +38,11 @@ function init_game ()
 
 	if (localStorage['id'])
 	{
-		config.id = localStorage['id'];
+		config.server.id = localStorage['id'];
+	}
+	else
+	{
+		config.server.id = null;
 	}
 
 	if (!BABYLON.Engine.isSupported())
@@ -120,6 +126,7 @@ function manage_server_events (p_config)
 	p_config.socket.on('newPlayer', function(e){new_player(p_config,e)});
 	p_config.socket.on('deleteGhost', function(e){delete_ghost(p_config,e)});
 	p_config.socket.on('kill', function(e){kill(p_config,e)});
+	p_config.socket.on('wrongID', function(e){casseToi(p_config)});
 	p_config.socket.on('updateLife', function(e){update_life(p_config,e)});
 	p_config.socket.on('showLaser', function(e){show_laser(p_config,e)});
 }

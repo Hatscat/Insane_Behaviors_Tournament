@@ -6,7 +6,7 @@ var listPlayers = {};
 var listSockets = {};
 var queue = [];
 var config = {};
-/*io.set('log level', 1);*/
+io.set('log level', 1);
 
 io.sockets.on('connection', function (socket, data) 
 {
@@ -20,6 +20,7 @@ io.sockets.on('connection', function (socket, data)
 
 		if(!data.id)
 		{
+			console.log("new")
 			var spwan = (Math.random()*(config.spwan_points.length-1)) | 0
 			socket.identif = socket.id;
 			listPlayers[socket.identif] = ({ x: config.spwan_points[spwan].x, y: config.spwan_points[spwan].y, z:config.spwan_points[spwan].z, life:config.max_life, frag:0, death:0, active:true});
@@ -28,16 +29,17 @@ io.sockets.on('connection', function (socket, data)
 
 		else if(listPlayers[data.id])
 		{
-			socket.identif = data;
+			console.log(data.id)
+			socket.identif = data.id;
 			listPlayers[socket.identif].active = true;
 			listSockets[socket.identif] = socket;
 		}
 		else
 		{
-			socket.broadcast.emit('deleteGhost', {id: socket.identif});
+			console.log("wrong")
+			socket.emit('wrongID');
 			socket.disconnect();
 		}
-
 		socket.emit('newPlayer', {player: listPlayers[socket.identif], id:socket.identif});
 	});
 
@@ -66,7 +68,7 @@ io.sockets.on('connection', function (socket, data)
 			listPlayers[data.id].x = data.x;
 			listPlayers[data.id].y = data.y;
 			listPlayers[data.id].y = data.z;
-			listPlayers[data.id].life = life;
+			listPlayers[data.id].life = config.max_life;
 		}
 		socket.emit('updateLife', {life: listPlayers[data.id].life})
 		socket.broadcast.emit('updateGhosts', {players: listPlayers});
@@ -86,7 +88,7 @@ io.sockets.on('connection', function (socket, data)
 				{
 					listPlayers[data.id].frag++;
 
-					if(listPlayers[data.id].frag > maxFrag)
+					if(listPlayers[data.id].frag > config.maxFrag)
 						io.sockets.emit('GameOver', listPlayers)
 
 					listPlayers[data.idJoueurTouche].death++;
@@ -113,7 +115,6 @@ io.sockets.on('connection', function (socket, data)
 			listPlayers[socket.identif].active = false;
 			delete listSockets[socket.identif];
 		}
-
 		socket.broadcast.emit('deleteGhost', {id: socket.identif});
 
 	});

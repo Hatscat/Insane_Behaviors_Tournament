@@ -184,8 +184,9 @@ Player.prototype.check_constraint = function ()
 };
 Player.prototype.respawn = function ()
 {
-	this.x = 10;
-	this.y = 10;
-	this.z = 10;
-	this._config.socket.emit('respawn', {id:this._id, x:this.x, y:this.y, z:this.z})
+	var spwan = (Math.random()*(this._config.spwan_points.length-1)) | 0
+	this.camera.position.x 		= this._config.spwan_points[spwan].x;
+	this.camera.position.y 		= this._config.spwan_points[spwan].y;
+	this.camera.position.z 		= this._config.spwan_points[spwan].z;
+	this._config.socket.emit('respawn', {id:this._id, x:this.camera.position.x, y:this.camera.position.y, z:this.camera.position.z})
 };
