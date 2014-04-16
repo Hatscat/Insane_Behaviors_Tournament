@@ -38,9 +38,9 @@ function createSkybox (p_config)
 
 function createMapMesh (p_config)
 {
-	var ground 	= BABYLON.Mesh.CreatePlane("ground", 100.0, scene);
+	var ground 	= BABYLON.Mesh.CreatePlane("ground", 100.0, p_config.scene);
 
-	ground.material = new BABYLON.StandardMaterial("groundMat", scene);
+	ground.material = new BABYLON.StandardMaterial("groundMat", p_config.scene);
 	ground.material.diffuseColor = new BABYLON.Color3(1,1,1);
 	ground.material.backFaceCulling = false;
 	ground.position = new BABYLON.Vector3(5, -10, -15);
@@ -52,8 +52,8 @@ function createMapMesh (p_config)
 
 function createGhostsMeshModel (p_config)
 {
-	var sphere 		= BABYLON.Mesh.CreateSphere("sphere", 10.0, 3.0, scene);
-	var sphere_mat 	= new BABYLON.StandardMaterial("sphere_mat", scene);
+	var sphere 		= BABYLON.Mesh.CreateSphere("sphere", 10.0, 3.0, p_config.scene);
+	var sphere_mat 	= new BABYLON.StandardMaterial("sphere_mat", p_config.scene);
 	
 	sphere_mat.diffuseColor = new BABYLON.Color3(1, 0.5, 0);
 	sphere_mat.specularColor = new BABYLON.Color3(0.1, 0.1, 0);
