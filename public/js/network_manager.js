@@ -30,8 +30,6 @@ function update_ghosts (p_config, p_data)
 			p_config.ghosts[p].death = p_data.players[p].death;
 			p_config.ghosts[p].frag = p_data.players[p].frag;
 			p_config.ghosts[p].mesh.material.alpha = p_data.players[p].alive ? 1:0.0;
-			if(!p_data.players[p].alive)
-				debugger;
 
 		}
 	}

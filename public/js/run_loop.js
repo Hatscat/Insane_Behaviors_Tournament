@@ -28,7 +28,7 @@ function run (p_config)
 			p_config.aieGUI = false;
 			//config.gui_context.drawImage(config.player.constraintImage, 500, 500);
 			p_config.gui_context.clearRect(0,0,window.innerWidth, window.innerHeight);
-			drawHUD(p_config)
+			drawHUD(p_config);
 			
 		}
 	}
@@ -40,9 +40,9 @@ function run (p_config)
 
 	p_config.player.check_constraint();
 
-	if (p_config.player.y < p_config.min_y)
+	if (p_config.player.camera.position.y < p_config.min_y)
 	{
-		p_config.player.respawn();
+		p_config.socket.emit('constaint_punishment', p_config.max_hp);
 	}
 
 	for (var i1 in p_config.lasers)

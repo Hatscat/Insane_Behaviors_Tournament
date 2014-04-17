@@ -20,9 +20,9 @@ function new_config (p_canvas)
 		ghosts 						: {},
 		lasers 						: [],
 		player 						: null,
-		player_speed_max 			: 0.6,
+		player_speed_max 			: 1.25,
 		camera_speed_max 			: 3000,
-		player_jump_max 			: 4,
+		player_jump_max 			: 3,
 		ghost_id 					: 'ghost',
 		gravity 					: 0.5,
 		time 						: 0,
@@ -30,7 +30,8 @@ function new_config (p_canvas)
 		delta_time 					: 1,
 		damage 						: 300,
 		max_hp 						: 1000,
-		laser_margin 				: 2,
+		min_y 						: -9,
+		laser_margin 				: 3,
 		laser_decreasing_speed		: 0.65,
 		backSoundUrl				: "/assets/AMBIANCEnewversion",
 		max_frag 					: 10,
@@ -64,9 +65,9 @@ function new_config (p_canvas)
 		main_light 					: {
 			name : "main_light",
 			x : 0,
-			y : -1,
+			y : -0.9,
 			z : 0,
-			intesity : 1,
+			intensity : 0.1,
 			r :1,
 			g: 1,
 			b: 1
@@ -103,7 +104,6 @@ function new_config (p_canvas)
 		max_life : config.max_hp,
 		spwan_points : config.spwan_points.slice()
 	},
-
 
 	p_canvas.width = config.canvas_width;
 	p_canvas.height = config.canvas_height;

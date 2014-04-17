@@ -143,7 +143,7 @@ io.sockets.on('connection', function (socket, data)
 
 	socket.on('constaint_punishment', function (data)
 	{
-		if(socket.room && rooms[socket.room].listPlayers[socket.identif])
+		if(socket.room && rooms[socket.room].listPlayers[socket.identif] && rooms[socket.room].listPlayers[socket.identif].alive)
 		{
 			rooms[socket.room].listPlayers[socket.identif].life -= data;
 

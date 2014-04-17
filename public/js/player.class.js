@@ -23,7 +23,7 @@ function Player (p_config)
 
 	this.camera.checkCollisions 	= true;
 	this.camera.applyGravity 		= true;
-	this.camera.ellipsoid 			= new BABYLON.Vector3(1, 1, 1);
+	this.camera.ellipsoid 			= new BABYLON.Vector3(0.5, 2.5, 0.5);
 
 	this.camera.speed 				= this._config.player_speed_max;
 	this.camera.angularSensibility 	= this._config.camera_speed_max;
