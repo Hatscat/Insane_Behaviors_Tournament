@@ -21,7 +21,7 @@ canvas {
 }
 
 @font-face {
-    font-family: 'Nova-Square';
+    font-family:'Nova-Square';
     src: url('font/NovaSquare.ttf');
 }
 
@@ -49,10 +49,8 @@ canvas {
 	border:7px solid #000000;
 	display:inline-block;
 	color:#000000;
-	font-family:'Nova-Square';
+	font-family:'Nova-Square', cursive;
 	font-size:25px;
-	font-weight:bold;
-	font-style:normal;
 	height:39px;
 	line-height:39px;
 	width:200px;
@@ -110,7 +108,7 @@ filter:progid:DXImageTransform.Microsoft.Shadow(color=#000000, Direction=180, St
 -moz-border-radius: 5px;
 -webkit-border-radius: 5px;
 border-radius: 5px;
-font-family: 'Nova-Square', cursive;
+font-family: 'Nova-Square';
 font-size:25px;
 
 }
