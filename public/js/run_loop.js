@@ -38,7 +38,7 @@ function run (p_config)
 	{
 		p_config.player.jump();
 	}
-	
+
 	p_config.player.check_constraint();
 
 	if (p_config.player.y < p_config.min_y)

@@ -9,6 +9,7 @@ function Ghost (p_config, p_data, id)
 	this.frag							= p_data.frag;
 	this.death							= p_data.death;
 	this.mesh 							= p_config.ghost_mesh_model.clone(this._id);
+	this.mesh.id 						= p_config.ghost_id;
 	this.mesh.position 					= new BABYLON.Vector3(p_data.position.x, p_data.position.y, p_data.position.z);
 	this.mesh.rotation 					= new BABYLON.Vector3(p_data.rotation.x, p_data.rotation.y, p_data.rotation.z);
 }
