@@ -106,13 +106,7 @@ function init_game ()
 			}
 		}, false);
 
-		config.gui_context.font = "20pt Nova-Square";
-		config.gui_context.fillStyle = "rgb(255,0,0)";
-		config.gui_context.clearRect(window.innerWidth-200, 10,500, 500);
-		config.gui_context.fillText("FRAGS :"  + (config.player.frag || 0), window.innerWidth-150, 50);
-		config.gui_context.fillStyle = '#f50';
-		config.gui_context.fillRect(window.innerWidth / 2 - 4, window.innerHeight / 2 - 4, 8, 8); // arg
-
+		drawHUD(config);
 		config.scene.registerBeforeRender(function(){run(config)});	
 	}
 }

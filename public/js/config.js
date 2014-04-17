@@ -36,6 +36,13 @@ function new_config (p_canvas)
 		max_frag 					: 10,
 		constraint_hp_punishment 	: 100,
 		time_between_constraints 	: 300,
+		fragX						: window.innerWidth-170,
+		fragY						: 50,
+		lifeX						: window.innerWidth/2-280,
+		lifeY						: 50,
+		cursorX						: window.innerWidth / 2 - 4,
+		cursorY						: window.innerHeight / 2 - 4,
+		lifeBackX					: window.innerWidth/2-200,
 		constraint_names 			: [
 			"dont_miss",
 			"always_move",
