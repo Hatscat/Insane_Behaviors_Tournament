@@ -35,11 +35,13 @@ function new_config (p_canvas)
 		backSoundUrl				: "/assets/AMBIANCEnewversion",
 		max_frag 					: 10,
 		constraint_hp_punishment 	: 100,
-		time_between_constraints 	: 300,
+		time_between_constraints 	: 500,
+		peace_time 					: 3000,
 		constraint_names 			: [
 			"dont_miss",
 			"always_move",
-			"dont_shoot_while_moving"
+			"dont_shoot_while_moving",
+			//"always_jump"
 		],
 		keys 						: {
 			up 		: 90, // Touche Z
