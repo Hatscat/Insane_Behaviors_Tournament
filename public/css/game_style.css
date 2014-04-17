@@ -122,13 +122,14 @@ font-size:25px;
 position:absolute;
 margin-left: auto;
 margin-right: auto;
-left: 0;
+left: 10px;
 right: 0;
-background-image:url('img/Lofo.png');
-width:454px;
-height:340px;
-
-
+top:100px;
+font-family: 'Nova-Square';
+font-size:65px;
+width:900px;
+height:100px;
+font-color:black;
 }
 
 #ButtonScreenIndex  {
@@ -169,20 +170,6 @@ margin-top: 200px;
 
 }
 
-.TitreLogin  {
-
-position:absolute;
-margin-left: auto;
-margin-right: auto;
-left: 0;
-right: 0;
-background-image:url('img/Lofo.png');
-width:454px;
-height:340px;
-display:none;
-
-
-}
 
 form  {
 

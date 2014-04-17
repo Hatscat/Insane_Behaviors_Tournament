@@ -31,6 +31,9 @@ $(".ButtonLogin").click(function () {
     init_game();
 
 });
+
+$('#TitreIndex').addClass('animated bounceIn');
+
 function show_leaderboard(p_config, delay)
 {
 	delay = delay || 300;
