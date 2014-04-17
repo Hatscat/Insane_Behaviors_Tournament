@@ -24,7 +24,9 @@ $(".ButtonBackLogin").click(function () {
 
 $(".ButtonLogin").click(function () {
 
-    localStorage['Username'] = document.getElementById("text-1").value;
+	if(document.getElementById("text-1").value != undefined)	
+    	localStorage['Username'] = document.getElementById("text-1").value;
+
     $("#menu").hide();
     init_game();
 
