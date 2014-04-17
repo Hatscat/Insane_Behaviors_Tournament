@@ -72,7 +72,7 @@ function createGhostsMeshModel (p_config)
 function createLaserMeshModel (p_config)
 {
 	// name, height, diameterTop, diameterBottom, tessellation (highly detailed or not), scene, updatable.
-	var laser 		= BABYLON.Mesh.CreateCylinder("laser", 1, 2, 2, 6, p_config.scene, false);
+	var laser 		= BABYLON.Mesh.CreateCylinder("laser", 1, 2, 2, 9, p_config.scene, false);
 	var laser_mat 	= new BABYLON.StandardMaterial("laser_mat", p_config.scene);
 	
 	laser.position = new BABYLON.Vector3(0, -1000, 0);
