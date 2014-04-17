@@ -9,7 +9,7 @@ function Player (p_config)
 	this.is_jumping 				= false;
 	this.velocity 					= 0;
 	this.accelation 				= p_config.gravity;
-	this.velocity_max 				= 4;
+	this.velocity_max 				= p_config.player_jump_max;
 	this.constraint 				= this._new_constraint();
 	this.constraintImage			= new Image();
 	this.constraintImage.src		= /*this._config.constraintImages[this.constraint.id]*/ '/assets/imageStock.png';
@@ -42,7 +42,7 @@ function Player (p_config)
 				that.on_ground = false;
 				that.is_jumping = true;
 
-				window.setTimeOut(function(){that.on_ground = true}, p_config.gravity * 1000);
+				window.setTimeout(function(){that.on_ground = true}, that.velocity_max * 100 / p_config.gravity);
 			}
 		}
 		
@@ -79,20 +79,20 @@ Player.prototype.init = function (p_data)
 
 Player.prototype._new_constraint = function ()
 {
-	var constraint = null;
+	var rand = Math.random() * this._config.constraint_names.length | 0;
 
-	return constraint;
+	return this._config.constraint_names[rand];
 };
 
 Player.prototype.jump = function ()
 {
-	if ((this.velocity += this.accelation) >= this.velocity_max)
+	if ((this.velocity += this.accelation * this._config.delta_time) >= this.velocity_max)
 	{
 		this.is_jumping = false;
 	}
 	else
 	{
-		this.camera.position.y += this.velocity;
+		this.camera.position.y += this.velocity * this._config.delta_time;
 	}
 }
 Player.prototype.shoot = function (that)
@@ -128,12 +128,14 @@ Player.prototype.check_constraint = function ()
 
 Player.prototype.respawn = function ()
 {
-	var spwan = (Math.random()*(this._config.spwan_points.length-1)) | 0;
+
+	var spwan = Math.random() * this._config.spwan_points.length | 0;
 	show_leaderboard(this._config, 300);
 	this.showLeader = true;
 
-	this.camera.position 		= this._config.spwan_points[spwan].position;
-	this.camera.rotation 		= this._config.spwan_points[spwan].rotation;
+	this.camera.position 		= new BABYLON.Vector3(this._config.spwan_points[spwan].position.x, this._config.spwan_points[spwan].position.y, this._config.spwan_points[spwan].position.z);
+	this.camera.rotation 		= new BABYLON.Vector3(this._config.spwan_points[spwan].rotation.x, this._config.spwan_points[spwan].rotation.y, this._config.spwan_points[spwan].rotation.z);
+
 	this._config.socket.emit('respawn',
 		{
 			id: this._id,
@@ -145,7 +147,15 @@ Player.prototype.respawn = function ()
 /*
 ** constraints
 */
-Player.prototype.constraint_ = function ()
+Player.prototype.constraint_dont_miss = function ()
+{
+
+}
+Player.prototype.constraint_always_move = function ()
+{
+
+}
+Player.prototype.constraint_dont_shoot_while_moving = function ()
 {
 
 }

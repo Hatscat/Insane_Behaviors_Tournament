@@ -22,6 +22,7 @@ function new_config (p_canvas)
 		player 					: null,
 		player_speed_max 		: 0.6,
 		camera_speed_max 		: 3000,
+		player_jump_max 		: 4,
 		gravity 				: 0.5,
 		time 					: 0,
 		old_time 				: 0,
@@ -32,7 +33,11 @@ function new_config (p_canvas)
 		laser_decreasing_speed	: 0.65,
 		backSoundUrl			: "/assets/AMBIANCEnewversion",
 		max_frag 				: 10,
-		
+		constraint_names 		: [
+			"dont_miss",
+			"always_move",
+			"dont_shoot_while_moving"
+		],
 		keys 					: {
 			up 		: 90, // Touche Z
 			down 	: 83, // Touche S
