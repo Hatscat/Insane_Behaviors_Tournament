@@ -14,8 +14,6 @@ function init_home_page ()
 	$("#textEror").empty();
 	$("#textEror").text(localStorage['EROR_INSANE_TOURNAMENT']);
 	localStorage.removeItem('EROR_INSANE_TOURNAMENT');
-	// on lance juste le jeu dans un premier temps
-/*	init_game();*/
 }
 function init_game ()
 {
@@ -25,8 +23,6 @@ function init_game ()
 	** load everything
 	** launch the run loop
 	*/
-
-	//screenfull.toggle(); //
 
 	var canvas = document.createElement('canvas');
 	var config = new_config(canvas);
@@ -66,8 +62,6 @@ function init_game ()
 
 function after_scene_is_loaded (p_config)
 {
-	//screenfull.toggle();
-
 	window.onresize = function ()
 	{
 		p_config.engine.resize();
@@ -79,35 +73,19 @@ function after_scene_is_loaded (p_config)
 	{
 		if (p_config.gui_canvas && p_config.player)
 		{
-			switch (p_config.player.state)
+			p_config.engine.isPointerLock = true;
+		
+			if (p_config.gui_canvas.requestPointerLock)
 			{
-				case 'playing':
+				p_config.gui_canvas.requestPointerLock();
+			}
 
-					p_config.engine.isPointerLock = true;
-				
-					if (p_config.gui_canvas.requestPointerLock)
-					{
-						p_config.gui_canvas.requestPointerLock();
-					}
-				break;
-				case 'waitTorespawn':
-
-					p_config.player.respawn();
-				break;
-				case 'waitTobegin':
-				
-					p_config.player.state = "playing";
-					p_config.player.ready_2_be_punish = true;
-					p_config.socket.emit('iWantToPlay', config.server);
-					p_config.engine.isPointerLock = true;
-
-					if (p_config.gui_canvas.requestPointerLock)
-					{
-						p_config.gui_canvas.requestPointerLock();
-					}
-				break;
+			if (p_config.player.state == 'waitTorespawn')
+			{
+				p_config.player.respawn();
 			}
 		}
+
 		if (!screenfull.isFullscreen)
 		{
 			screenfull.toggle();
@@ -135,7 +113,8 @@ function after_scene_is_loaded (p_config)
 		p_config.socket.on('connectionEstablished', function (e)
 		{
 			p_config.socket.emit('iWantToPlay', p_config.server);
-			p_config.player.state = "waitTobegin";
+			p_config.player.ready_2_be_punish = true;
+			p_config.player.state = 'playing';
 		});
 
 		manage_server_events(p_config);
@@ -146,7 +125,6 @@ function after_scene_is_loaded (p_config)
 		$('body').append("<div id='iconContrainte'></div>");
 		document.body.appendChild(p_config.canvas);
 		document.body.appendChild(p_config.gui_canvas);
-		
 
 		window.removeEventListener('click', setup);
 	}

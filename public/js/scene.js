@@ -43,7 +43,7 @@ function createScene (p_config, p_callback)
 
 				p_callback(p_config);
 				$("#loading").remove();
-				$('body').append('<h1 id="c2p">Click to play !</h1>');
+				$('body').append('<h1 id="c2p">The game is loaded, click to play !</h1>');
 
 			}, function (p_progress)
 			{
