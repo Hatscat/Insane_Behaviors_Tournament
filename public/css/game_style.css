@@ -7,8 +7,6 @@ body  {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	background-image:url('img/Back.jpg');
-	background-repeat: repeat;
 }
 
 canvas {
@@ -129,7 +127,7 @@ font-family: 'Nova-Square';
 font-size:65px;
 width:900px;
 height:100px;
-font-color:black;
+color:black;
 }
 
 #ButtonScreenIndex  {
