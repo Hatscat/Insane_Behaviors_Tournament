@@ -74,7 +74,7 @@ function update_life (p_config, p_data)
 function show_laser (p_config, p_data)
 {
 	console.log(p_data); // class Laser_ghost (p_config, p_pos, p_rot, p_distance)
-	p_config.lasers.push(new Laser(p_config, p_data.pos, p_data.rot, p_data.dist));
+	p_config.lasers.push(new Laser_ghost(p_config, p_data.pos, p_data.rot, p_data.dist));
 }
 
 function casseToi (p_config, p_data)

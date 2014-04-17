@@ -13,6 +13,7 @@ function init_home_page ()
 {
 	$("#textEror").empty();
 	$("#textEror").text(localStorage['EROR_INSANE_TOURNAMENT']);
+	localStorage.removeItem('EROR_INSANE_TOURNAMENT')
 	// on lance juste le jeu dans un premier temps
 /*	init_game();*/
 }

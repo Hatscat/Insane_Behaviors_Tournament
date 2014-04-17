@@ -6,14 +6,14 @@ var queue = [];
 var config = {};
 var cpt = 1;
 var rooms = {
-	room1 :{active: false, maxConnect: 10, numberCo: 0, listSockets: {}, listPlayers: {}},
+	room1 :{active: false, maxConnect: 3, numberCo: 0, listSockets: {}, listPlayers: {}},
 
 	};
-/*io.set('log level', 1);*/
+io.set('log level', 1);
 function createRoom()
 {
 	cpt++;
-	rooms['room' + cpt] = {active: false, maxConnect: 10, numberCo: 0, listPlayers: {}, listSockets: {}};
+	rooms['room' + cpt] = {active: false, maxConnect: 3, numberCo: 0, listPlayers: {}, listSockets: {}};
 };
 
 io.sockets.on('connection', function (socket, data) 
@@ -151,14 +151,10 @@ io.sockets.on('connection', function (socket, data)
 				}
 
 				rooms[socket.room].listSockets[data.idJoueurTouche].emit('updateLife', rooms[socket.room].listPlayers[data.idJoueurTouche]);
-				rooms[socket.room].listSockets[data.idJoueurTouche].emit('showLaser', {emitter: rooms[socket.room].listPlayers[data.id], receptor: rooms[socket.room].listPlayers[data.idJoueurTouche]});
-					
+				//rooms[socket.room].listSockets[data.idJoueurTouche].emit('showLaser', {emitter: rooms[socket.room].listPlayers[data.id], receptor: rooms[socket.room].listPlayers[data.idJoueurTouche]});		
 			}
-			else
-			{
-				socket.broadcast.to(socket.room).emit('showLaser', {emitter: rooms[socket.room].listPlayers[data.id], receptor: data.pickedPoint});
-			}
-			
+			console.log(data)
+			socket.broadcast.to(socket.room).emit('showLaser', {pos: data.laserPos, rot : data.laserRot, dist: data.distance});
 		}
 
 	});

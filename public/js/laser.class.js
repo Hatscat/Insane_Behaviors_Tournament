@@ -48,8 +48,8 @@ function Laser_ghost (p_config, p_pos, p_rot, p_distance)
 Laser_ghost.prototype.create = function (that)
 {
 	that.mesh = that._config.laser_mesh_model.clone('laser');
-	that.mesh.position = that.pos.clone();
-	that.mesh.rotation = that.rot.clone();
+	that.mesh.position = that.pos;
+	that.mesh.rotation = that.rot;
 	that.mesh.scaling.y *= that.length;
 };
 

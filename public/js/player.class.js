@@ -109,10 +109,11 @@ Player.prototype.shoot = function (that)
 			that._config.lasers.push(laser);
 			that._config.socket.emit('shootPlayer',
 			{
-				id: that._id, idJoueurTouche: pickResult.pickedMesh.name,
-				laserPos: laser.position,
-				laserRot: laser.rotation,
-				distance: pickResult.distance
+				id: that._id, 
+				idJoueurTouche: pickResult.pickedMesh.name,
+				laserPos: laser.mesh.position,
+				laserRot: laser.mesh.rotation,
+				distance: pickResult.distance,
 			});
 		}
 	}
