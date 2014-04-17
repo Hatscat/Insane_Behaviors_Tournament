@@ -89,7 +89,7 @@ function new_config (p_canvas)
 	config.server = {
 		max_frag : config.max_frag,
 		damage : config.damage,
-		max_life : config.max_life,
+		max_life : config.max_hp,
 		spwan_points : config.spwan_points.slice()
 	},
 

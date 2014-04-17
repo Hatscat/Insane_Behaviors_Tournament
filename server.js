@@ -6,14 +6,14 @@ var queue = [];
 var config = {};
 var cpt = 1;
 var rooms = {
-	room1 :{active: false, maxConnect: 3, numberCo: 0, listSockets: {}, listPlayers: {}},
+	room1 :{active: false, maxConnect: 10, numberCo: 0, listSockets: {}, listPlayers: {}},
 
 	};
 io.set('log level', 1);
 function createRoom()
 {
 	cpt++;
-	rooms['room' + cpt] = {active: false, maxConnect: 3, numberCo: 0, listPlayers: {}, listSockets: {}};
+	rooms['room' + cpt] = {active: false, maxConnect: 10, numberCo: 0, listPlayers: {}, listSockets: {}};
 };
 
 io.sockets.on('connection', function (socket, data) 
@@ -61,7 +61,6 @@ io.sockets.on('connection', function (socket, data)
 			{
 				var spwan = (Math.random()*(config.spwan_points.length-1)) | 0
 				socket.identif = socket.id;
-				console.log
 				rooms[socket.room].listPlayers[socket.identif] = ({name: data.name, position: config.spwan_points[spwan].position, rotation: config.spwan_points[spwan].rotation, life:config.max_life, frag:0, death:0, active:true});
 				rooms[socket.room].listSockets[socket.identif] = socket;
 				

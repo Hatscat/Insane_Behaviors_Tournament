@@ -72,7 +72,7 @@ Player.prototype.init = function (p_data)
 {
 	this._id 					= p_data.id;
 	localStorage['id'] 			= this._id;
-	localStorage['Username']	= this.name;
+	this.name 					= localStorage['Username'];
 	this.camera.position 		= new BABYLON.Vector3(p_data.player.position.x, p_data.player.position.y, p_data.player.position.z);
 	this.camera.rotation 		= new BABYLON.Vector3(p_data.player.rotation.x, p_data.player.rotation.y, p_data.player.rotation.z);
 	this.frag					= p_data.player.frag;
@@ -104,6 +104,9 @@ Player.prototype.jump = function ()
 }
 Player.prototype.shoot = function (that)
 {
+	if(this.showLeader)
+		hide_leaderboard(that._config, 300);
+
 	if (that._config && that._config.scene)
 	{
 		var pickResult = that._config.scene.pick(that._config.canvas.width / 2, that._config.canvas.height / 2, function(m){return !(m.name=='laser')});
@@ -136,12 +139,13 @@ Player.prototype.check_constraint = function ()
 		this.time_2_check_constraint = this._config.time + this.time_between_constraint_checks;
 		this._config.socket.emit('constaint_punishment', this._config.constraint_hp_punishment);
 	}
-
 };
 
 Player.prototype.respawn = function ()
 {
 	var spwan = Math.random() * this._config.spwan_points.length | 0;
+	show_leaderboard(this._config, 300);
+	this.showLeader = true;
 
 	this.camera.position 		= new BABYLON.Vector3(this._config.spwan_points[spwan].position.x, this._config.spwan_points[spwan].position.y, this._config.spwan_points[spwan].position.z);
 	this.camera.rotation 		= new BABYLON.Vector3(this._config.spwan_points[spwan].rotation.x, this._config.spwan_points[spwan].rotation.y, this._config.spwan_points[spwan].rotation.z);
