@@ -46,11 +46,12 @@ function new_config (p_canvas)
 		peace_time 					: 3000,
 
 		constraint_names 			: [
-			"dont_miss",
-			"always_move",
-			"dont_shoot_while_moving",
+			{name:"dont_miss",text:"Miss and you'll die !"},
+			{name:"always_move",text:"Run you fool !"},
+			{name:"dont_shoot_while_moving",text:"Shoot or move you must choose"},
 			//"always_jump"
 		],
+
 		keys 						: {
 			up 		: 90, // Touche Z
 			down 	: 83, // Touche S

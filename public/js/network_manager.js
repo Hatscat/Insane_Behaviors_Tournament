@@ -29,6 +29,9 @@ function update_ghosts (p_config, p_data)
 			p_config.ghosts[p].move(p_data.players[p]);
 			p_config.ghosts[p].death = p_data.players[p].death;
 			p_config.ghosts[p].frag = p_data.players[p].frag;
+			p_config.ghosts[p].mesh.material.alpha = p_data.players[p].alive ? 1:0.0;
+			if(!p_data.players[p].alive)
+				debugger;
 
 		}
 	}
@@ -63,7 +66,13 @@ function update_life (p_config, p_data)
 	if(p_data.life <= 0)
 	{
 		p_config.player.death = p_data.death;
-		p_config.player.respawn();
+		p_config.aieGUI = 1000;
+		drawHUD(p_config, "drawemptybar");
+		show_leaderboard(p_config);
+		fillText(p_config, "#00f", 'Click to respawn',  window.innerWidth/2-100, window.innerHeight-250)
+		p_config.player.state = "waitTorespawn";
+		p_config.player.ready_2_be_punish = false;
+		p_config.socket.emit('playerDied');
 	}
 }
 

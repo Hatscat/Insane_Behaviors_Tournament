@@ -212,6 +212,7 @@ font-family: 'Nova-Square';
 .popupContrainte  {
 
 position: absolute;
+display: none;
 	margin:auto;
 	left:0;
 	right:0;
@@ -244,8 +245,9 @@ text-align:center;
 .imageContrainte  {
 
 background-image:url('img/logo.png');
-width:100px;
-height:100px;
+background-repeat: no-repeat;
+width:200px;
+height:150px;
 position: absolute;
 	margin-left:auto;
 	margin-right:auto;
@@ -253,10 +255,21 @@ position: absolute;
 	right:0;
 	top:15px;
 }
+#iconContrainte {
+	opacity:0.8;
+	display: none;
+	background-repeat: no-repeat;
+	width:200px;
+	height:150px;
+	position: absolute;
+	left:170px;
+	top:15px;
 
-.TitreContrainte  {
+}
 
-margin-top:150px;
+.TexteContrainte  {
+
+margin-top:200px;
 
 
 

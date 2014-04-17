@@ -83,6 +83,10 @@ Player.prototype.init = function (p_data)
 	this._config.socket.emit('playerCreated');
 
 	this.preparation();
+	this._config.gui_context.clearRect(0,0,window.innerWidth, window.innerHeight);
+	drawHUD(this._config);
+	show_constrain(this._config);
+
 }
 
 Player.prototype._new_constraint = function ()
@@ -146,27 +150,32 @@ Player.prototype.check_constraint = function ()
 Player.prototype.respawn = function ()
 {
 	var spwan = Math.random() * this._config.spwan_points.length | 0;
-	show_leaderboard(this._config, 300);
-	this.showLeader = true;
+	this._config.aieGUI = false;
+	this._config.gui_context.clearRect(0,0,window.innerWidth, window.innerHeight);
+	drawHUD(this._config);
+	this.state = "playing";
+	show_leaderboard(this._config);
 
 	this.camera.position 		= new BABYLON.Vector3(this._config.spwan_points[spwan].position.x, this._config.spwan_points[spwan].position.y, this._config.spwan_points[spwan].position.z);
 	this.camera.rotation 		= new BABYLON.Vector3(this._config.spwan_points[spwan].rotation.x, this._config.spwan_points[spwan].rotation.y, this._config.spwan_points[spwan].rotation.z);
 
 	this._config.socket.emit('respawn',
-		{
-			id: this._id,
-			position: this.camera.position,
-			rotation: this.camera.rotation
-		});
+	{
+		id: this._id,
+		position: this.camera.position,
+		rotation: this.camera.rotation
+	});
 
 	this.preparation();
+	show_constrain(this._config);
 };
 
 Player.prototype.preparation = function ()
 {
 	var that = this;
 	that.ready_2_be_punish = false;
-	that.constraint = that._new_constraint();
+	that.constraintInfo = that._new_constraint();
+	that.constraint = that.constraintInfo.name;
 	window.setTimeout(function(){that.ready_2_be_punish = true}, that._config.peace_time);
 }
 

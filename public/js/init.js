@@ -79,7 +79,8 @@ function init_game ()
 
 		config.socket.on('connectionEstablished', function (e)
 		{
-			config.socket.emit('iWantToPlay', config.server);
+			fillText(config, "#00f", 'Click to spawn',  window.innerWidth/2-100, window.innerHeight-250)
+			config.player.state = "waitTobegin";
 		});
 
 		manage_server_events(config);
@@ -90,14 +91,34 @@ function init_game ()
 		window.lauchGame = true;
 		document.body.appendChild(canvas);
 		document.body.appendChild(config.gui_canvas);
+
 		$('body').append("<table id='leaderBoard'><tbody id='leaderBoardBody'></tbody></table>");
+		$('body').append("<div class='popupContrainte'><div class='imageContrainte'></div><p class='TexteContrainte'></p></div>");
+		$('body').append("<div id='iconContrainte'></div>");
 
 		window.addEventListener("click", function (event)
 		{
-			config.engine.isPointerLock = true;
+			if(config.player && config.player.state == "playing")
+			{
+				config.engine.isPointerLock = true;
 
-			if(config.gui_canvas.requestPointerLock)
-				config.gui_canvas.requestPointerLock();
+				if(config.gui_canvas.requestPointerLock)
+					config.gui_canvas.requestPointerLock();
+			}
+			else if(config.player && config.player.state == "waitTorespawn")
+			{
+				config.player.respawn();
+			}
+			else if(config.player && config.player.state == "waitTobegin")
+			{
+				config.player.state = "playing";
+				config.player.ready_2_be_punish = true;
+				config.socket.emit('iWantToPlay', config.server);
+				config.engine.isPointerLock = true;
+
+				if(config.gui_canvas.requestPointerLock)
+					config.gui_canvas.requestPointerLock();
+			}
 			
 		}, false);
 
@@ -140,4 +161,9 @@ function manage_server_events (p_config)
 	p_config.socket.on('wrongID', function(e){casseToi(p_config)});
 	p_config.socket.on('updateLife', function(e){update_life(p_config,e)});
 	p_config.socket.on('showLaser', function(e){show_laser(p_config,e)});
+	p_config.socket.on('disconnect', function(e){
+		localStorage["EROR_INSANE_TOURNAMENT"] = "Problème de connexion, veuillez rééssayer";
+		window.location.reload();
+	});
+		
 }
