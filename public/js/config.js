@@ -65,16 +65,16 @@ function new_config (p_canvas)
 
 		spwan_points			: [
 			{
-				position : new BABYLON.Vector3(0,0,0),
-				rotation : new BABYLON.Vector3(0,0,0),
+				position : {x:0, y:0, z:0},
+				rotation : {x:0, y:0, z:0},
 			},
 			{
-				position : new BABYLON.Vector3(0,0,0),
-				rotation : new BABYLON.Vector3(0,0,0),
+				position : {x:3, y:0, z:7},
+				rotation : {x:0, y:0, z:0},
 			},
 			{
-				position : new BABYLON.Vector3(0,0,0),
-				rotation : new BABYLON.Vector3(0,0,0),
+				position : {x:5, y:0, z:8},
+				rotation : {x:0, y:0, z:0},
 			}
 		]
 	};

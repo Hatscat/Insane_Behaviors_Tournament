@@ -41,6 +41,8 @@ function Player (p_config)
 				that.velocity = 0;
 				that.on_ground = false;
 				that.is_jumping = true;
+
+				window.setTimeOut(function(){that.on_ground = true}, p_config.gravity * 1000);
 			}
 		}
 		
@@ -66,8 +68,8 @@ Player.prototype.init = function (p_data)
 	this._id 					= p_data.id;
 	localStorage['id'] 			= this._id;
 	localStorage['Username']	= this.name;
-	this.camera.position 		= p_data.player.position;
-	this.camera.rotation 		= p_data.player.rotation;
+	this.camera.position 		= new BABYLON.Vector3(p_data.player.position.x, p_data.player.position.y, p_data.player.position.z);
+	this.camera.rotation 		= new BABYLON.Vector3(p_data.player.rotation.x, p_data.player.rotation.y, p_data.player.rotation.z);
 	this.frag					= p_data.player.frag;
 	this.death					= p_data.player.death;
 	this.hp_max 				= this._config.max_hp;
@@ -118,7 +120,7 @@ Player.prototype.shoot = function (that)
 };
 Player.prototype.check_constraint = function ()
 {
-	eval(this.constraint);
+	this["constraint_" + this.constraint]();
 };
 
 Player.prototype.respawn = function ()
@@ -131,10 +133,14 @@ Player.prototype.respawn = function ()
 		{
 			id: this._id,
 			position: this.camera.position,
-			rotation:this.camera.position
+			rotation: this.camera.rotation
 		});
 };
 
 /*
 ** constraints
 */
+Player.prototype.constraint_ = function ()
+{
+
+}

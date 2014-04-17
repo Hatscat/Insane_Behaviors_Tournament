@@ -9,8 +9,8 @@ function Ghost (p_config, p_data, id)
 	this.frag							= p_data.frag;
 	this.death							= p_data.death;
 	this.mesh 							= p_config.ghost_mesh_model.clone(this._id);
-	this.mesh.position 					= p_data.position;
-	this.mesh.rotation 					= p_data.rotation;
+	this.mesh.position 					= new BABYLON.Vector3(p_data.position.x, p_data.position.y, p_data.position.z);
+	this.mesh.rotation 					= new BABYLON.Vector3(p_data.rotation.x, p_data.rotation.y, p_data.rotation.z);
 }
 
 /*
@@ -39,9 +39,13 @@ Ghost.prototype.anim = function (p_ghost_new)
 
 Ghost.prototype.move = function (p_data)
 {
-	this.mesh.position.x 	= p_data.x;
-	this.mesh.position.y 	= p_data.y;
-	this.mesh.position.z 	= p_data.z;
+	this.mesh.position.x 	= p_data.position.x;
+	this.mesh.position.y 	= p_data.position.y;
+	this.mesh.position.z 	= p_data.position.z;
+
+	this.mesh.rotation.x 	= p_data.rotation.x;
+	this.mesh.rotation.y 	= p_data.rotation.y;
+	this.mesh.rotation.z 	= p_data.rotation.z;
 };
 
 Ghost.prototype.kill = function (p_data)
