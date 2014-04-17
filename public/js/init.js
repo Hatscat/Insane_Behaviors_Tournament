@@ -73,16 +73,40 @@ function after_scene_is_loaded (p_config)
 		p_config.engine.resize();
 	};
 
-
 	window.addEventListener('click', setup, false);
 
 	window.addEventListener('click', function ()
 	{
-		p_config.engine.isPointerLock = true;
-		
-		if (p_config.gui_canvas && p_config.gui_canvas.requestPointerLock)
+		if (p_config.gui_canvas && p_config.player)
 		{
-			p_config.gui_canvas.requestPointerLock();
+			switch (p_config.player.state)
+			{
+				case 'playing':
+
+					p_config.engine.isPointerLock = true;
+				
+					if (p_config.gui_canvas.requestPointerLock)
+					{
+						p_config.gui_canvas.requestPointerLock();
+					}
+				break;
+				case 'waitTorespawn':
+
+					p_config.player.respawn();
+				break;
+				case 'waitTobegin':
+				
+					p_config.player.state = "playing";
+					p_config.player.ready_2_be_punish = true;
+					p_config.socket.emit('iWantToPlay', config.server);
+					p_config.engine.isPointerLock = true;
+
+					if (p_config.gui_canvas.requestPointerLock)
+					{
+						p_config.gui_canvas.requestPointerLock();
+					}
+				break;
+			}
 		}
 		if (!screenfull.isFullscreen)
 		{
@@ -99,8 +123,6 @@ function after_scene_is_loaded (p_config)
 		}
 	}, false);
 
-	//window.dispatchEvent(window.onClick);
-
 	drawHUD(p_config);
 	p_config.scene.registerBeforeRender(function(){run(p_config)});
 
@@ -113,14 +135,18 @@ function after_scene_is_loaded (p_config)
 		p_config.socket.on('connectionEstablished', function (e)
 		{
 			p_config.socket.emit('iWantToPlay', p_config.server);
+			p_config.player.state = "waitTobegin";
 		});
 
 		manage_server_events(p_config);
 
 		window.lauchGame = true;
+		$('body').append("<table id='leaderBoard'><tbody id='leaderBoardBody'></tbody></table>");
+		$('body').append("<div class='popupContrainte'><div class='imageContrainte'></div><p class='TexteContrainte'></p></div>");
+		$('body').append("<div id='iconContrainte'></div>");
 		document.body.appendChild(p_config.canvas);
 		document.body.appendChild(p_config.gui_canvas);
-		$('body').append("<table id='leaderBoard'><tbody id='leaderBoardBody'></tbody></table>");
+		
 
 		window.removeEventListener('click', setup);
 	}
@@ -139,5 +165,10 @@ function manage_server_events (p_config)
 	p_config.socket.on('wrongID', function(e){casseToi(p_config)});
 	p_config.socket.on('updateLife', function(e){update_life(p_config,e)});
 	p_config.socket.on('showLaser', function(e){show_laser(p_config,e)});
+	p_config.socket.on('disconnect', function(e){
+		localStorage["EROR_INSANE_TOURNAMENT"] = "Problème de connexion, veuillez rééssayer";
+		window.location.reload();
+	});
+		
 }
 

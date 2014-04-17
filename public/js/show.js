@@ -47,7 +47,7 @@ function show_leaderboard(p_config, delay)
 
 	this.show = true;
 
-	var tabOrdo = [];
+	var tabOrdo = 	[];
 	var balises ="<tr><td>Joueur</td><td>Kill</td><td>Death</td></tr>";
 
 	for(var g in p_config.ghosts)
@@ -89,5 +89,25 @@ function hide_leaderboard(p_config, delay)
 	delay = delay || 300;
 	$("#leaderBoard").empty();
 	$("#leaderBoard").fadeOut();
+}
+
+function show_constrain(p_config)
+{
+	$(".imageContrainte").css("background-image", "url('assets/" + p_config.player.constraintInfo.name + "_img.png')");
+	$("#iconContrainte").css("background-image", "url('assets/" + p_config.player.constraintInfo.name + "_img.png')");
+	$(".TexteContrainte").text(p_config.player.constraintInfo.text);
+	$(".popupContrainte").fadeIn(300, function(){
+			hide_constrain(2000)
+			
+		});
+;
+}
+
+function hide_constrain(delay)
+{
+	$(".popupContrainte").fadeOut(delay, function(){
+		$(".TexteContrainte").empty();
+		
+	});
 }
 

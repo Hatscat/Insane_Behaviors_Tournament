@@ -61,7 +61,7 @@ io.sockets.on('connection', function (socket, data)
 			{
 				var spwan = (Math.random()*(config.spwan_points.length-1)) | 0
 				socket.identif = socket.id;
-				rooms[socket.room].listPlayers[socket.identif] = ({name: data.name, position: config.spwan_points[spwan].position, rotation: config.spwan_points[spwan].rotation, life:config.max_life, frag:0, death:0, active:true});
+				rooms[socket.room].listPlayers[socket.identif] = ({name: data.name, position: config.spwan_points[spwan].position, rotation: config.spwan_points[spwan].rotation, life:config.max_life, frag:0, death:0, active:true, alive:true});
 				rooms[socket.room].listSockets[socket.identif] = socket;
 				
 			}
@@ -114,10 +114,24 @@ io.sockets.on('connection', function (socket, data)
 
 	});
 
+	socket.on('playerDied', function (data)
+	{
+		if(socket.room)
+		{
+			if(rooms[socket.room].listPlayers[socket.identif])
+			{
+				rooms[socket.room].listPlayers[socket.identif].alive = false;
+			}
+		}
+		socket.broadcast.to(socket.room).emit('updateGhosts', {players: rooms[socket.room].listPlayers});	
+
+	});
+
 	socket.on('respawn', function (data)
 	{
 		if(rooms[socket.room].listPlayers[data.id])
 		{
+			rooms[socket.room].listPlayers[data.id].alive = true;
 			rooms[socket.room].listPlayers[data.id].position = data.position;
 			rooms[socket.room].listPlayers[data.id].rotation = data.rotation;
 			rooms[socket.room].listPlayers[data.id].life = config.max_life;
@@ -129,7 +143,7 @@ io.sockets.on('connection', function (socket, data)
 
 	socket.on('constaint_punishment', function (data)
 	{
-		if(socket.room && rooms[socket.room].listPlayers[socket.identif])
+		if(socket.room && rooms[socket.room].listPlayers[socket.identif] && rooms[socket.room].listPlayers[socket.identif].alive)
 		{
 			rooms[socket.room].listPlayers[socket.identif].life -= data;
 
@@ -150,7 +164,7 @@ io.sockets.on('connection', function (socket, data)
 	{
 		if(socket.room && rooms[socket.room].listPlayers[data.id])
 		{
-			if(rooms[socket.room].listPlayers[data.idJoueurTouche])
+			if(rooms[socket.room].listPlayers[data.idJoueurTouche] && rooms[socket.room].listPlayers[data.idJoueurTouche].alive)
 			{
 				rooms[socket.room].active = true;
 				rooms[socket.room].listPlayers[data.idJoueurTouche].life-= config.damage;
