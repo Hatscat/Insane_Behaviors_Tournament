@@ -13,7 +13,7 @@ function init_home_page ()
 {
 	$("#textEror").empty();
 	$("#textEror").text(localStorage['EROR_INSANE_TOURNAMENT']);
-	localStorage.removeItem('EROR_INSANE_TOURNAMENT')
+	localStorage.removeItem('EROR_INSANE_TOURNAMENT');
 	// on lance juste le jeu dans un premier temps
 /*	init_game();*/
 }
@@ -26,7 +26,7 @@ function init_game ()
 	** launch the run loop
 	*/
 
-	if (!localStorage['FullScreen'])	screenfull.toggle();
+	//screenfull.toggle(); //
 
 	var canvas = document.createElement('canvas');
 	var config = new_config(canvas);
@@ -47,7 +47,7 @@ function init_game ()
 	{
 		config.server.id = null;
 	}*/
-	if(localStorage['Username'])
+	if (localStorage['Username'])
 		config.server.name = localStorage['Username'];
 	else
 		config.server.name = null;
@@ -59,77 +59,63 @@ function init_game ()
 	else
 	{
 		config.engine = new BABYLON.Engine(canvas, true);
-		createScene(config);
-		
-		
-		config.engine.runRenderLoop(function ()
-		{
-			config.scene.render();
-		});
-
-		window.onresize = function ()
-		{
-
-			config.engine.resize();
-		};
-
-		manage_input_events(config.keys_down);
-		config.socket = io.connect();
-
-		config.socket.on('connectionEstablished', function (e)
-		{
-			config.socket.emit('iWantToPlay', config.server);
-		});
-
-		manage_server_events(config);
-	}	
-
-	if (config.player && window.lauchGame == false)
-	{
-		window.lauchGame = true;
-		document.body.appendChild(canvas);
-		document.body.appendChild(config.gui_canvas);
-		$('body').append("<table id='leaderBoard'><tbody id='leaderBoardBody'></tbody></table>");
-
-		window.addEventListener("click", function (event)
-		{
-			config.engine.isPointerLock = true;
-			config.gui_canvas.requestPointerLock();
-		}, false);
-
-		window.addEventListener('keydown', function (event)
-		{
-			if (event.keyCode == 27) // esc key
-			{
-				config.engine.isPointerLock = false;
-				show_leaderboard(config, 300);
-			}
-		}, false);
-
-		config.gui_context.font = "20pt Nova-Square";
-		config.gui_context.fillStyle = "rgb(255,0,0)";
-		config.gui_context.clearRect(window.innerWidth-200, 10,500, 500);
-		config.gui_context.fillText("FRAGS :"  + (config.player.frag || 0), window.innerWidth-150, 50);
-		config.gui_context.fillStyle = '#f50';
-		config.gui_context.fillRect(window.innerWidth / 2 - 4, window.innerHeight / 2 - 4, 8, 8); // arg
-
-		config.scene.registerBeforeRender(function(){run(config)});	
+		createScene(config, after_scene_is_loaded);
 	}
 }
 
-/*
-** set keyboard inputs into config
-*/
-
-function manage_input_events (p_keys_down)
+function after_scene_is_loaded (p_config)
 {
-	addEventListener('keydown', function (e) {
-		p_keys_down[e.keyCode] = true;
+	//screenfull.toggle();
+
+	window.onresize = function ()
+	{
+		p_config.engine.resize();
+	};
+
+	p_config.socket = io.connect();
+
+	p_config.socket.on('connectionEstablished', function (e)
+	{
+		p_config.socket.emit('iWantToPlay', p_config.server);
+	});
+
+	manage_server_events(p_config);
+
+	window.lauchGame = true;
+	document.body.appendChild(p_config.canvas);
+	document.body.appendChild(p_config.gui_canvas);
+	$('body').append("<table id='leaderBoard'><tbody id='leaderBoardBody'></tbody></table>");
+
+	window.addEventListener("click", function (event)
+	{
+		p_config.engine.isPointerLock = true;
+		p_config.gui_canvas.requestPointerLock();
+		
+		if (!screenfull.isFullscreen)
+		{
+			screenfull.toggle();
+		}
 	}, false);
-	addEventListener('keyup', function (e) {
-		p_keys_down[e.keyCode] = false;
+
+	window.addEventListener('keydown', function (event)
+	{
+		if (event.keyCode == 27) // esc key
+		{
+			p_config.engine.isPointerLock = false;
+			show_leaderboard(p_config, 300);
+		}
 	}, false);
+
+	p_config.gui_context.font = "20pt Nova-Square";
+	//p_config.gui_context.fillStyle = "rgb(255,0,0)";
+	p_config.gui_context.fillStyle = '#f50';
+	p_config.gui_context.clearRect(window.innerWidth-200, 10, 500, 500);
+	p_config.gui_context.fillText("FRAGS :"  + (p_config.player.frag || 0), window.innerWidth-150, 50);
+	p_config.gui_context.fillRect(window.innerWidth / 2 - 4, window.innerHeight / 2 - 4, 8, 8); // arg
+
+	p_config.scene.registerBeforeRender(function(){run(p_config)});
 }
+
 /*
 ** reroute server events
 */

@@ -1,27 +1,54 @@
-function createScene (p_config)
+function createScene (p_config, p_callback)
 {
 	if (!p_config.scene)
 	{
+		BABYLON.SceneLoader.Load('./assets/scene/', 'scene.babylon', p_config.engine, function (p_new_scene)
+		{
+			p_new_scene.executeWhenReady(function ()
+			{
+				p_new_scene.cameras = [];
+				delete(p_new_scene.activeCamera);
 
-		p_config.scene = new BABYLON.Scene(p_config.engine);
+				for (var i1 in p_new_scene.meshes)
+				{
+					p_new_scene.meshes[i1].checkCollisions = true;
+					p_new_scene.meshes[i1].scaling.x *= 5;
+					p_new_scene.meshes[i1].scaling.y *= 5;
+					p_new_scene.meshes[i1].scaling.z *= 5;
+					//p_new_scene.meshes[i1].position.y += 10; 
+				}
+				
+				console.log(p_new_scene);
 
-		p_config.main_light.light = new BABYLON.DirectionalLight(p_config.main_light.name, new BABYLON.Vector3(p_config.main_light.x, p_config.main_light.y, p_config.main_light.z), p_config.scene);
-		p_config.main_light.light.intesity = p_config.main_light.intesity;
-		p_config.main_light.light.diffuse = new BABYLON.Color3(p_config.main_light.r, p_config.main_light.g, p_config.main_light.b);
-		p_config.main_light.light.specular = new BABYLON.Color3(1, 1, 1);
+				p_config.scene = p_new_scene;
+				p_config.main_light.light = new BABYLON.DirectionalLight(p_config.main_light.name, new BABYLON.Vector3(p_config.main_light.x, p_config.main_light.y, p_config.main_light.z), p_config.scene);
+				p_config.main_light.light.intensity = p_config.main_light.intensity;
+				p_config.main_light.light.diffuse = new BABYLON.Color3(p_config.main_light.r, p_config.main_light.g, p_config.main_light.b);
+				p_config.main_light.light.specular = new BABYLON.Color3(1, 1, 1);
 
-		var skybox = createSkybox(p_config);
-		//import meshses
-		//lenflare
-		p_config.player = new Player(p_config);
+				var skybox = createSkybox(p_config);
+				p_config.player = new Player(p_config);
 
-		p_config.map_mesh = createMapMesh(p_config);
-		p_config.ghost_mesh_model = createGhostsMeshModel(p_config);
-		p_config.laser_mesh_model = createLaserMeshModel(p_config);
+				//p_config.map_mesh = createMapMesh(p_config);
+				p_config.ghost_mesh_model = createGhostsMeshModel(p_config);
+				p_config.laser_mesh_model = createLaserMeshModel(p_config);
 
-		p_config.scene.gravity = new BABYLON.Vector3(0, -p_config.gravity, 0);
-		p_config.scene.collisionsEnabled = true;
+				p_config.scene.gravity = new BABYLON.Vector3(0, -p_config.gravity, 0);
+				p_config.scene.collisionsEnabled = true;
+							
+				p_config.engine.runRenderLoop(function ()
+				{
+					p_config.scene.render();
+				});
 
+				p_callback(p_config);
+
+			}, function (p_progress)
+			{
+				// To do: give progress feedback to user
+				console.log("p_progress", p_progress);
+			});
+		});
 	}
 }
 

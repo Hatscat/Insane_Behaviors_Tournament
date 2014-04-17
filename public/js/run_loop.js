@@ -21,9 +21,9 @@ function run (p_config)
 	if (p_config.aieGUI)
 	{
 /*		config.gui_context.drawImage(config.player.constraintImage, 500, 500);*/
-		config.gui_context.clearRect(0,0,window.innerWidth, window.innerHeight);
+		config.gui_context.clearRect(0, 0, window.innerWidth, window.innerHeight);
 		config.gui_context.fillStyle = "rgba(255, 0, 0," + p_config.aieGUI + ")";
-		config.gui_context.fillRect(0,0,window.innerWidth, window.innerHeight);
+		config.gui_context.fillRect(0, 0, window.innerWidth, window.innerHeight);
 		config.gui_context.fillStyle = '#f50';
 		config.gui_context.fillRect(window.innerWidth / 2 - 4, window.innerHeight / 2 - 4, 8, 8); // arg
 		p_config.aieGUI -= 0.01;
@@ -41,9 +41,9 @@ function run (p_config)
 
 	p_config.player.check_constraint();
 
-	if (p_config.player.y < p_config.min_y)
+	if (p_config.player.camera.position.y < p_config.min_y)
 	{
-		p_config.player.respawn();
+		p_config.socket.emit('constaint_punishment', p_config.max_hp);
 	}
 
 	for (var i1 in p_config.lasers)
