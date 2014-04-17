@@ -20,9 +20,13 @@ canvas {
 	position:  absolute;
 }
 
-@font-face {
-    font-family:'Nova-Square';
-    src: url('font/NovaSquare.ttf');
+@font-face{ 
+	font-family: 'Nova-Square';
+	src: url('novasquare-webfont.eot');
+	src: url('novasquare-webfont.eot?#iefix') format('embedded-opentype'),
+	     url('novasquare-webfont.woff') format('woff'),
+	     url('novasquare-webfont.ttf') format('truetype'),
+	     url('novasquare-webfont.svg#webfont') format('svg');
 }
 
 .classname {
