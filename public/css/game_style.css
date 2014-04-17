@@ -22,11 +22,11 @@ canvas {
 
 @font-face{ 
 	font-family: 'Nova-Square';
-	src: url('novasquare-webfont.eot');
-	src: url('novasquare-webfont.eot?#iefix') format('embedded-opentype'),
-	     url('novasquare-webfont.woff') format('woff'),
-	     url('novasquare-webfont.ttf') format('truetype'),
-	     url('novasquare-webfont.svg#webfont') format('svg');
+	src: url('font/novasquare-webfont.eot');
+	src: url('font/novasquare-webfont.eot?#iefix') format('embedded-opentype'),
+	     url('font/novasquare-webfont.woff') format('woff'),
+	     url('font/novasquare-webfont.ttf') format('truetype'),
+	     url('font/novasquare-webfont.svg#webfont') format('svg');
 }
 
 .classname {
