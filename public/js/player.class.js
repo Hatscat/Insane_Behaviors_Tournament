@@ -66,9 +66,8 @@ Player.prototype.init = function (p_data)
 	this._id 					= p_data.id;
 	localStorage['id'] 			= this._id;
 	localStorage['Username']	= this.name;
-	this.camera.position.x 		= p_data.player.x;
-	this.camera.position.y 		= p_data.player.y;
-	this.camera.position.z 		= p_data.player.z;
+	this.camera.position 		= p_data.player.position;
+	this.camera.rotation 		= p_data.player.rotation;
 	this.frag					= p_data.player.frag;
 	this.death					= p_data.player.death;
 	this.hp_max 				= this._config.max_hp;
@@ -121,12 +120,21 @@ Player.prototype.check_constraint = function ()
 {
 	eval(this.constraint);
 };
+
 Player.prototype.respawn = function ()
 {
 	var spwan = (Math.random()*(this._config.spwan_points.length-1)) | 0;
 
-	this.camera.position.x 		= this._config.spwan_points[spwan].x;
-	this.camera.position.y 		= this._config.spwan_points[spwan].y;
-	this.camera.position.z 		= this._config.spwan_points[spwan].z;
-	this._config.socket.emit('respawn', {id:this._id, x:this.camera.position.x, y:this.camera.position.y, z:this.camera.position.z})
+	this.camera.position 		= this._config.spwan_points[spwan].position;
+	this.camera.rotation 		= this._config.spwan_points[spwan].rotation;
+	this._config.socket.emit('respawn',
+		{
+			id: this._id,
+			position: this.camera.position,
+			rotation:this.camera.position
+		});
 };
+
+/*
+** constraints
+*/

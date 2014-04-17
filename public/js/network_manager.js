@@ -6,18 +6,6 @@ function new_player (p_config, p_data)
 	/*on va créer le player il faut qu'il ai un ID en deuxième paramètre*/
 	window.config = p_config
 	p_config.player.init(p_data);
-
-	//p_config.player.config = p_config;
-/*	p_config.player.respawn = function ()
-	{
-		this.x = 10;
-		this.y = 10;
-		this.z = 10;
-		this.config.socket.emit('respawn', {id:this.id, x:this.x, y:this.y, z:this.z})
-	}*/
-	
-
-
 }
 
 function delete_ghost (p_config, p_data)

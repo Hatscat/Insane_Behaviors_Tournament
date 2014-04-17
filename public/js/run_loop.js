@@ -14,7 +14,8 @@ function run (p_config)
 		{
 			position: p_config.camera.position,
 			rotation: p_config.camera.rotation,
-			id:p_config.player._id});
+			id: p_config.player._id
+		});
 	}
 
 	if (p_config.aieGUI)
