@@ -211,6 +211,7 @@ font-family: 'Nova-Square';
 
 .popupContrainte  {
 
+display: none;
 position: absolute;
 	margin:auto;
 	left:0;

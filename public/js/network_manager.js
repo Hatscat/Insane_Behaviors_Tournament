@@ -37,8 +37,8 @@ function update_ghosts (p_config, p_data)
 function kill (p_config, p_data)
 {
 	p_config.player.frag++;
-	config.gui_context.fillStyle = "rgb(255,0,0)";
-	config.gui_context.clearRect(window.innerWidth-200, 10,500, 500);
+	config.gui_context.fillStyle = "#f00";
+	config.gui_context.clearRect(window.innerWidth-200, 10, 500, 500);
 	config.gui_context.fillText("FRAGS : "  + (config.player.frag || 0), window.innerWidth-160, 50);
 }
 
@@ -53,7 +53,7 @@ function update_life (p_config, p_data)
 	{
 		p_config.aieGUI = 0.2;
 		p_config.gui_context.clearRect(0,0,window.innerWidth, window.innerHeight);
-		p_config.gui_context.fillStyle = "rgba(255, 0, 0, 0.4)";
+		p_config.gui_context.fillStyle = "rgba(255, 0, 0, 0.6)";
 		p_config.gui_context.fillRect(0,0,window.innerWidth, window.innerHeight);
 		drawHUD(p_config);
 	}

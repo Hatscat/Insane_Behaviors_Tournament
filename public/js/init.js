@@ -73,27 +73,16 @@ function after_scene_is_loaded (p_config)
 		p_config.engine.resize();
 	};
 
-	p_config.socket = io.connect();
 
-	p_config.socket.on('connectionEstablished', function (e)
-	{
-		p_config.socket.emit('iWantToPlay', p_config.server);
-	});
+	window.addEventListener('click', setup, false);
 
-	manage_server_events(p_config);
-
-	window.lauchGame = true;
-	document.body.appendChild(p_config.canvas);
-	document.body.appendChild(p_config.gui_canvas);
-	$('body').append("<table id='leaderBoard'><tbody id='leaderBoardBody'></tbody></table>");
-
-	window.addEventListener("click", function (event)
+	window.addEventListener('click', function ()
 	{
 		p_config.engine.isPointerLock = true;
-
-		if (config.gui_canvas.requestPointerLock)
+		
+		if (p_config.gui_canvas && p_config.gui_canvas.requestPointerLock)
 		{
-			config.gui_canvas.requestPointerLock();
+			p_config.gui_canvas.requestPointerLock();
 		}
 		if (!screenfull.isFullscreen)
 		{
@@ -110,8 +99,32 @@ function after_scene_is_loaded (p_config)
 		}
 	}, false);
 
-	drawHUD(config);
+	//window.dispatchEvent(window.onClick);
+
+	drawHUD(p_config);
 	p_config.scene.registerBeforeRender(function(){run(p_config)});
+
+
+	function setup ()
+	{
+		$("#c2p").remove();
+		p_config.socket = io.connect();
+
+		p_config.socket.on('connectionEstablished', function (e)
+		{
+			p_config.socket.emit('iWantToPlay', p_config.server);
+		});
+
+		manage_server_events(p_config);
+
+		window.lauchGame = true;
+		document.body.appendChild(p_config.canvas);
+		document.body.appendChild(p_config.gui_canvas);
+		$('body').append("<table id='leaderBoard'><tbody id='leaderBoardBody'></tbody></table>");
+
+		window.removeEventListener('click', setup);
+	}
+
 }
 
 /*
@@ -127,3 +140,4 @@ function manage_server_events (p_config)
 	p_config.socket.on('updateLife', function(e){update_life(p_config,e)});
 	p_config.socket.on('showLaser', function(e){show_laser(p_config,e)});
 }
+
