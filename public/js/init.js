@@ -39,6 +39,7 @@ function init_game ()
 										|| config.gui_canvas.mozRequestPointerLock
 										|| config.gui_canvas.webkitRequestPointerLock;
 
+
 /*	if (localStorage['id'])
 	{
 		config.server.id = localStorage['id'];
@@ -94,7 +95,10 @@ function init_game ()
 		window.addEventListener("click", function (event)
 		{
 			config.engine.isPointerLock = true;
-			config.gui_canvas.requestPointerLock();
+
+			if(config.gui_canvas.requestPointerLock)
+				config.gui_canvas.requestPointerLock();
+			
 		}, false);
 
 		window.addEventListener('keydown', function (event)
