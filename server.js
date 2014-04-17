@@ -134,7 +134,10 @@ io.sockets.on('connection', function (socket, data)
 			rooms[socket.room].listPlayers[socket.identif].life -= data;
 
 			if(rooms[socket.room].listPlayers[socket.identif].life <= 0)
+			{
 				rooms[socket.room].listPlayers[socket.identif].frag--;
+				rooms[socket.room].listPlayers[socket.identif].death++;
+			}
 
 			socket.emit('updateLife', rooms[socket.room].listPlayers[socket.identif])
 			socket.broadcast.to(socket.room).emit('updateGhosts', {players: rooms[socket.room].listPlayers});
