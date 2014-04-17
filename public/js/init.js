@@ -39,6 +39,7 @@ function init_game ()
 										|| config.gui_canvas.mozRequestPointerLock
 										|| config.gui_canvas.webkitRequestPointerLock;
 
+
 /*	if (localStorage['id'])
 	{
 		config.server.id = localStorage['id'];
@@ -89,8 +90,11 @@ function after_scene_is_loaded (p_config)
 	window.addEventListener("click", function (event)
 	{
 		p_config.engine.isPointerLock = true;
-		p_config.gui_canvas.requestPointerLock();
-		
+
+		if (config.gui_canvas.requestPointerLock)
+		{
+			config.gui_canvas.requestPointerLock();
+		}
 		if (!screenfull.isFullscreen)
 		{
 			screenfull.toggle();
@@ -106,13 +110,7 @@ function after_scene_is_loaded (p_config)
 		}
 	}, false);
 
-	p_config.gui_context.font = "20pt Nova-Square";
-	//p_config.gui_context.fillStyle = "rgb(255,0,0)";
-	p_config.gui_context.fillStyle = '#f50';
-	p_config.gui_context.clearRect(window.innerWidth-200, 10, 500, 500);
-	p_config.gui_context.fillText("FRAGS :"  + (p_config.player.frag || 0), window.innerWidth-150, 50);
-	p_config.gui_context.fillRect(window.innerWidth / 2 - 4, window.innerHeight / 2 - 4, 8, 8); // arg
-
+	drawHUD(config);
 	p_config.scene.registerBeforeRender(function(){run(p_config)});
 }
 

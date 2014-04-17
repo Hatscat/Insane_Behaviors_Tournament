@@ -20,17 +20,16 @@ function run (p_config)
 
 	if (p_config.aieGUI)
 	{
-/*		config.gui_context.drawImage(config.player.constraintImage, 500, 500);*/
-		config.gui_context.clearRect(0, 0, window.innerWidth, window.innerHeight);
-		config.gui_context.fillStyle = "rgba(255, 0, 0," + p_config.aieGUI + ")";
-		config.gui_context.fillRect(0, 0, window.innerWidth, window.innerHeight);
-		config.gui_context.fillStyle = '#f50';
-		config.gui_context.fillRect(window.innerWidth / 2 - 4, window.innerHeight / 2 - 4, 8, 8); // arg
-		p_config.aieGUI -= 0.01;
+
+		p_config.aieGUI -= 0.02;
 
 		if (p_config.aieGUI <= 0)
 		{
 			p_config.aieGUI = false;
+			//config.gui_context.drawImage(config.player.constraintImage, 500, 500);
+			p_config.gui_context.clearRect(0,0,window.innerWidth, window.innerHeight);
+			drawHUD(p_config);
+			
 		}
 	}
 

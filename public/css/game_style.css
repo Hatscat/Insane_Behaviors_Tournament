@@ -7,8 +7,6 @@ body  {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	background-image:url('img/Back.jpg');
-	background-repeat: repeat;
 }
 
 canvas {
@@ -129,7 +127,7 @@ font-family: 'Nova-Square';
 font-size:65px;
 width:900px;
 height:100px;
-font-color:black;
+color:black;
 }
 
 #ButtonScreenIndex  {
@@ -211,4 +209,55 @@ font-family: 'Nova-Square';
 
 }
 
+.popupContrainte  {
 
+position: absolute;
+	margin:auto;
+	left:0;
+	right:0;
+	bottom:0;
+	top:0;
+	width: 600px;
+	height:300px;
+	border:5px solid #323232;
+	background-color: #a9a9a9;
+	opacity:0.6;
+-moz-box-shadow: 0px 10px 25px 3px #000000;
+-webkit-box-shadow: 0px 10px 25px 3px #000000;
+-o-box-shadow: 0px 10px 25px 3px #000000;
+box-shadow: 0px 10px 25px 3px #000000;
+filter:progid:DXImageTransform.Microsoft.Shadow(color=#000000, Direction=180, Strength=25);
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+font-family: 'Nova-Square';
+font-size:25px;
+
+}
+
+p  {
+
+text-align:center;
+
+}
+
+.imageContrainte  {
+
+background-image:url('img/logo.png');
+width:100px;
+height:100px;
+position: absolute;
+	margin-left:auto;
+	margin-right:auto;
+	left:0;
+	right:0;
+	top:15px;
+}
+
+.TitreContrainte  {
+
+margin-top:150px;
+
+
+
+}
