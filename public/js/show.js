@@ -54,7 +54,7 @@ function show_leaderboard(p_config)
 		}
 		if(match == false)
 		{
-			var phrase = "<tr id='player'><td>" + p_config.player._id + "</td><td>"+p_config.player.frag+"</td><td>"+p_config.player.death+"</td></tr>"
+			var phrase = "<tr id='player' style='color: #FF0000;'><td>" + p_config.player._id + "</td><td>"+p_config.player.frag+"</td><td>"+p_config.player.death+"</td></tr>"
 			balises += phrase
 						
 		}
