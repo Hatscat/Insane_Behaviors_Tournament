@@ -29,8 +29,19 @@ $(".ButtonLogin").click(function () {
     init_game();
 
 });
-function show_leaderboard(p_config)
+function show_leaderboard(p_config, delay)
 {
+	delay = delay || 300;
+
+	if(this.show)
+	{
+		this.show = false;
+		hide_leaderboard(p_config, delay);
+		return;
+	}
+
+	this.show = true;
+
 	var tabOrdo = [];
 	var balises ="<tr><td>Joueur</td><td>Kill</td><td>Death</td></tr>";
 
@@ -38,6 +49,7 @@ function show_leaderboard(p_config)
 	{
 		tabOrdo.push(p_config.ghosts[g].frag);
 		p_config.ghosts[g].select = false;
+
 	}
 	tabOrdo.push(p_config.player.frag);
 	tabOrdo.sort(function(a,b){return b-a});
@@ -52,6 +64,7 @@ function show_leaderboard(p_config)
 				p_config.ghosts[g].select = true
 				var phrase = ("<tr><td>" + p_config.ghosts[g].name + "</td><td>"+p_config.ghosts[g].frag+"</td> <td>"+p_config.ghosts[g].death+"</td></tr>")
 				balises += 	phrase;
+				break;
 			}
 		}
 		if(match == false)
@@ -63,12 +76,13 @@ function show_leaderboard(p_config)
 	}
 
 	$("#leaderBoard").append(balises);
-	$("#leaderBoard").show();
+	$("#leaderBoard").fadeIn(delay);
 	
 }
-function hide_leaderboard(p_config)
+function hide_leaderboard(p_config, delay)
 {
+	delay = delay || 300;
 	$("#leaderBoard").empty();
-	$("#leaderBoard").hide();
+	$("#leaderBoard").fadeOut();
 }
 

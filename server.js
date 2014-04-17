@@ -6,14 +6,14 @@ var queue = [];
 var config = {};
 var cpt = 1;
 var rooms = {
-	room1 :{active: false, maxConnect: 3, numberCo: 0, listSockets: {}, listPlayers: {}},
+	room1 :{active: false, maxConnect: 10, numberCo: 0, listSockets: {}, listPlayers: {}},
 
 	};
 io.set('log level', 1);
 function createRoom()
 {
 	cpt++;
-	rooms['room' + cpt] = {active: false, maxConnect: 3, numberCo: 0, listPlayers: {}, listSockets: {}};
+	rooms['room' + cpt] = {active: false, maxConnect: 10, numberCo: 0, listPlayers: {}, listSockets: {}};
 };
 
 io.sockets.on('connection', function (socket, data) 

@@ -67,7 +67,7 @@ Player.prototype.init = function (p_data)
 {
 	this._id 					= p_data.id;
 	localStorage['id'] 			= this._id;
-	localStorage['Username']	= this.name;
+	this.name 					= localStorage['Username'];
 	this.camera.position 		= new BABYLON.Vector3(p_data.player.position.x, p_data.player.position.y, p_data.player.position.z);
 	this.camera.rotation 		= new BABYLON.Vector3(p_data.player.rotation.x, p_data.player.rotation.y, p_data.player.rotation.z);
 	this.frag					= p_data.player.frag;

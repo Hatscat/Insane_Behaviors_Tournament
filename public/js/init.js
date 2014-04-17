@@ -47,6 +47,10 @@ function init_game ()
 	{
 		config.server.id = null;
 	}*/
+	if(localStorage['Username'])
+		config.server.name = localStorage['Username'];
+	else
+		config.server.name = null;
 
 	if (!BABYLON.Engine.isSupported())
 	{
@@ -97,7 +101,7 @@ function init_game ()
 			if (event.keyCode == 27) // esc key
 			{
 				config.engine.isPointerLock = false;
-				config.gui_canvas.exitPointerLock();
+				show_leaderboard(config, 300);
 			}
 		}, false);
 
