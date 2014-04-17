@@ -37,6 +37,7 @@ function show_leaderboard(p_config)
 	for(var g in p_config.ghosts)
 	{
 		tabOrdo.push(p_config.ghosts[g].frag);
+		p_config.ghosts[g].select = false;
 	}
 	tabOrdo.push(p_config.player.frag);
 	tabOrdo.sort(function(a,b){return b-a});
@@ -45,9 +46,10 @@ function show_leaderboard(p_config)
 		var match = false;
 		for(var g in p_config.ghosts)
 		{
-			if(p_config.ghosts[g].frag === tabOrdo[i])
+			if(p_config.ghosts[g].frag === tabOrdo[i] && !p_config.ghosts[g].select)
 			{
 				match = true;
+				p_config.ghosts[g].select = true
 				var phrase = ("<tr><td>" + p_config.ghosts[g]._id + "</td><td>"+p_config.ghosts[g].frag+"</td> <td>"+p_config.ghosts[g].death+"</td></tr>")
 				balises += 	phrase;
 			}

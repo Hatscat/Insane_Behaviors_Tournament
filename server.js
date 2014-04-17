@@ -132,7 +132,7 @@ io.sockets.on('connection', function (socket, data)
 
 	socket.on('shootPlayer', function (data)
 	{
-		if(rooms[socket.room].listPlayers[data.id])
+		if(socket.room && rooms[socket.room].listPlayers[data.id])
 		{
 			if(rooms[socket.room].listPlayers[data.idJoueurTouche])
 			{
