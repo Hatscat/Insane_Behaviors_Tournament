@@ -50,13 +50,13 @@ function show_leaderboard(p_config)
 			{
 				match = true;
 				p_config.ghosts[g].select = true
-				var phrase = ("<tr><td>" + p_config.ghosts[g]._id + "</td><td>"+p_config.ghosts[g].frag+"</td> <td>"+p_config.ghosts[g].death+"</td></tr>")
+				var phrase = ("<tr><td>" + p_config.ghosts[g].name + "</td><td>"+p_config.ghosts[g].frag+"</td> <td>"+p_config.ghosts[g].death+"</td></tr>")
 				balises += 	phrase;
 			}
 		}
 		if(match == false)
 		{
-			var phrase = "<tr id='player' style='color: #FF0000;'><td>" + p_config.player._id + "</td><td>"+p_config.player.frag+"</td><td>"+p_config.player.death+"</td></tr>"
+			var phrase = "<tr id='player' style='color: #FF0000;'><td>" + p_config.player.name + "</td><td>"+p_config.player.frag+"</td><td>"+p_config.player.death+"</td></tr>"
 			balises += phrase
 						
 		}

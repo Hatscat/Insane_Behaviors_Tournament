@@ -26,6 +26,7 @@ io.sockets.on('connection', function (socket, data)
 		config.max_frag = data.max_frag;
 		config.max_life = data.max_life;
 		config.spwan_points = data.spwan_points;
+		config.damage = data.damage;
 
 		if(!data.id)
 		{
@@ -62,7 +63,7 @@ io.sockets.on('connection', function (socket, data)
 				console.log("caaaaa");
 				var spwan = (Math.random()*(config.spwan_points.length-1)) | 0
 				socket.identif = socket.id;
-				rooms[socket.room].listPlayers[socket.identif] = ({ x: config.spwan_points[spwan].x, y: config.spwan_points[spwan].y, z:config.spwan_points[spwan].z, life:config.max_life, frag:0, death:0, active:true});
+				rooms[socket.room].listPlayers[socket.identif] = ({name: data.name, x: config.spwan_points[spwan].x, y: config.spwan_points[spwan].y, z:config.spwan_points[spwan].z, life:config.max_life, frag:0, death:0, active:true});
 				rooms[socket.room].listSockets[socket.identif] = socket;
 				
 			}
@@ -137,7 +138,7 @@ io.sockets.on('connection', function (socket, data)
 			if(rooms[socket.room].listPlayers[data.idJoueurTouche])
 			{
 				rooms[socket.room].active = true;
-				rooms[socket.room].listPlayers[data.idJoueurTouche].life--;
+				rooms[socket.room].listPlayers[data.idJoueurTouche].life-= config.damage;
 
 				if(rooms[socket.room].listPlayers[data.idJoueurTouche].life <= 0)
 				{
@@ -153,7 +154,6 @@ io.sockets.on('connection', function (socket, data)
 				rooms[socket.room].listSockets[data.idJoueurTouche].emit('updateLife', rooms[socket.room].listPlayers[data.idJoueurTouche]);
 				//rooms[socket.room].listSockets[data.idJoueurTouche].emit('showLaser', {emitter: rooms[socket.room].listPlayers[data.id], receptor: rooms[socket.room].listPlayers[data.idJoueurTouche]});		
 			}
-			console.log(data)
 			socket.broadcast.to(socket.room).emit('showLaser', {pos: data.laserPos, rot : data.laserRot, dist: data.distance});
 		}
 

@@ -65,6 +65,7 @@ Player.prototype.init = function (p_data)
 {
 	this._id 					= p_data.id;
 	localStorage['id'] 			= this._id;
+	localStorage['Username']	= this.name;
 	this.camera.position.x 		= p_data.player.x;
 	this.camera.position.y 		= p_data.player.y;
 	this.camera.position.z 		= p_data.player.z;
