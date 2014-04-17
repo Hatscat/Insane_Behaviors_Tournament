@@ -20,7 +20,6 @@ function update_ghosts (p_config, p_data)
 	/* on va mettre tout les autres players en tant que "ghost" des images rémanentes des persos*/
 	for(var p in p_data.players)
 	{	
-
 		if(p != p_config.player._id && p_data.players[p].active)
 		{
 			if(!p_config.ghosts[p])

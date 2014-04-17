@@ -14,8 +14,9 @@ function Player (p_config)
 	this.accelation 					= p_config.gravity;
 	this.velocity_max 					= p_config.player_jump_max;
 	this.constraint 					= null;
+	this.ready_2_be_punish 				= false;
 	this.time_between_constraint_checks = p_config.time_between_constraints;
-	this.time_2_check_constraint 		= p_config.time + p_config.time_between_constraints * 100;
+	this.time_2_check_constraint 		= 0;
 	this.constraintImage				= new Image();
 	this.constraintImage.src			= /*this._config.constraintImages[this.constraint.id]*/ '/assets/imageStock.png';
 	this.camera 						= new BABYLON.FreeCamera('client_camera', new BABYLON.Vector3(this.x, this.y, this.z), p_config.scene);
@@ -79,8 +80,9 @@ Player.prototype.init = function (p_data)
 	this.death					= p_data.player.death;
 	this.hp_max 				= this._config.max_hp;
 	this.current_hp 			= p_data.player.life;
-	this.constraint 			= this._new_constraint();
 	this._config.socket.emit('playerCreated');
+
+	this.preparation();
 }
 
 Player.prototype._new_constraint = function ()
@@ -133,7 +135,7 @@ Player.prototype.shoot = function (that)
 };
 Player.prototype.check_constraint = function ()
 {
-	if (this["constraint_" + this.constraint]() && this._config.time > this.time_2_check_constraint)
+	if (this.ready_2_be_punish && this["constraint_" + this.constraint]() && this._config.time > this.time_2_check_constraint)
 	{
 		console.log("PUNITION !");
 		this.time_2_check_constraint = this._config.time + this.time_between_constraint_checks;
@@ -156,9 +158,17 @@ Player.prototype.respawn = function ()
 			position: this.camera.position,
 			rotation: this.camera.rotation
 		});
+
+	this.preparation();
 };
 
-
+Player.prototype.preparation = function ()
+{
+	var that = this;
+	that.ready_2_be_punish = false;
+	that.constraint = that._new_constraint();
+	window.setTimeout(function(){that.ready_2_be_punish = true}, that._config.peace_time);
+}
 
 /*
 ** constraints
@@ -203,8 +213,24 @@ Player.prototype.constraint_dont_shoot_while_moving = function ()
 	}
 	return false;
 };
+/*
+Player.prototype.constraint_always_jump = function ()
+{
+	var that 		= this;
+	var dont_jump 	= false;
 
-
+	if (!this.is_jumping && this.can_check_jumping)
+	{
+		window.setTimeout(function ()
+		{
+			if (!that.is_jumping)
+				console.log("attention !");
+				dont_jump = true;
+				return dont_jump;
+		}, 500);
+	}
+	return dont_jump;
+};*/
 
 /*
 **
@@ -212,7 +238,7 @@ Player.prototype.constraint_dont_shoot_while_moving = function ()
 
 function check_player_movement (that)
 {
-	var margin = 0.075;
+	var margin = 0.01;
 
 	that.is_moving = margin < that.camera._diffPosition.x * that.camera._diffPosition.x
 							+ that.camera._diffPosition.y * that.camera._diffPosition.y
