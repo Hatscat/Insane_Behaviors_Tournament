@@ -49,7 +49,6 @@ io.sockets.on('connection', function (socket, data)
 				if(socket.co == false)
 				{
 					createRoom();
-					console.log("caca");
 					socket.room = 'room' + cpt;
 					socket.join(socket.room);
 					rooms[socket.room].numberCo++;
@@ -60,10 +59,9 @@ io.sockets.on('connection', function (socket, data)
 
 			if(socket.co && socket.room)
 			{
-				console.log("caaaaa");
 				var spwan = (Math.random()*(config.spwan_points.length-1)) | 0
 				socket.identif = socket.id;
-				rooms[socket.room].listPlayers[socket.identif] = ({name: data.name, x: config.spwan_points[spwan].x, y: config.spwan_points[spwan].y, z:config.spwan_points[spwan].z, life:config.max_life, frag:0, death:0, active:true});
+				rooms[socket.room].listPlayers[socket.identif] = ({name: data.name, postion: config.spwan_points[spwan].postion, rotation: config.spwan_points[spwan].rotation, life:config.max_life, frag:0, death:0, active:true});
 				rooms[socket.room].listSockets[socket.identif] = socket;
 				
 			}
@@ -78,7 +76,7 @@ io.sockets.on('connection', function (socket, data)
 					console.log("reconect")
 					socket.room = i;
 					socket.join(socket.room)
-					socket.co = true
+					socket.co = true;
 					socket.identif = data.id;
 					rooms[socket.room].listPlayers[socket.identif].active = true;
 					rooms[socket.room].listSockets[socket.identif] = socket;
@@ -107,9 +105,8 @@ io.sockets.on('connection', function (socket, data)
 		{
 			if(rooms[socket.room].listPlayers[data.id])
 			{
-				rooms[socket.room].listPlayers[data.id].x = data.x;
-				rooms[socket.room].listPlayers[data.id].y = data.y;
-				rooms[socket.room].listPlayers[data.id].z = data.z;
+				rooms[socket.room].listPlayers[data.id].position = data.position;
+				rooms[socket.room].listPlayers[data.id].rotation = data.rotation;
 			}
 			
 			socket.broadcast.to(socket.room).emit('updateGhosts', {players: rooms[socket.room].listPlayers});	
@@ -121,9 +118,8 @@ io.sockets.on('connection', function (socket, data)
 	{
 		if(rooms[socket.room].listPlayers[data.id])
 		{
-			rooms[socket.room].listPlayers[data.id].x = data.x;
-			rooms[socket.room].listPlayers[data.id].y = data.y;
-			rooms[socket.room].listPlayers[data.id].y = data.z;
+			rooms[socket.room].listPlayers[data.id].position = data.position;
+			rooms[socket.room].listPlayers[data.id].rotation = data.rotation;
 			rooms[socket.room].listPlayers[data.id].life = config.max_life;
 		}
 		socket.emit('updateLife', {life: rooms[socket.room].listPlayers[data.id].life})
