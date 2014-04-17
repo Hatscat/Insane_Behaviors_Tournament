@@ -97,6 +97,9 @@ Player.prototype.jump = function ()
 }
 Player.prototype.shoot = function (that)
 {
+	if(this.showLeader)
+		hide_leaderboard(that._config, 300);
+
 	if (that._config && that._config.scene)
 	{
 		var pickResult = that._config.scene.pick(that._config.canvas.width / 2, that._config.canvas.height / 2);
@@ -120,12 +123,14 @@ Player.prototype.shoot = function (that)
 };
 Player.prototype.check_constraint = function ()
 {
-	this["constraint_" + this.constraint]();
+	/*this["constraint_" + this.constraint]();*/
 };
 
 Player.prototype.respawn = function ()
 {
 	var spwan = (Math.random()*(this._config.spwan_points.length-1)) | 0;
+	show_leaderboard(this._config, 300);
+	this.showLeader = true;
 
 	this.camera.position 		= this._config.spwan_points[spwan].position;
 	this.camera.rotation 		= this._config.spwan_points[spwan].rotation;
