@@ -13,7 +13,6 @@ function Player (p_config)
 	this.constraint 				= this._new_constraint();
 	this.constraintImage			= new Image();
 	this.constraintImage.src		= /*this._config.constraintImages[this.constraint.id]*/ '/assets/imageStock.png';
-	
 	this.camera 					= new BABYLON.FreeCamera('client_camera', new BABYLON.Vector3(this.x, this.y, this.z), p_config.scene);
 
 	this.camera.checkCollisions 	= true;
@@ -103,13 +102,12 @@ Player.prototype.shoot = function (that)
 		if (pickResult.pickedMesh)
 		{
 			//console.log("touché :", pickResult.pickedMesh.name);
-			//console.log("point touché :", pickResult.pickedPoint);
+			var laser = new Laser_client(that._config, that.camera, pickResult.distance);
 
-			var laser = new Laser_client(that._config, that.camera, pickResult.pickedMesh, pickResult.distance);
 			that._config.lasers.push(laser);
 			that._config.socket.emit('shootPlayer',
 			{
-				id: that._id, 
+				id: that._id,
 				idJoueurTouche: pickResult.pickedMesh.name,
 				laserPos: laser.mesh.position,
 				laserRot: laser.mesh.rotation,
@@ -124,7 +122,8 @@ Player.prototype.check_constraint = function ()
 };
 Player.prototype.respawn = function ()
 {
-	var spwan = (Math.random()*(this._config.spwan_points.length-1)) | 0
+	var spwan = (Math.random()*(this._config.spwan_points.length-1)) | 0;
+
 	this.camera.position.x 		= this._config.spwan_points[spwan].x;
 	this.camera.position.y 		= this._config.spwan_points[spwan].y;
 	this.camera.position.z 		= this._config.spwan_points[spwan].z;

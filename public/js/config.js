@@ -26,7 +26,10 @@ function new_config (p_canvas)
 		time 					: 0,
 		old_time 				: 0,
 		delta_time 				: 1,
-		max_hp 					: 1,
+		damage 					: 300,
+		max_hp 					: 1000,
+		laser_margin 			: 2,
+		laser_decreasing_speed	: 0.65,
 		backSoundUrl			: "/assets/AMBIANCEnewversion",
 		max_frag 				: 10,
 		
@@ -65,17 +68,14 @@ function new_config (p_canvas)
 			{x:3, y:0, z:7},
 			{x:5, y:0, z:8},
 		],
-
-		server 						: {
-			max_frag : 10,
-			max_life : 1,
-			spwan_points : [
-				{x:0, y:0, z:0},
-				{x:3, y:0, z:7},
-				{x:5, y:0, z:8},
-			],
-		},
 	};
+
+	config.server = {
+		max_frag : config.max_frag,
+		damage : config.damage,
+		max_life : config.max_life,
+		spwan_points : config.spwan_points.slice()
+	},
 
 
 	p_canvas.width = config.canvas_width;

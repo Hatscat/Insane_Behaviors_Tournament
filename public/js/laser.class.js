@@ -1,15 +1,14 @@
 /*
 ** client laser beam class
 */
-function Laser_client (p_config, p_A, p_B, p_distance)
+function Laser_client (p_config, p_player_mesh, p_distance)
 {
 	var that 				= this;
 	this._config 			= p_config;
-	this.A 					= p_A; // mesh
-	this.B 					= p_B; // mesh
+	this.player_mesh 		= p_player_mesh;
 	this.length 			= p_distance;
-	this.margin 			= 2;
-	this.decreasing_speed 	= 0.65;
+	this.margin 			= p_config.laser_margin;
+	this.decreasing_speed 	= p_config.laser_decreasing_speed;
 	this.mesh 				= null;
 
 	this.create(that);
@@ -17,11 +16,14 @@ function Laser_client (p_config, p_A, p_B, p_distance)
 Laser_client.prototype.create = function (that)
 {
 	that.mesh = that._config.laser_mesh_model.clone('laser');
-	that.mesh.rotation = new BABYLON.Vector3(that.A.rotation.x + Math.PI / 2, that.A.rotation.y, that.A.rotation.z);
-	that.mesh.position = that.A.position.clone();
+	that.mesh.rotation = new BABYLON.Vector3(	that.player_mesh.rotation.x + Math.PI / 2,
+												that.player_mesh.rotation.y,
+												that.player_mesh.rotation.z);
+
+	that.mesh.position = that.player_mesh.position.clone();
 	that.mesh.scaling.y *= that.length;
 
-	var direction 	= getForwardVector(that.A.rotation);
+	var direction 	= getForwardVector(that.player_mesh.rotation);
 	var ratio 		= that.length / 2 + that.margin;
 
 	that.mesh.position.x += direction.x * ratio;
@@ -39,8 +41,8 @@ function Laser_ghost (p_config, p_pos, p_rot, p_distance)
 	this.pos 				= p_pos;
 	this.rot 				= p_rot;
 	this.length 			= p_distance;
-	this.margin 			= 2;
-	this.decreasing_speed 	= 0.65;
+	this.margin 			= p_config.laser_margin;
+	this.decreasing_speed 	= p_config.laser_decreasing_speed;;
 	this.mesh 				= null;
 
 	this.create(that);

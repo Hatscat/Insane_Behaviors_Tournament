@@ -10,7 +10,11 @@ function run (p_config)
 
 	if (p_config.player._id)
 	{
-		p_config.socket.emit('playerMove', {x:p_config.camera.position.x, y:p_config.camera.position.y, z:p_config.camera.position.z, id:p_config.player._id});
+		p_config.socket.emit('playerMove',
+		{
+			position: p_config.camera.position,
+			rotation: p_config.camera.rotation,
+			id:p_config.player._id});
 	}
 
 	if (p_config.aieGUI)
