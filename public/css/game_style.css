@@ -200,7 +200,7 @@ margin-right: auto;
 left: 0;
 right: 0;
 font-size:35px;
-width:450px;
+width:650px;
 height:100px;
 font-family: 'Nova-Square';
 text-align: center;
@@ -294,8 +294,13 @@ margin-top:200px;
 	font-family: 'Nova-Square';
 	font-size:25px;
 	color: #ff0000;
+	height:50px;
 	width:200px;
-	text-align: center;
+	margin: auto;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 150px;
 
 
 }
