@@ -38,7 +38,7 @@ function fillText(p_config, color, txt, x,y)
 function drawCursor(p_config)
 {
 	var ctx = p_config.gui_context;
-	ctx.strokeStyle = '#00f';
+	ctx.strokeStyle = '#fff';
 	ctx.beginPath();
 	ctx.moveTo(p_config.cursorX+5,p_config.cursorY);
 	ctx.lineTo(p_config.cursorX+35,p_config.cursorY);

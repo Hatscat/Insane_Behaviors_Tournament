@@ -132,6 +132,7 @@ function after_scene_is_loaded (p_config)
 		$('body').append("<div class='popupContrainte'><div class='imageContrainte'></div><p class='TexteContrainte'></p></div>");
 		$('body').append("<div id='iconContrainte'></div>");
 		$('body').append("<p id='test'></p>");
+		$('body').append("<p id='nameSpoted'></p>");
 
 		window.removeEventListener('click', setup);
 	}

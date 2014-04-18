@@ -285,3 +285,13 @@ margin-top:200px;
 		right:0;
 		top:15px;
 }
+#nameSpoted {
+	position: absolute;
+	font-family: 'Nova-Square';
+	font-size:25px;
+	color: #ff0000;
+	width:200px;
+	text-align: center;
+
+
+}
