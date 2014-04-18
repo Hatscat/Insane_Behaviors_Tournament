@@ -152,7 +152,7 @@ function manage_server_events (p_config)
 	p_config.socket.on('updateLife', function(e){update_life(p_config,e)});
 	p_config.socket.on('showLaser', function(e){show_laser(p_config,e)});
 	p_config.socket.on('disconnect', function(e){
-		localStorage["EROR_INSANE_TOURNAMENT"] = "Problème de connexion, veuillez rééssayer";
+		localStorage["EROR_INSANE_TOURNAMENT"] = "Connection problem, please try again";
 		window.location.reload();
 	});
 		
