@@ -145,6 +145,14 @@ function createGunMesh (p_config)
 		
 		//console.log("skeletons", skeletons);
 		//p_config.scene.beginAnimation(skeletons[0], 0, 100, true, 5.0); //function (target, from, to, loop, speedRatio, onAnimationEnd)
+	
+		/*p_config.gun_mesh.position.x = p_config.camera.position.x - 2.2;
+		p_config.gun_mesh.position.y = p_config.camera.position.y - 0.6;
+		p_config.gun_mesh.position.z = p_config.camera.position.z - 6;
+
+		console.log(p_config.camera)
+		
+		p_config.gun_mesh.parent = p_config.camera;*/
 	});
 }
 

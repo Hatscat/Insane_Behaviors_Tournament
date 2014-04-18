@@ -97,13 +97,7 @@ Player.prototype.init = function (p_data)
 	drawHUD(this._config);
 	show_constrain(this._config);
 
-	this._config.gun_mesh.position.x = this._config.camera.position.x - 2.2;
-	this._config.gun_mesh.position.y = this._config.camera.position.y - 0.6;
-	this._config.gun_mesh.position.z = this._config.camera.position.z - 6;
-
-	this._config.gun_mesh.parent = this._config.camera;
-
-
+	this.set_gun();
 }
 
 Player.prototype._new_constraint = function ()
@@ -181,8 +175,6 @@ Player.prototype.respawn = function ()
 	});
 
 	this.preparation();
-	that.ready_2_be_punish = false;
-	window.setTimeout(function(){that.ready_2_be_punish = true}, that._config.peace_time);
 	show_constrain(this._config);
 };
 
@@ -191,6 +183,8 @@ Player.prototype.preparation = function ()
 	var that = this;
 	that.constraintInfo = that._new_constraint();
 	that.constraint = that.constraintInfo.name;
+	that.ready_2_be_punish = false;
+	window.setTimeout(function(){that.ready_2_be_punish = true}, that._config.peace_time);
 }
 
 /*
@@ -255,6 +249,27 @@ Player.prototype.constraint_always_jump = function ()
 	return dont_jump;
 };*/
 
+Player.prototype.set_gun = function ()
+{
+	var that = this;
+
+	console.log(!!this._config.gun_mesh)
+
+	if (this._config.gun_mesh)
+	{
+		this._config.gun_mesh.position.x = this.camera.position.x - 2.2;
+		this._config.gun_mesh.position.y = this.camera.position.y - 0.6;
+		this._config.gun_mesh.position.z = this.camera.position.z - 6;
+
+		this._config.gun_mesh.parent = this._config.camera;
+	}
+	else
+	{
+		console.log("yes")
+		window.setTimeout(that.set_gun, 10);
+	}
+}
+
 /*
 **
 */
@@ -269,3 +284,4 @@ function check_player_movement (that)
 							+ that.camera._diffPosition.y * that.camera._diffPosition.y
 							+ that.camera._diffPosition.z * that.camera._diffPosition.z;
 }
+
