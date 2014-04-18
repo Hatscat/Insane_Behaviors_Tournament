@@ -102,12 +102,13 @@ function createGhostsMeshModel (p_config, p_callback)
 	// sphere_mat.emissiveColor = new BABYLON.Color4(1, 0.5, 0, 1);
 	// sphere.material = sphere_mat;
 
-	BABYLON.SceneLoader.ImportMesh('pCube1', './assets/scene/', 'hand.babylon', p_config.scene, function (newMeshes, particleSystems, skeletons) //Skeleton - skeleton.babylon // Cube - blender
+	BABYLON.SceneLoader.ImportMesh('polySurface1', './assets/scene/', 'necro.babylon', p_config.scene, function (newMeshes, particleSystems, skeletons) //Skeleton - skeleton.babylon // Cube - blender
 	{
 		//console.log("newMeshes", newMeshes);
 
 		p_config.ghost_mesh_model = newMeshes[0];
 		p_config.ghost_mesh_model.position.y = -1000;
+		//p_config.ghost_mesh_model.rotation = new BABYLON.Vector3(-Math.PI / 2, 0, 0);
 		var scaling_ratio = 0.01;
 		p_config.ghost_mesh_model.scaling = new BABYLON.Vector3(scaling_ratio, scaling_ratio, scaling_ratio);
 		p_callback(p_config);
@@ -132,13 +133,13 @@ function createLaserMeshModel (p_config)
 
 function createGunMesh (p_config, p_callback)
 {
-	BABYLON.SceneLoader.ImportMesh('pCube1', './assets/scene/', 'hand.babylon', p_config.scene, function (newMeshes, particleSystems, skeletons) //Skeleton - skeleton.babylon // Cube - blender
+	BABYLON.SceneLoader.ImportMesh('pCube1', './assets/scene/', 'hand2.babylon', p_config.scene, function (newMeshes, particleSystems, skeletons) //Skeleton - skeleton.babylon // Cube - blender
 	{
-		//console.log("newMeshes", newMeshes);
+		console.log("newMeshes", newMeshes);
 
 		p_config.gun_mesh = newMeshes[0];
 
-		var scaling_ratio = 0.001;
+		var scaling_ratio = 0.01;
 		p_config.gun_mesh.scaling = new BABYLON.Vector3(scaling_ratio, scaling_ratio, scaling_ratio);
 		/*p_config.gun_mesh.scaling.x *= 0.01;
 		p_config.gun_mesh.scaling.y *= 0.01;

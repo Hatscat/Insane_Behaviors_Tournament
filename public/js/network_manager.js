@@ -40,7 +40,8 @@ function update_ghosts (p_config, p_data)
 			else if (p_config.ghosts[p])
 			{
 				//p_config.ghosts[p].mesh.material.alpha = 0.0;
-				p_config.scene._toBeDisposed.push(p_config.ghosts[p].mesh);
+				p_config.ghosts[p].kill();
+				//p_config.scene._toBeDisposed.push(p_config.ghosts[p].mesh);
 				//p_config.ghosts[p].mesh.dispose();
 				delete(p_config.ghosts[p]);
 			}

@@ -41,16 +41,21 @@ Ghost.prototype.anim = function (p_ghost_new)
 Ghost.prototype.move = function (p_data)
 {
 	this.mesh.position.x 	= p_data.position.x;
-	this.mesh.position.y 	= p_data.position.y;
+	this.mesh.position.y 	= p_data.position.y - 2;
 	this.mesh.position.z 	= p_data.position.z;
 
-	this.mesh.rotation.x 	= p_data.rotation.x;
+	this.mesh.rotation.x 	= p_data.rotation.x + Math.PI;
 	this.mesh.rotation.y 	= p_data.rotation.y;
 	this.mesh.rotation.z 	= p_data.rotation.z;
+
+	//this.mesh.rotation.x += Math.PI;// / 2;
 };
 
 Ghost.prototype.kill = function (p_data)
 {
-	this._config.scene._toBeDisposed.push(this.mesh);
-	//this.mesh.dispose();
+	if (this.mesh)
+	{
+		this._config.scene._toBeDisposed.push(this.mesh);
+		//this.mesh.dispose();
+	}
 };
