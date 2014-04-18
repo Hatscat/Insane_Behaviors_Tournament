@@ -27,7 +27,7 @@ function init_game ()
 	var canvas = document.createElement('canvas');
 	var config = new_config(canvas);
 	config.ctxAudio = init_sound_context();
-	config.backSound = new Sound(config.ctxAudio, config.backSoundUrl, 1, false, true)
+	config.backSound = new Sound(config.ctxAudio, config.backSoundUrl, 1, true, true)
 	config.shootSound = new Sound(config.ctxAudio, config.shootSoundUrl, 0.5, false, false)
 	config.aieSound = new Sound(config.ctxAudio, config.aieSoundUrl, 0.4, false, false)
 	config.gui_canvas = canvas.cloneNode(false);
@@ -38,14 +38,14 @@ function init_game ()
 										|| config.gui_canvas.webkitRequestPointerLock;
 
 
-/*	if (localStorage['id'])
+	if (localStorage['id'])
 	{
 		config.server.id = localStorage['id'];
 	}
 	else
 	{
 		config.server.id = null;
-	}*/
+	}
 	if (localStorage['Username'])
 		config.server.name = localStorage['Username'];
 	else
@@ -102,8 +102,9 @@ function after_scene_is_loaded (p_config)
 		{
 			p_config.engine.isPointerLock = false;
 		}
-		if (event.keyCode == 9) // tab key
+		if (event.keyCode == 9 ) // tab key
 		{
+			event.preventDefault()
 			show_leaderboard(p_config, 300);
 		}
 	}, false);
@@ -130,8 +131,7 @@ function after_scene_is_loaded (p_config)
 		document.body.appendChild(p_config.gui_canvas);
 		$('body').append("<table id='leaderBoard'><tbody id='leaderBoardBody'></tbody></table>");
 		$('body').append("<div class='popupContrainte'><div class='imageContrainte'></div><p class='TexteContrainte'></p></div>");
-		$('body').append("<div id='iconContrainte'></div>");
-		$('body').append("<p id='test'></p>");
+		$('body').append("<div id='iconContrainte'></div>");;
 		$('body').append("<p id='nameSpoted'></p>");
 
 		window.removeEventListener('click', setup);

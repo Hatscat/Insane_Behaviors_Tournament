@@ -14,8 +14,6 @@ function run (p_config)
 	p_config.old_time 		= p_config.time;
 	p_config.delta_time 	= elapsed_time * 0.04 || 1;
 
-	$("#test").text(BABYLON.Tools.GetFps() + "")
-
 	if(p_config.time > p_config.oldRayTime + 200)
 	{
 		p_config.oldRayTime = p_config.time;
