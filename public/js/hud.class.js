@@ -1,27 +1,4 @@
-/*
-** hud class
-*/
-function Hud (p_)
-{
-	this._private_attribut 	= 0;
-	this.public_attribut 	= 0;
-
-	
-}
-
-/*
-** methods
-*/
-Hud.prototype._private_methods = function (p_)
-{
-
-};
-Hud.prototype.public_methods = function (p_)
-{
-
-};
-
-function drawHUD(p_config, debug)
+function drawHUD (p_config, debug)
 {
 	var ctx = p_config.gui_context;
 	$("#iconContrainte").show();

@@ -12,9 +12,9 @@ function createScene (p_config, p_callback)
 				for (var i1 in p_new_scene.meshes)
 				{
 					p_new_scene.meshes[i1].checkCollisions = true;
-					p_new_scene.meshes[i1].scaling.x *= 5;
-					p_new_scene.meshes[i1].scaling.y *= 5;
-					p_new_scene.meshes[i1].scaling.z *= 5;
+					p_new_scene.meshes[i1].scaling.x *= 7;
+					p_new_scene.meshes[i1].scaling.y *= 7;
+					p_new_scene.meshes[i1].scaling.z *= 7;
 					//p_new_scene.meshes[i1].position.y += 10; 
 				}
 				
@@ -42,11 +42,14 @@ function createScene (p_config, p_callback)
 				});
 
 				p_callback(p_config);
+				$("#loading").remove();
+				$('body').append('<h1 id="c2p">The game is loaded, click to play !</h1>');
 
 			}, function (p_progress)
 			{
 				// To do: give progress feedback to user
 				console.log("p_progress", p_progress);
+				$('body').append('<h1 id="loading">Loading...</h1>');
 			});
 		});
 	}
@@ -99,13 +102,13 @@ function createGhostsMeshModel (p_config)
 function createLaserMeshModel (p_config)
 {
 	// name, height, diameterTop, diameterBottom, tessellation (highly detailed or not), scene, updatable.
-	var laser 		= BABYLON.Mesh.CreateCylinder("laser", 1, 2, 2, 9, p_config.scene, false);
+	var laser 		= BABYLON.Mesh.CreateCylinder("laser", 1, 1, 1, 9, p_config.scene, false);
 	var laser_mat 	= new BABYLON.StandardMaterial("laser_mat", p_config.scene);
 	
 	laser.position = new BABYLON.Vector3(0, -1000, 0);
-	laser_mat.diffuseColor = new BABYLON.Color3(1, 0.1, 0);
-	laser_mat.specularColor = new BABYLON.Color3(1, 0.1, 0);
-	laser_mat.emissiveColor = new BABYLON.Color3(1, 0, 0);
+	laser_mat.diffuseColor = new BABYLON.Color3(0, 0.2, 0);
+	laser_mat.specularColor = new BABYLON.Color3(0, 0.5, 0);
+	laser_mat.emissiveColor = new BABYLON.Color3(0.7, 0, 1);
 	laser_mat.alpha = 0.5;
 	laser.material = laser_mat;
 

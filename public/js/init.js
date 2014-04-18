@@ -14,8 +14,6 @@ function init_home_page ()
 	$("#textEror").empty();
 	$("#textEror").text(localStorage['EROR_INSANE_TOURNAMENT']);
 	localStorage.removeItem('EROR_INSANE_TOURNAMENT');
-	// on lance juste le jeu dans un premier temps
-/*	init_game();*/
 }
 function init_game ()
 {
@@ -25,8 +23,6 @@ function init_game ()
 	** load everything
 	** launch the run loop
 	*/
-
-	//screenfull.toggle(); //
 
 	var canvas = document.createElement('canvas');
 	var config = new_config(canvas);
@@ -68,69 +64,28 @@ function init_game ()
 
 function after_scene_is_loaded (p_config)
 {
-	//screenfull.toggle();
-
 	window.onresize = function ()
 	{
 		p_config.engine.resize();
 	};
 
-	p_config.socket = io.connect();
+	window.addEventListener('click', setup, false);
 
-	p_config.socket.on('connectionEstablished', function (e)
+	window.addEventListener('click', function ()
 	{
-		p_config.socket.emit('iWantToPlay', p_config.server);
-	});
-
-
-	p_config.socket.on('connectionEstablished', function (e)
-	{
-		fillText(p_config, "#00f", 'Click to spawn',  window.innerWidth/2-100, window.innerHeight-250)
-		p_config.player.state = "waitTobegin";
-	});
-
-	manage_server_events(p_config);
-
-
-	window.addEventListener("click", function (event)
-	{
-		if(!window.lauchGame )
+		if (p_config.gui_canvas && p_config.player)
 		{
-			window.lauchGame = true;
-			document.body.appendChild(p_config.canvas);
-			document.body.appendChild(p_config.gui_canvas);
-
-			$('body').append("<table id='leaderBoard'><tbody id='leaderBoardBody'></tbody></table>");
-			$('body').append("<div class='popupContrainte'><div class='imageContrainte'></div><p class='TexteContrainte'></p></div>");
-			$('body').append("<div id='iconContrainte'></div>");
-
 			p_config.engine.isPointerLock = true;
-		}
-
-		if (p_config.gui_canvas.requestPointerLock)
-		{
-			if(p_config.player && p_config.player.state == "playing")
+		
+			if (p_config.gui_canvas.requestPointerLock)
 			{
-				p_config.engine.isPointerLock = true;
-
-				if(p_config.gui_canvas.requestPointerLock)
-					p_config.gui_canvas.requestPointerLock();
+				p_config.gui_canvas.requestPointerLock();
 			}
-			else if(p_config.player && p_config.player.state == "waitTorespawn")
+
+			if (p_config.player.state == 'waitTorespawn')
 			{
 				p_config.player.respawn();
 			}
-			else if(p_config.player && p_config.player.state == "waitTobegin")
-			{
-				p_config.player.state = "playing";
-				p_config.player.ready_2_be_punish = true;
-				p_config.socket.emit('iWantToPlay', config.server);
-				p_config.engine.isPointerLock = true;
-
-				if(p_config.gui_canvas.requestPointerLock)
-					p_config.gui_canvas.requestPointerLock();
-			}
-			
 		}
 
 		if (!screenfull.isFullscreen)
@@ -154,6 +109,32 @@ function after_scene_is_loaded (p_config)
 
 	drawHUD(p_config);
 	p_config.scene.registerBeforeRender(function(){run(p_config)});
+
+
+	function setup ()
+	{
+		$("#c2p").remove();
+		p_config.socket = io.connect();
+
+		p_config.socket.on('connectionEstablished', function (e)
+		{
+			p_config.socket.emit('iWantToPlay', p_config.server);
+			p_config.player.ready_2_be_punish = true;
+			p_config.player.state = 'playing';
+		});
+
+		manage_server_events(p_config);
+
+		window.lauchGame = true;
+		document.body.appendChild(p_config.canvas);
+		document.body.appendChild(p_config.gui_canvas);
+		$('body').append("<table id='leaderBoard'><tbody id='leaderBoardBody'></tbody></table>");
+		$('body').append("<div class='popupContrainte'><div class='imageContrainte'></div><p class='TexteContrainte'></p></div>");
+		$('body').append("<div id='iconContrainte'></div>");
+
+		window.removeEventListener('click', setup);
+	}
+
 }
 
 /*
@@ -174,3 +155,4 @@ function manage_server_events (p_config)
 	});
 		
 }
+

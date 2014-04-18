@@ -10,7 +10,7 @@ function Player (p_config)
 	this.is_moving 						= true;
 	this.is_shooting 					= false;
 	this.miss_a_ghost					= false;
-	this.velocity 						= 0;
+	this.velocity 						= p_config.player_jump_max;
 	this.accelation 					= p_config.gravity;
 	this.velocity_max 					= p_config.player_jump_max;
 	this.constraint 					= null;
@@ -45,18 +45,28 @@ function Player (p_config)
 		{
 			if (that.on_ground)
 			{
-				that.velocity = 0;
 				that.on_ground = false;
 				that.is_jumping = true;
 
-				window.setTimeout(function(){that.on_ground = true}, that.velocity_max * 100 / p_config.gravity);
+				window.setTimeout(function(){that.on_ground = true}, that.velocity_max * 70 / p_config.gravity);
 			}
 		}
-		
+	});
+
+	window.addEventListener('keyup', function (event)
+	{
+		if (event.keyCode == that._config.keys.jump)
+		{
+			that.is_jumping = false;
+
+				//that.on_ground = true;
+
+			that.velocity = that.velocity_max;
+		}
 	});
 
 	// shoot event
-	window.addEventListener('click', function ()
+	window.addEventListener('mousedown', function ()
 	{
 		if (that._config)
 		{
@@ -100,14 +110,9 @@ Player.prototype._new_constraint = function ()
 
 Player.prototype.jump = function ()
 {
-	if ((this.velocity += this.accelation * this._config.delta_time) >= this.velocity_max)
-	{
-		this.is_jumping = false;
-	}
-	else
-	{
-		this.camera.position.y += this.velocity * this._config.delta_time;
-	}
+	var ratio = 0.75;
+	this.camera.cameraDirection.y = this._config.gravity * this.velocity;
+	this.velocity *= ratio;
 }
 Player.prototype.shoot = function (that)
 {
@@ -169,6 +174,7 @@ Player.prototype.respawn = function ()
 	});
 
 	this.preparation();
+	window.setTimeout(function(){that.ready_2_be_punish = true}, that._config.peace_time);
 	show_constrain(this._config);
 };
 
@@ -178,7 +184,6 @@ Player.prototype.preparation = function ()
 	that.ready_2_be_punish = false;
 	that.constraintInfo = that._new_constraint();
 	that.constraint = that.constraintInfo.name;
-	window.setTimeout(function(){that.ready_2_be_punish = true}, that._config.peace_time);
 }
 
 /*

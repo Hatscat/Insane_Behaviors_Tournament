@@ -42,7 +42,7 @@ function Laser_ghost (p_config, p_pos, p_rot, p_distance)
 	this.rot 				= p_rot;
 	this.length 			= p_distance;
 	this.margin 			= p_config.laser_margin;
-	this.decreasing_speed 	= p_config.laser_decreasing_speed;;
+	this.decreasing_speed 	= p_config.laser_decreasing_speed;
 	this.mesh 				= null;
 
 	this.create(that);
@@ -68,7 +68,7 @@ function getForwardVector (p_rotation)
 
 function Laser_update (that)
 {
-	var ratio = that.decreasing_speed / that._config.delta_time;
+	var ratio = that.decreasing_speed;// / that._config.delta_time;
 
 	that.mesh.scaling.x *= ratio;
 	that.mesh.scaling.z *= ratio;
