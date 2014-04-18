@@ -3,7 +3,7 @@
 */
 function run (p_config)
 {
-	if(!p_config.HandNeedToMove && p_config.time > p_config.oldHandTime + 500)
+	if(!p_config.HandNeedToMove && p_config.time > p_config.oldHandTime + 500 && lauchGame)
 	{
 		p_config.oldHandTime = p_config.time
 		p_config.HandNeedToMove = true;
@@ -35,12 +35,18 @@ function run (p_config)
 	}
 	if(p_config.HandNeedToMove)
 	{
+		var origin = p_config.gun_mesh.position;
+/*		if(p_config.player.is_shooting)
+		{
+			var dest = {x : -0.5, y: -0.5, z: 0.1}
+			moveHand(p_config, origin, dest, 0.001);
+		}*/
 		if(p_config.player.is_moving)
 		{
-			console.log(p_config.HandNeedToMove)
-			dest = p_config.cpt %2 == 0 ? {x : p_config.gun_mesh.position.x+0.3, y: p_config.gun_mesh.position.y, z: p_config.gun_mesh.position.z}:{x : p_config.gun_mesh.position.x-0.3, y: p_config.gun_mesh.position.y, z: p_config.gun_mesh.position.z}
-			moveHand(p_config, dest)
+			var dest = p_config.cpt %2 == 0 ? {x :0.7, y: p_config.gun_mesh.position.y, z: p_config.gun_mesh.position.z}:{x : 0.2, y: p_config.gun_mesh.position.y, z: p_config.gun_mesh.position.z}
+			moveHand(p_config, origin, dest, 0.001)
 		}
+
 	}
 
 

@@ -292,26 +292,23 @@ function check_player_movement (that)
 							+ that.camera._diffPosition.y * that.camera._diffPosition.y
 							+ that.camera._diffPosition.z * that.camera._diffPosition.z;
 }
-function handCalculateDistance (p_config, origin, arivée)
+function handCalculateDistance (p_config, origin, arivée, speed)
 {
 	var distanceX = arivée.x - origin.x;
 	var distanceY = arivée.y - origin.y;
 	var distanceZ = arivée.z - origin.z;
 	var normalisationRatio = Math.abs(distanceX) + Math.abs(distanceY) + Math.abs(distanceZ);
 	normalisationRatio = normalisationRatio ? normalisationRatio : 1;
-	this.hasReached = (distanceX > -0.05 && distanceX < 0.05) && (distanceY > -0.1 && distanceY < 0.1) && (distanceZ > -0.1 && distanceZ < 0.1) ? true:false;
+	this.hasReached = (distanceX > -0.1 && distanceX < 0.1) && (distanceY > -0.1 && distanceY < 0.1) && (distanceZ > -0.1 && distanceZ < 0.1) ? true:false;
 	if(this.hasReached)
 		return 0;
 
 	return { x: distanceX / normalisationRatio, y:distanceY /normalisationRatio, z: distanceZ / normalisationRatio }
 }
 
-function moveHand(p_config, destination)
+function moveHand(p_config, origin, destination, speed)
 {
-	if(!this.nextPos)
-		this.nextPos = destination;
-
-	var distanceXYZ = handCalculateDistance(p_config, p_config.gun_mesh.position, this.nextPos);
+	var distanceXYZ = handCalculateDistance(p_config, origin, destination);
 
 	if(!distanceXYZ)
 	{
@@ -321,9 +318,9 @@ function moveHand(p_config, destination)
 	}
 	else
 	{
-		p_config.gun_mesh.position.x += distanceXYZ.x * p_config.hand_speed * 0.001;
-		p_config.gun_mesh.position.y += distanceXYZ.y * p_config.hand_speed * 0.001;
-		p_config.gun_mesh.position.z += distanceXYZ.z * p_config.hand_speed * 0.001;
+		p_config.gun_mesh.position.x += distanceXYZ.x * p_config.hand_speed * speed;
+		p_config.gun_mesh.position.y += distanceXYZ.y * p_config.hand_speed * speed;
+		p_config.gun_mesh.position.z += distanceXYZ.z * p_config.hand_speed * speed;
 		
 	}
 }
