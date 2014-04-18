@@ -192,7 +192,7 @@ display:none;
 
 }
 
-#textEror  {
+.  {
 
 position:absolute;
 margin-left: auto;
@@ -200,6 +200,8 @@ margin-right: auto;
 left: 0;
 right: 0;
 font-size:35px;
+width:450px;
+height:100px;
 
 }
 
@@ -292,6 +294,40 @@ margin-top:200px;
 	color: #ff0000;
 	width:200px;
 	text-align: center;
+
+
+}
+
+#loading  {
+
+position:absolute;
+margin-left: auto;
+margin-right: auto;
+left: 10px;
+right: 0;
+top:100px;
+font-family: 'Nova-Square';
+font-size:65px;
+width:900px;
+height:100px;
+color:black;
+
+}
+
+#c2p  {
+
+
+position:absolute;
+margin-left: auto;
+margin-right: auto;
+left: 10px;
+right: 0;
+top:100px;
+font-family: 'Nova-Square';
+font-size:65px;
+width:900px;
+height:100px;
+color:black;
 
 
 }
