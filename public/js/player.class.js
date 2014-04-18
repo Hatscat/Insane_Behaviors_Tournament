@@ -81,20 +81,6 @@ function Player (p_config)
 */
 Player.prototype.init = function (p_data)
 {
-	var test = {
-		position : {
-			x:3,
-			y:0,
-			z:7
-		},
-		rotation : {
-			x:0,
-			y:0,
-			z:0
-		}
-	};
-
-	this.set_gun(test);
 
 	this._id 					= p_data.id;
 	localStorage['id'] 			= this._id;
@@ -111,6 +97,21 @@ Player.prototype.init = function (p_data)
 	this._config.gui_context.clearRect(0, 0, window.innerWidth, window.innerHeight);
 	drawHUD(this._config);
 	show_constrain(this._config);
+	
+	var test = {
+		position : {
+			x:3,
+			y:0,
+			z:7
+		},
+		rotation : {
+			x:0,
+			y:0,
+			z:0
+		}
+	};
+
+	this.set_gun(test);
 }
 
 Player.prototype._new_constraint = function ()
