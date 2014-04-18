@@ -107,7 +107,9 @@ function createGhostsMeshModel (p_config, p_callback)
 		//console.log("newMeshes", newMeshes);
 
 		p_config.ghost_mesh_model = newMeshes[0];
-
+		p_config.ghost_mesh_model.position.y = -1000;
+		var scaling_ratio = 0.01;
+		p_config.ghost_mesh_model.scaling = new BABYLON.Vector3(scaling_ratio, scaling_ratio, scaling_ratio);
 		p_callback(p_config);
 	});
 }
