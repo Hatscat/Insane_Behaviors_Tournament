@@ -50,11 +50,12 @@ function update_life (p_config, p_data)
 	p_config.player.frag =  p_data.frag || p_config.player.frag;
 	p_config.player.death =  p_data.death || p_config.player.death;
 
-	drawHUD(p_config);
+	drawHUD(p_config, '', true);
 
 	if (p_config.player.current_hp > p_data.life)
 	{
 		p_config.aieGUI = 0.2;
+		p_config.aieSound.play(100);
 		p_config.gui_context.clearRect(0,0,window.innerWidth, window.innerHeight);
 		p_config.gui_context.fillStyle = "rgba(255, 0, 0, 0.6)";
 		p_config.gui_context.fillRect(0,0,window.innerWidth, window.innerHeight);
@@ -66,6 +67,7 @@ function update_life (p_config, p_data)
 	if(p_data.life <= 0)
 	{
 		p_config.player.death = p_data.death;
+		p_config.player.current_hp = 0;
 		p_config.aieGUI = 1000;
 		drawHUD(p_config, "drawemptybar");
 		show_leaderboard(p_config);

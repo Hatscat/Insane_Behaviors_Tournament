@@ -34,6 +34,8 @@ function new_config (p_canvas)
 		laser_margin 				: 2,
 		laser_decreasing_speed		: 0.7,
 		backSoundUrl				: "/assets/AMBIANCEnewversion",
+		shootSoundUrl				: "/assets/eclair",
+		aieSoundUrl					: "/assets/blessure",
 		max_frag 					: 10,
 		constraint_hp_punishment 	: 100,
 		time_between_constraints 	: 500,

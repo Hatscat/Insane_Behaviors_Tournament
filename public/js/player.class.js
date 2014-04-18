@@ -40,6 +40,7 @@ function Player (p_config)
 	// jump event
 	window.addEventListener('keydown', function (event)
 	{
+		console.log(event.keyCode)
 		if (event.keyCode == that._config.keys.jump)
 		{
 			if (that.on_ground)
@@ -138,6 +139,7 @@ Player.prototype.shoot = function (that)
 			var laser = new Laser_client(that._config, that.camera, pickResult.distance);
 
 			that._config.lasers.push(laser);
+			that._config.shootSound.play();
 			that._config.socket.emit('shootPlayer',
 			{
 				id: that._id,

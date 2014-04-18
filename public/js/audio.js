@@ -50,7 +50,7 @@ Sound.prototype.play = function (delay)
 	}
 	else
 	{
-		delay = delay || 0;
+		delay = delay*0.001 + this.ctx.currentTime || 0;
 
 		this.source = this.ctx.createBufferSource(); 				// creates a sound source
 		this.source.loop = this.loop;								//sets the loop

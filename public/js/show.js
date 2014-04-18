@@ -37,7 +37,7 @@ $('#TitreIndex').addClass('animated bounceIn');
 function show_leaderboard(p_config, delay)
 {
 	delay = delay || 300;
-
+	console.log(this.show)
 	if(this.show)
 	{
 		this.show = false;
@@ -97,13 +97,13 @@ function show_constrain(p_config)
 	$("#iconContrainte").css("background-image", "url('assets/" + p_config.player.constraintInfo.name + "_img.png')");
 	$(".TexteContrainte").text(p_config.player.constraintInfo.text);
 	$(".popupContrainte").fadeIn(300, function(){
-			hide_constrain(2000)
+			hide_constrain(p_config, 2000)
 			
 		});
 ;
 }
 
-function hide_constrain(delay)
+function hide_constrain(p_config, delay)
 {
 	$(".popupContrainte").fadeOut(delay, function(){
 		$(".TexteContrainte").empty();
