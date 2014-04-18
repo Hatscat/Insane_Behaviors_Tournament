@@ -22,7 +22,7 @@ function new_config (p_canvas)
 		player 						: null,
 		hand_speed					: 6,
 		hand_anim					: {x: 0, y:0, z: 0},
-		player_speed_max 			: 15,
+		player_speed_max 			: 14,
 		camera_speed_max 			: 400,
 		player_jump_max 			: 5,
 		ghost_id 					: 'ghost',
@@ -75,7 +75,7 @@ function new_config (p_canvas)
 		main_light 					: {
 			name : "main_light",
 			x : 0,
-			y : 0.5,
+			y : -0.7,
 			z : 0,
 			intensity : 2,
 			r :1,
@@ -95,9 +95,9 @@ function new_config (p_canvas)
 		spwan_points				: [
 			{
 				position : {
-					x : 0,
-					y : 0,
-					z : 0
+					x : 210,
+					y : 20,
+					z : 83
 				},
 				rotation : {
 					x: 0,

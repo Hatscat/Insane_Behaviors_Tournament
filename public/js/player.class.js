@@ -85,8 +85,8 @@ Player.prototype.init = function (p_data)
 	this._id 					= p_data.id;
 	localStorage['id'] 			= this._id;
 	this.name 					= localStorage['Username'];
-	this.camera.position 		= new BABYLON.Vector3(p_data.player.position.x, p_data.player.position.y, p_data.player.position.z);
-	this.camera.rotation 		= new BABYLON.Vector3(p_data.player.rotation.x, p_data.player.rotation.y, p_data.player.rotation.z);
+	this.camera.position 		= new BABYLON.Vector3(210,20,83);
+	this.camera.rotation 		= new BABYLON.Vector3(0,0,0)
 	this.frag					= p_data.player.frag;
 	this.death					= p_data.player.death;
 	this.hp_max 				= this._config.max_hp;
@@ -178,8 +178,8 @@ Player.prototype.respawn = function ()
 	this.state = "playing";
 	show_leaderboard(this._config);
 
-	this.camera.position = new BABYLON.Vector3(this._config.spwan_points[spwan].position.x, this._config.spwan_points[spwan].position.y, this._config.spwan_points[spwan].position.z);
-	this.camera.rotation = new BABYLON.Vector3(this._config.spwan_points[spwan].rotation.x, this._config.spwan_points[spwan].rotation.y, this._config.spwan_points[spwan].rotation.z);
+	this.camera.position = new BABYLON.Vector3(210,20,83);//this._config.spwan_points[spwan].position.x, this._config.spwan_points[spwan].position.y, this._config.spwan_points[spwan].position.z);
+	this.camera.rotation = new BABYLON.Vector3(0,0,0)//t
 
 	this._config.socket.emit('respawn',
 	{
