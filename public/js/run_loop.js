@@ -37,7 +37,7 @@ function run (p_config)
 	{
 		if(p_config.player.is_moving)
 		{
-			console.log(p_config.HandNeedToMove)
+			//console.log(p_config.HandNeedToMove)
 			dest = p_config.cpt %2 == 0 ? {x : p_config.gun_mesh.position.x+0.3, y: p_config.gun_mesh.position.y, z: p_config.gun_mesh.position.z}:{x : p_config.gun_mesh.position.x-0.3, y: p_config.gun_mesh.position.y, z: p_config.gun_mesh.position.z}
 			moveHand(p_config, dest)
 		}

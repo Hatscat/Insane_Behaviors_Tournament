@@ -118,7 +118,7 @@ Player.prototype._new_constraint = function ()
 {
 	var rand = Math.random() * this._config.constraint_names.length | 0;
 
-	console.log("contrainte :", this._config.constraint_names[rand]);
+	//console.log("contrainte :", this._config.constraint_names[rand]);
 	return this._config.constraint_names[rand];
 };
 
@@ -162,7 +162,7 @@ Player.prototype.check_constraint = function ()
 {
 	if (this.ready_2_be_punish && this["constraint_" + this.constraint]() && this._config.time > this.time_2_check_constraint)
 	{
-		console.log("PUNITION !");
+		//console.log("PUNITION !");
 		this.time_2_check_constraint = this._config.time + this.time_between_constraint_checks;
 		this._config.socket.emit('constaint_punishment', this._config.constraint_hp_punishment);
 	}
@@ -199,7 +199,8 @@ Player.prototype.preparation = function ()
 	that.constraint = that.constraintInfo.name;
 	that.ready_2_be_punish = false;
 	that.is_shooting = true;
-	window.setTimeout(function(){that.ready_2_be_punish = true; that.is_shooting = false}, that._config.peace_time);
+	window.setTimeout(function(){that.ready_2_be_punish = true}, that._config.peace_time);
+	window.setTimeout(function(){that.is_shooting = false}, that._config.peace_time / 6);
 }
 
 /*
@@ -274,8 +275,8 @@ Player.prototype.set_gun = function (p_mesh)
 
 	this._config.gun_mesh.parent = this.camera;
 
-	console.log("positions", this._config.gun_mesh.position, p_mesh.position);
-	console.log("rotations", this._config.gun_mesh.rotation, p_mesh.rotation);
+	//console.log("positions", this._config.gun_mesh.position, p_mesh.position);
+	//console.log("rotations", this._config.gun_mesh.rotation, p_mesh.rotation);
 }
 
 /*

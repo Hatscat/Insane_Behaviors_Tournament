@@ -17,9 +17,31 @@ function createScene (p_config, p_callback)
 				{
 					p_new_scene.meshes[i1].checkCollisions = true;
 					p_new_scene.meshes[i1].scaling = new BABYLON.Vector3(ratio, ratio, ratio);
-					//p_new_scene.meshes[i1].position.y += 10; 
+					//p_new_scene.meshes[i1].position.y += 10;
+
+
+					/*if (p_new_scene.meshes[i1].id.indexOf('Plane') > -1)
+					{
+						//console.log(p_new_scene.meshes[i1].id)
+
+						p_config.spwan_points.push(
+						{
+							position : {
+								x : p_new_scene.meshes[i1].position.x,
+								y : p_new_scene.meshes[i1].position.y + 1,
+								z : p_new_scene.meshes[i1].position.z
+							},
+							rotation : {
+								x: p_new_scene.meshes[i1].rotation.x,
+								y: 0,
+								z: p_new_scene.meshes[i1].rotation.z
+							}
+						});
+					}*/
+
 				}
 				
+				//console.log(p_config.spwan_points)
 				//console.log(p_new_scene);
 
 				p_config.scene = p_new_scene;
@@ -109,7 +131,7 @@ function createGhostsMeshModel (p_config, p_callback)
 		p_config.ghost_mesh_model = newMeshes[0];
 		p_config.ghost_mesh_model.position.y = -1000;
 		//p_config.ghost_mesh_model.rotation = new BABYLON.Vector3(-Math.PI / 2, 0, 0);
-		var scaling_ratio = 0.01;
+		var scaling_ratio = 0.03;
 		p_config.ghost_mesh_model.scaling = new BABYLON.Vector3(scaling_ratio, scaling_ratio, scaling_ratio);
 		p_callback(p_config);
 	});
@@ -135,7 +157,7 @@ function createGunMesh (p_config, p_callback)
 {
 	BABYLON.SceneLoader.ImportMesh('pCube1', './assets/scene/', 'hand2.babylon', p_config.scene, function (newMeshes, particleSystems, skeletons) //Skeleton - skeleton.babylon // Cube - blender
 	{
-		console.log("newMeshes", newMeshes);
+		//console.log("newMeshes", newMeshes);
 
 		p_config.gun_mesh = newMeshes[0];
 

@@ -22,7 +22,7 @@ function new_config (p_canvas)
 		player 						: null,
 		hand_speed					: 6,
 		hand_anim					: {x: 0, y:0, z: 0},
-		player_speed_max 			: 8,
+		player_speed_max 			: 7,
 		camera_speed_max 			: 400,
 		player_jump_max 			: 5,
 		ghost_id 					: 'ghost',
@@ -78,9 +78,9 @@ function new_config (p_canvas)
 			y : -0.9,
 			z : 0,
 			intensity : 0.1,
-			r :1,
-			g: 1,
-			b: 1
+			r :0.15,
+			g: 0.1,
+			b: 0.1
 		},
 
 		babylon_camera 				: {
@@ -94,16 +94,16 @@ function new_config (p_canvas)
 
 		spwan_points				: [
 			{
-				position : {x:0, y:0, z:0},
-				rotation : {x:0, y:0, z:0},
-			},
-			{
-				position : {x:3, y:0, z:7},
-				rotation : {x:0, y:0, z:0},
-			},
-			{
-				position : {x:5, y:0, z:8},
-				rotation : {x:0, y:0, z:0},
+				position : {
+					x : 0,
+					y : 0,
+					z : 0
+				},
+				rotation : {
+					x: 0,
+					y: 0,
+					z: 0
+				}
 			}
 		]
 	};
@@ -112,7 +112,7 @@ function new_config (p_canvas)
 		max_frag : config.max_frag,
 		damage : config.damage,
 		max_life : config.max_hp,
-		spwan_points : config.spwan_points.slice()
+		spwan_points : config.spwan_points
 	},
 
 	p_canvas.width = config.canvas_width;
