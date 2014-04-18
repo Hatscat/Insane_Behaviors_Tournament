@@ -93,9 +93,16 @@ Player.prototype.init = function (p_data)
 	this._config.socket.emit('playerCreated');
 
 	this.preparation();
-	this._config.gui_context.clearRect(0,0,window.innerWidth, window.innerHeight);
+	this._config.gui_context.clearRect(0, 0, window.innerWidth, window.innerHeight);
 	drawHUD(this._config);
 	show_constrain(this._config);
+
+	this._config.gun_mesh.position.x = this._config.camera.position.x - 2.2;
+	this._config.gun_mesh.position.y = this._config.camera.position.y - 0.6;
+	this._config.gun_mesh.position.z = this._config.camera.position.z - 6;
+
+	this._config.gun_mesh.parent = this._config.camera;
+
 
 }
 
@@ -156,6 +163,7 @@ Player.prototype.check_constraint = function ()
 Player.prototype.respawn = function ()
 {
 	var spwan = Math.random() * this._config.spwan_points.length | 0;
+	var that = this;
 	this._config.aieGUI = false;
 	this._config.gui_context.clearRect(0,0,window.innerWidth, window.innerHeight);
 	drawHUD(this._config);
@@ -173,6 +181,7 @@ Player.prototype.respawn = function ()
 	});
 
 	this.preparation();
+	that.ready_2_be_punish = false;
 	window.setTimeout(function(){that.ready_2_be_punish = true}, that._config.peace_time);
 	show_constrain(this._config);
 };
@@ -180,7 +189,6 @@ Player.prototype.respawn = function ()
 Player.prototype.preparation = function ()
 {
 	var that = this;
-	that.ready_2_be_punish = false;
 	that.constraintInfo = that._new_constraint();
 	that.constraint = that.constraintInfo.name;
 }
@@ -254,6 +262,8 @@ Player.prototype.constraint_always_jump = function ()
 function check_player_movement (that)
 {
 	var margin = 0.01;
+
+	//this._config.gun_mesh.position = this._config.camera._oldPosition.clone();
 
 	that.is_moving = margin < that.camera._diffPosition.x * that.camera._diffPosition.x
 							+ that.camera._diffPosition.y * that.camera._diffPosition.y

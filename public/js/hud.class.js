@@ -16,6 +16,7 @@ function drawHUD (p_config, debug)
 	grd.addColorStop(0.000, 'rgba(150, 22, 24, 1.000)');
 	grd.addColorStop(0.500, 'rgba(255, 0, 0, 1.000)');
 	grd.addColorStop(1.000, 'rgba(150, 19, 19, 1.000)');
+
     ctx.fillStyle = grd;
     if(debug)
 		ctx.fillRect(p_config.lifeBackX+1, 26, 1, 30); // arg
