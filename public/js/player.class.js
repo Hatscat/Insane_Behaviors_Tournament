@@ -8,7 +8,7 @@ function Player (p_config)
 	this.on_ground 						= true;
 	this.is_jumping 					= false;
 	this.is_moving 						= true;
-	this.is_shooting 					= false;
+	this.is_shooting 					= true;
 	this.miss_a_ghost					= false;
 	this.velocity 						= p_config.player_jump_max;
 	this.accelation 					= p_config.gravity;
@@ -19,7 +19,7 @@ function Player (p_config)
 	this.time_2_check_constraint 		= 0;
 	this.constraintImage				= new Image();
 	this.constraintImage.src			= /*this._config.constraintImages[this.constraint.id]*/ '/assets/imageStock.png';
-	this.camera 						= new BABYLON.FreeCamera('client_camera', new BABYLON.Vector3(this.x, this.y, this.z), p_config.scene);
+	this.camera 						= new BABYLON.FreeCamera('client_camera', new BABYLON.Vector3(3, 0, 7), p_config.scene);
 
 	this.camera.checkCollisions 	= true;
 	this.camera.applyGravity 		= true;
@@ -67,7 +67,7 @@ function Player (p_config)
 	// shoot event
 	window.addEventListener('mousedown', function ()
 	{
-		if (that._config && that.state == "playing")
+		if (that._config && that.state == "playing" && !that.is_shooting)
 		{
 			that.is_shooting = true;
 			that.shoot(that);
@@ -81,6 +81,7 @@ function Player (p_config)
 */
 Player.prototype.init = function (p_data)
 {
+
 	this._id 					= p_data.id;
 	localStorage['id'] 			= this._id;
 	this.name 					= localStorage['Username'];
@@ -96,8 +97,21 @@ Player.prototype.init = function (p_data)
 	this._config.gui_context.clearRect(0, 0, window.innerWidth, window.innerHeight);
 	drawHUD(this._config);
 	show_constrain(this._config);
+	
+	var test = {
+		position : {
+			x:3,
+			y:0,
+			z:7
+		},
+		rotation : {
+			x:0,
+			y:0,
+			z:0
+		}
+	};
 
-	this.set_gun();
+	this.set_gun(test);
 }
 
 Player.prototype._new_constraint = function ()
@@ -111,7 +125,7 @@ Player.prototype._new_constraint = function ()
 Player.prototype.jump = function ()
 {
 	var ratio = 0.75;
-	this.camera.cameraDirection.y = this._config.gravity * this.velocity;
+	this.camera.cameraDirection.y = this._config.gravity * (this.velocity * this._config.delta_time);
 	this.velocity *= ratio;
 }
 Player.prototype.shoot = function (that)
@@ -164,8 +178,8 @@ Player.prototype.respawn = function ()
 	this.state = "playing";
 	show_leaderboard(this._config);
 
-	this.camera.position 		= new BABYLON.Vector3(this._config.spwan_points[spwan].position.x, this._config.spwan_points[spwan].position.y, this._config.spwan_points[spwan].position.z);
-	this.camera.rotation 		= new BABYLON.Vector3(this._config.spwan_points[spwan].rotation.x, this._config.spwan_points[spwan].rotation.y, this._config.spwan_points[spwan].rotation.z);
+	this.camera.position = new BABYLON.Vector3(this._config.spwan_points[spwan].position.x, this._config.spwan_points[spwan].position.y, this._config.spwan_points[spwan].position.z);
+	this.camera.rotation = new BABYLON.Vector3(this._config.spwan_points[spwan].rotation.x, this._config.spwan_points[spwan].rotation.y, this._config.spwan_points[spwan].rotation.z);
 
 	this._config.socket.emit('respawn',
 	{
@@ -184,7 +198,8 @@ Player.prototype.preparation = function ()
 	that.constraintInfo = that._new_constraint();
 	that.constraint = that.constraintInfo.name;
 	that.ready_2_be_punish = false;
-	window.setTimeout(function(){that.ready_2_be_punish = true}, that._config.peace_time);
+	that.is_shooting = true;
+	window.setTimeout(function(){that.ready_2_be_punish = true; that.is_shooting = false}, that._config.peace_time);
 }
 
 /*
@@ -247,25 +262,20 @@ Player.prototype.constraint_always_jump = function ()
 	return dont_jump;
 };*/
 
-Player.prototype.set_gun = function ()
+Player.prototype.set_gun = function (p_mesh)
 {
-	var that = this;
+	this._config.gun_mesh.position.x = p_mesh.position.x - 2.2// + p_mesh.rotation.x;
+	this._config.gun_mesh.position.y = p_mesh.position.y - 0.6// + p_mesh.rotation.y;
+	this._config.gun_mesh.position.z = p_mesh.position.z - 6// + p_mesh.rotation.z;
 
-	console.log(!!this._config.gun_mesh)
+	this._config.gun_mesh.rotation.x = p_mesh.rotation.x - 0.5;
+	this._config.gun_mesh.rotation.y = p_mesh.rotation.y - 0.3;
+	this._config.gun_mesh.rotation.z = p_mesh.rotation.z + 2.5;
 
-	if (this._config.gun_mesh)
-	{
-		this._config.gun_mesh.position.x = this.camera.position.x - 2.2;
-		this._config.gun_mesh.position.y = this.camera.position.y - 0.6;
-		this._config.gun_mesh.position.z = this.camera.position.z - 6;
+	this._config.gun_mesh.parent = this.camera;
 
-		this._config.gun_mesh.parent = this._config.camera;
-	}
-	else
-	{
-		console.log("yes")
-		window.setTimeout(that.set_gun, 10);
-	}
+	console.log("positions", this._config.gun_mesh.position, p_mesh.position);
+	console.log("rotations", this._config.gun_mesh.rotation, p_mesh.rotation);
 }
 
 /*

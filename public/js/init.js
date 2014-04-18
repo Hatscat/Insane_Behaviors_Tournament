@@ -11,8 +11,8 @@ addEventListener('load', init_home_page);
 */
 function init_home_page ()
 {
-	$("#textEror").empty();
-	$("#textEror").text(localStorage['EROR_INSANE_TOURNAMENT']);
+	$(".textEror").empty();
+	$(".textEror").text(localStorage['EROR_INSANE_TOURNAMENT']);
 	localStorage.removeItem('EROR_INSANE_TOURNAMENT');
 }
 function init_game ()

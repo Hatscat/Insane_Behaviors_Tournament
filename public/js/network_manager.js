@@ -24,15 +24,26 @@ function update_ghosts (p_config, p_data)
 	{	
 		if(p != p_config.player._id && p_data.players[p].active)
 		{
-			if(!p_config.ghosts[p])
-			p_config.ghosts[p] = new Ghost(p_config, p_data.players[p], p);
-		
-			p_config.ghosts[p].anim(p_data.players[p]);
-			p_config.ghosts[p].move(p_data.players[p]);
-			p_config.ghosts[p].death = p_data.players[p].death;
-			p_config.ghosts[p].frag = p_data.players[p].frag;
-			p_config.ghosts[p].mesh.material.alpha = p_data.players[p].alive ? 1:0.0;
+			if (p_data.players[p].alive)
+			{
+				if (!p_config.ghosts[p])
+				{
+					p_config.ghosts[p] = new Ghost(p_config, p_data.players[p], p);
+				}
 
+				//p_config.ghosts[p].mesh.material.alpha = 1.0;
+				p_config.ghosts[p].anim(p_data.players[p]);
+				p_config.ghosts[p].move(p_data.players[p]);
+				p_config.ghosts[p].death = p_data.players[p].death;
+				p_config.ghosts[p].frag = p_data.players[p].frag;
+			}
+			else if (p_config.ghosts[p])
+			{
+				//p_config.ghosts[p].mesh.material.alpha = 0.0;
+				p_config.scene._toBeDisposed.push(p_config.ghosts[p].mesh);
+				//p_config.ghosts[p].mesh.dispose();
+				delete(p_config.ghosts[p]);
+			}
 		}
 	}
 }

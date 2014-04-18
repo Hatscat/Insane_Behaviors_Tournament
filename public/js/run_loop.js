@@ -21,7 +21,7 @@ function run (p_config)
 		p_config.oldRayTime = p_config.time;
 		pickResult = p_config.scene.pick(p_config.canvas.width / 2, p_config.canvas.height / 2, function(m){return !(m.name=='laser')});
 
-		if(pickResult.pickedMesh && pickResult.pickedMesh.id == p_config.ghost_id)
+		if(pickResult.pickedMesh && pickResult.pickedMesh.id == p_config.ghost_id && p_config.ghosts[pickResult.pickedMesh.name])
 		{
 			var txt = "Name: " + p_config.ghosts[pickResult.pickedMesh.name].name
 			$("#nameSpoted").text(txt);

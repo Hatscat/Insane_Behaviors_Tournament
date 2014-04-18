@@ -33,6 +33,8 @@ $(".ButtonLogin").click(function () {
 });
 
 $('#TitreIndex').addClass('animated bounceIn');
+$('#c2p').addClass('animated bounceIn');
+
 
 function show_leaderboard(p_config, delay)
 {
@@ -96,7 +98,7 @@ function show_constrain(p_config)
 	$("#iconContrainte").css("background-image", "url('assets/" + p_config.player.constraintInfo.name + "_img.png')");
 	$(".TexteContrainte").text(p_config.player.constraintInfo.text);
 	$(".popupContrainte").fadeIn(300, function(){
-			hide_constrain(p_config, 2000)
+			hide_constrain(p_config, p_config.peace_time);
 			
 		});
 ;

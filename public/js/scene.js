@@ -2,6 +2,8 @@ function createScene (p_config, p_callback)
 {
 	if (!p_config.scene)
 	{
+		$('body').append('<h1 id="loading">Loading...</h1>');
+
 		BABYLON.SceneLoader.Load('./assets/scene/', 'scene.babylon', p_config.engine, function (p_new_scene)
 		{
 			p_new_scene.executeWhenReady(function ()
@@ -18,7 +20,7 @@ function createScene (p_config, p_callback)
 					//p_new_scene.meshes[i1].position.y += 10; 
 				}
 				
-				console.log(p_new_scene);
+				//console.log(p_new_scene);
 
 				p_config.scene = p_new_scene;
 				p_config.main_light.light = new BABYLON.DirectionalLight(p_config.main_light.name, new BABYLON.Vector3(p_config.main_light.x, p_config.main_light.y, p_config.main_light.z), p_config.scene);
@@ -30,30 +32,33 @@ function createScene (p_config, p_callback)
 				p_config.player = new Player(p_config);
 
 				//p_config.map_mesh = createMapMesh(p_config);
-				p_config.ghost_mesh_model = createGhostsMeshModel(p_config);
 				p_config.laser_mesh_model = createLaserMeshModel(p_config);
-				createGunMesh(p_config);
-
-				p_config.scene.gravity = new BABYLON.Vector3(0, -p_config.gravity, 0);
-				p_config.scene.collisionsEnabled = true;
-							
-				p_config.engine.runRenderLoop(function ()
-				{
-					p_config.scene.render();
-				});
-
-				p_callback(p_config);
-				$("#loading").remove();
-				$('body').append('<h1 id="c2p">The game is loaded, click to play !</h1>');
+				
+				createGunMesh(p_config, function(){createGhostsMeshModel(p_config, function(){end_loading(p_config, p_callback)})});
 
 			}, function (p_progress)
 			{
 				// To do: give progress feedback to user
-				console.log("p_progress", p_progress);
-				$('body').append('<h1 id="loading">Loading...</h1>');
+				//console.log("p_progress", p_progress);
+				//$('body').append('<h1 id="loading">Loading...</h1>');
 			});
 		});
 	}
+}
+
+function end_loading (p_config, p_callback)
+{
+	p_config.scene.gravity = new BABYLON.Vector3(0, -p_config.gravity, 0);
+	p_config.scene.collisionsEnabled = true;
+
+	p_config.engine.runRenderLoop(function ()
+	{
+		p_config.scene.render();
+	});
+
+	p_callback(p_config);
+	$("#loading").remove();
+	$('body').append('<h1 id="c2p">The game is loaded, click to play !</h1>');
 }
 
 function createSkybox (p_config)
@@ -86,27 +91,27 @@ function createSkybox (p_config)
 	return ground;
 }*/
 
-function createGhostsMeshModel (p_config)
+function createGhostsMeshModel (p_config, p_callback)
 {
-	var sphere 		= BABYLON.Mesh.CreateSphere("sphere", 10.0, 3.0, p_config.scene);
-	var sphere_mat 	= new BABYLON.StandardMaterial("sphere_mat", p_config.scene);
+	// var sphere 		= BABYLON.Mesh.CreateSphere("sphere", 10.0, 3.0, p_config.scene);
+	// var sphere_mat 	= new BABYLON.StandardMaterial("sphere_mat", p_config.scene);
 	
-	sphere.position = new BABYLON.Vector3(0, -1000, 0);
-	sphere_mat.diffuseColor = new BABYLON.Color3(1, 0.5, 0);
-	sphere_mat.specularColor = new BABYLON.Color3(0, 0, 0);
-	sphere_mat.emissiveColor = new BABYLON.Color4(1, 0.5, 0, 1);
-	sphere.material = sphere_mat;
+	// sphere.position = new BABYLON.Vector3(0, -1000, 0);
+	// sphere_mat.diffuseColor = new BABYLON.Color3(1, 0.5, 0);
+	// sphere_mat.specularColor = new BABYLON.Color3(0, 0, 0);
+	// sphere_mat.emissiveColor = new BABYLON.Color4(1, 0.5, 0, 1);
+	// sphere.material = sphere_mat;
 
-	/*BABYLON.SceneLoader.ImportMesh('pCube1', './assets/scene/', 'hand.babylon', p_config.scene, function (newMeshes, particleSystems, skeletons) //Skeleton - skeleton.babylon // Cube - blender
+	BABYLON.SceneLoader.ImportMesh('pCube1', './assets/scene/', 'hand.babylon', p_config.scene, function (newMeshes, particleSystems, skeletons) //Skeleton - skeleton.babylon // Cube - blender
 	{
-		console.log("newMeshes", newMeshes);
+		//console.log("newMeshes", newMeshes);
 
 		p_config.ghost_mesh_model = newMeshes[0];
-
-
-	}*/
-
-	return sphere;
+		p_config.ghost_mesh_model.position.y = -1000;
+		var scaling_ratio = 0.01;
+		p_config.ghost_mesh_model.scaling = new BABYLON.Vector3(scaling_ratio, scaling_ratio, scaling_ratio);
+		p_callback(p_config);
+	});
 }
 
 function createLaserMeshModel (p_config)
@@ -125,17 +130,16 @@ function createLaserMeshModel (p_config)
 	return laser;
 }
 
-function createGunMesh (p_config)
+function createGunMesh (p_config, p_callback)
 {
 	BABYLON.SceneLoader.ImportMesh('pCube1', './assets/scene/', 'hand.babylon', p_config.scene, function (newMeshes, particleSystems, skeletons) //Skeleton - skeleton.babylon // Cube - blender
 	{
-		console.log("newMeshes", newMeshes);
+		//console.log("newMeshes", newMeshes);
 
 		p_config.gun_mesh = newMeshes[0];
 
 		var scaling_ratio = 0.001;
 		p_config.gun_mesh.scaling = new BABYLON.Vector3(scaling_ratio, scaling_ratio, scaling_ratio);
-		p_config.gun_mesh.rotation = new BABYLON.Vector3(-0.5, -0.3, 2.5);
 		/*p_config.gun_mesh.scaling.x *= 0.01;
 		p_config.gun_mesh.scaling.y *= 0.01;
 		p_config.gun_mesh.scaling.z *= 0.01;*/
@@ -153,6 +157,8 @@ function createGunMesh (p_config)
 		console.log(p_config.camera)
 		
 		p_config.gun_mesh.parent = p_config.camera;*/
+
+		p_callback(p_config);
 	});
 }
 
