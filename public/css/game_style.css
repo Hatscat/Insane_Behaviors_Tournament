@@ -336,3 +336,18 @@ width: 785px;
 height: 60px;
 
 }
+
+.Isart  {
+
+position: absolute;
+background-image:url('img/isartdigital.png');
+background-repeat: no-repeat;
+margin: auto;
+left: 0;
+right: 0;
+bottom: 0;
+top: 500px;
+width:175px;
+height:56px;
+
+}
