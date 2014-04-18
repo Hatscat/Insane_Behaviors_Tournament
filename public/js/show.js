@@ -33,6 +33,8 @@ $(".ButtonLogin").click(function () {
 });
 
 $('#TitreIndex').addClass('animated bounceIn');
+$('#c2p').addClass('animated bounceIn');
+
 
 function show_leaderboard(p_config, delay)
 {
