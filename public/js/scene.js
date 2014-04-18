@@ -4,14 +4,14 @@ function createScene (p_config, p_callback)
 	{
 		$('body').append('<h1 id="loading">Loading...</h1>');
 
-		BABYLON.SceneLoader.Load('./assets/scene/', 'scene2.babylon', p_config.engine, function (p_new_scene)
+		BABYLON.SceneLoader.Load('./assets/scene/', 'scene4.babylon', p_config.engine, function (p_new_scene)
 		{
 			p_new_scene.executeWhenReady(function ()
 			{
 				p_new_scene.cameras = [];
 				delete(p_new_scene.activeCamera);
 
-				var ratio = 7;
+				var ratio = 8;
 
 				for (var i1 in p_new_scene.meshes)
 				{
@@ -131,7 +131,7 @@ function createGhostsMeshModel (p_config, p_callback)
 		p_config.ghost_mesh_model = newMeshes[0];
 		p_config.ghost_mesh_model.position.y = -1000;
 		//p_config.ghost_mesh_model.rotation = new BABYLON.Vector3(-Math.PI / 2, 0, 0);
-		var scaling_ratio = 0.03;
+		var scaling_ratio = 0.04;
 		p_config.ghost_mesh_model.scaling = new BABYLON.Vector3(scaling_ratio, scaling_ratio, scaling_ratio);
 		p_callback(p_config);
 	});

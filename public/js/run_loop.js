@@ -10,9 +10,9 @@ function run (p_config)
 	}
 	check_player_movement(p_config.player);
 	p_config.time 			= Date.now() || function(){return new Date().getTime()};
-	var elapsed_time 		= p_config.time - p_config.old_time;
-	p_config.old_time 		= p_config.time;
-	p_config.delta_time 	= elapsed_time * 0.04 || 1;
+	//var elapsed_time 		= p_config.time - p_config.old_time;
+	//p_config.old_time 		= p_config.time;
+	//p_config.delta_time 	= elapsed_time * 0.04 || 1;
 
 	if(p_config.time > p_config.oldRayTime + 200)
 	{

@@ -4018,7 +4018,7 @@ var BABYLON = BABYLON || {};
 			if (Math.abs(this.cameraDirection.x) < BABYLON.Engine.epsilon) this.cameraDirection.x = 0;
 			if (Math.abs(this.cameraDirection.y) < BABYLON.Engine.epsilon) this.cameraDirection.y = 0;
 			if (Math.abs(this.cameraDirection.z) < BABYLON.Engine.epsilon) this.cameraDirection.z = 0;
-			this.cameraDirection.scaleInPlace(0.5); // this.inertia
+			this.cameraDirection.scaleInPlace(0.1); // this.inertia
 		}
 		if (needToRotate) {
 			if (Math.abs(this.cameraRotation.x) < BABYLON.Engine.epsilon) this.cameraRotation.x = 0;

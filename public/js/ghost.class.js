@@ -41,7 +41,7 @@ Ghost.prototype.anim = function (p_ghost_new)
 Ghost.prototype.move = function (p_data)
 {
 	this.mesh.position.x 	= p_data.position.x;
-	this.mesh.position.y 	= p_data.position.y - 4;
+	this.mesh.position.y 	= p_data.position.y + 1.5;
 	this.mesh.position.z 	= p_data.position.z;
 
 	this.mesh.rotation.x 	= p_data.rotation.x + Math.PI;

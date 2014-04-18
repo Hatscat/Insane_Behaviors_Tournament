@@ -22,7 +22,7 @@ function new_config (p_canvas)
 		player 						: null,
 		hand_speed					: 6,
 		hand_anim					: {x: 0, y:0, z: 0},
-		player_speed_max 			: 7,
+		player_speed_max 			: 15,
 		camera_speed_max 			: 400,
 		player_jump_max 			: 5,
 		ghost_id 					: 'ghost',
@@ -32,7 +32,7 @@ function new_config (p_canvas)
 		delta_time 					: 1,
 		damage 						: 350,
 		max_hp 						: 1000,
-		min_y 						: -20,
+		min_y 						: -15,
 		laser_margin 				: 2,
 		laser_decreasing_speed		: 1.4,
 		backSoundUrl				: "/assets/AMBIANCEnewversion",
@@ -75,12 +75,12 @@ function new_config (p_canvas)
 		main_light 					: {
 			name : "main_light",
 			x : 0,
-			y : -0.9,
+			y : 0.5,
 			z : 0,
-			intensity : 0.1,
-			r :0.15,
-			g: 0.1,
-			b: 0.1
+			intensity : 2,
+			r :1,
+			g: 0.9,
+			b: 0.9
 		},
 
 		babylon_camera 				: {

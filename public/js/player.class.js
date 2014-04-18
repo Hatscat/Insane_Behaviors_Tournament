@@ -23,7 +23,7 @@ function Player (p_config)
 
 	this.camera.checkCollisions 	= true;
 	this.camera.applyGravity 		= true;
-	this.camera.ellipsoid 			= new BABYLON.Vector3(0.5, 2.5, 0.5);
+	this.camera.ellipsoid 			= new BABYLON.Vector3(0.4, 2.5, 0.4);
 
 	this.camera.speed 				= this._config.player_speed_max;
 	this.camera.angularSensibility 	= this._config.camera_speed_max;
@@ -125,7 +125,7 @@ Player.prototype._new_constraint = function ()
 Player.prototype.jump = function ()
 {
 	var ratio = 0.75;
-	this.camera.cameraDirection.y = this._config.gravity * (this.velocity * this._config.delta_time);
+	this.camera.cameraDirection.y = this._config.gravity * this.velocity// * this._config.delta_time);
 	this.velocity *= ratio;
 }
 Player.prototype.shoot = function (that)
