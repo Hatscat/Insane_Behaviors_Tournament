@@ -208,7 +208,6 @@ Player.prototype.constraint_dont_miss = function ()
 
 Player.prototype.constraint_always_move = function ()
 {
-	check_player_movement(this);
 	
 	if (!this.is_moving)
 	{
@@ -221,7 +220,6 @@ Player.prototype.constraint_always_move = function ()
 Player.prototype.constraint_dont_shoot_while_moving = function ()
 {
 	//console.log(this.is_moving, this.is_shooting);
-	check_player_movement(this);
 
 	if (this.is_moving && this.is_shooting)
 	{
@@ -284,4 +282,38 @@ function check_player_movement (that)
 							+ that.camera._diffPosition.y * that.camera._diffPosition.y
 							+ that.camera._diffPosition.z * that.camera._diffPosition.z;
 }
+function handCalculateDistance (p_config, origin, arivée)
+{
+	var distanceX = arivée.x - origin.x;
+	var distanceY = arivée.y - origin.y;
+	var distanceZ = arivée.z - origin.z;
+	var normalisationRatio = Math.abs(distanceX) + Math.abs(distanceY) + Math.abs(distanceZ);
+	normalisationRatio = normalisationRatio ? normalisationRatio : 1;
+	this.hasReached = (distanceX > -0.05 && distanceX < 0.05) && (distanceY > -0.1 && distanceY < 0.1) && (distanceZ > -0.1 && distanceZ < 0.1) ? true:false;
+	if(this.hasReached)
+		return 0;
 
+	return { x: distanceX / normalisationRatio, y:distanceY /normalisationRatio, z: distanceZ / normalisationRatio }
+}
+
+function moveHand(p_config, destination)
+{
+	if(!this.nextPos)
+		this.nextPos = destination;
+
+	var distanceXYZ = handCalculateDistance(p_config, p_config.gun_mesh.position, this.nextPos);
+
+	if(!distanceXYZ)
+	{
+		p_config.HandNeedToMove = false;
+		p_config.cpt++;
+		this.nextPos = null;
+	}
+	else
+	{
+		p_config.gun_mesh.position.x += distanceXYZ.x * p_config.hand_speed * 0.001;
+		p_config.gun_mesh.position.y += distanceXYZ.y * p_config.hand_speed * 0.001;
+		p_config.gun_mesh.position.z += distanceXYZ.z * p_config.hand_speed * 0.001;
+		
+	}
+}
