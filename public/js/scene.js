@@ -9,12 +9,12 @@ function createScene (p_config, p_callback)
 				p_new_scene.cameras = [];
 				delete(p_new_scene.activeCamera);
 
+				var ratio = 7;
+
 				for (var i1 in p_new_scene.meshes)
 				{
 					p_new_scene.meshes[i1].checkCollisions = true;
-					p_new_scene.meshes[i1].scaling.x *= 7;
-					p_new_scene.meshes[i1].scaling.y *= 7;
-					p_new_scene.meshes[i1].scaling.z *= 7;
+					p_new_scene.meshes[i1].scaling = new BABYLON.Vector3(ratio, ratio, ratio);
 					//p_new_scene.meshes[i1].position.y += 10; 
 				}
 				
@@ -32,6 +32,7 @@ function createScene (p_config, p_callback)
 				//p_config.map_mesh = createMapMesh(p_config);
 				p_config.ghost_mesh_model = createGhostsMeshModel(p_config);
 				p_config.laser_mesh_model = createLaserMeshModel(p_config);
+				createGunMesh(p_config);
 
 				p_config.scene.gravity = new BABYLON.Vector3(0, -p_config.gravity, 0);
 				p_config.scene.collisionsEnabled = true;
@@ -70,7 +71,7 @@ function createSkybox (p_config)
 	return skybox;
 };
 
-function createMapMesh (p_config)
+/*function createMapMesh (p_config)
 {
 	var ground 	= BABYLON.Mesh.CreatePlane("ground", 200.0, p_config.scene);
 
@@ -83,7 +84,7 @@ function createMapMesh (p_config)
 	ground.checkCollisions = true;
 
 	return ground;
-}
+}*/
 
 function createGhostsMeshModel (p_config)
 {
@@ -95,6 +96,15 @@ function createGhostsMeshModel (p_config)
 	sphere_mat.specularColor = new BABYLON.Color3(0, 0, 0);
 	sphere_mat.emissiveColor = new BABYLON.Color4(1, 0.5, 0, 1);
 	sphere.material = sphere_mat;
+
+	/*BABYLON.SceneLoader.ImportMesh('pCube1', './assets/scene/', 'hand.babylon', p_config.scene, function (newMeshes, particleSystems, skeletons) //Skeleton - skeleton.babylon // Cube - blender
+	{
+		console.log("newMeshes", newMeshes);
+
+		p_config.ghost_mesh_model = newMeshes[0];
+
+
+	}*/
 
 	return sphere;
 }
@@ -113,6 +123,29 @@ function createLaserMeshModel (p_config)
 	laser.material = laser_mat;
 
 	return laser;
+}
+
+function createGunMesh (p_config)
+{
+	BABYLON.SceneLoader.ImportMesh('pCube1', './assets/scene/', 'hand.babylon', p_config.scene, function (newMeshes, particleSystems, skeletons) //Skeleton - skeleton.babylon // Cube - blender
+	{
+		console.log("newMeshes", newMeshes);
+
+		p_config.gun_mesh = newMeshes[0];
+
+		var scaling_ratio = 0.001;
+		p_config.gun_mesh.scaling = new BABYLON.Vector3(scaling_ratio, scaling_ratio, scaling_ratio);
+		p_config.gun_mesh.rotation = new BABYLON.Vector3(-0.5, -0.3, 2.5);
+		/*p_config.gun_mesh.scaling.x *= 0.01;
+		p_config.gun_mesh.scaling.y *= 0.01;
+		p_config.gun_mesh.scaling.z *= 0.01;*/
+
+		//p_config.gun_mesh.rotation.y = Math.PI;
+		//p_config.gun_mesh.position = new BABYLON.Vector3(0, 1, 0);//p_config.player.camera.position;// new BABYLON.Vector3(0, 0, -80);
+		
+		//console.log("skeletons", skeletons);
+		//p_config.scene.beginAnimation(skeletons[0], 0, 100, true, 5.0); //function (target, from, to, loop, speedRatio, onAnimationEnd)
+	});
 }
 
 /* function createDecorMeshModel (p_config) {//box.checkCollisions = true;} */

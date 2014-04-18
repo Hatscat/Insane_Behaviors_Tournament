@@ -17,7 +17,7 @@ function drawHUD (p_config, debug)
 	grd.addColorStop(0.500, 'rgba(255, 0, 0, 1.000)');
 	grd.addColorStop(1.000, 'rgba(150, 19, 19, 1.000)');
     p_config.gui_context.fillStyle = grd;
-    if(debug)
+    if (debug)
 		p_config.gui_context.fillRect(p_config.lifeBackX+1, 26, 1, 30); // arg
 	else
 		p_config.gui_context.fillRect(p_config.lifeBackX+1, 26, (p_config.player.current_hp || p_config.max_hp)*498/p_config.max_hp, 30); // arg

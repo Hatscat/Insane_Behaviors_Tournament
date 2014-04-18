@@ -67,6 +67,8 @@ function after_scene_is_loaded (p_config)
 		p_config.engine.resize();
 	};
 
+	document.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+
 	window.addEventListener('click', setup, false);
 
 	window.addEventListener('click', function ()
@@ -94,6 +96,7 @@ function after_scene_is_loaded (p_config)
 
 	window.addEventListener('keydown', function (event)
 	{
+		//console.log(event.keyCode)
 		if (event.keyCode == 27) // esc key
 		{
 			p_config.engine.isPointerLock = false;
@@ -113,7 +116,6 @@ function after_scene_is_loaded (p_config)
 		p_config.socket.on('connectionEstablished', function (e)
 		{
 			p_config.socket.emit('iWantToPlay', p_config.server);
-			p_config.player.ready_2_be_punish = true;
 			p_config.player.state = 'playing';
 		});
 

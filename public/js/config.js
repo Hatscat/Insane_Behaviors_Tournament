@@ -6,7 +6,7 @@ function new_config (p_canvas)
 	var config = {
 		socket						: null,
 		engine						: null,
-		map_mesh					: null,
+		gun_mesh					: null,
 		ghost_mesh_model 			: null,
 		laser_mesh_model 			: null,
 		id 							: null,
