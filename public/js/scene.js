@@ -4,7 +4,7 @@ function createScene (p_config, p_callback)
 	{
 		$('body').append('<h1 id="loading">Loading...</h1>');
 
-		BABYLON.SceneLoader.Load('./assets/scene/', 'scene.babylon', p_config.engine, function (p_new_scene)
+		BABYLON.SceneLoader.Load('./assets/scene/', 'scene2.babylon', p_config.engine, function (p_new_scene)
 		{
 			p_new_scene.executeWhenReady(function ()
 			{
