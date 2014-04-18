@@ -68,11 +68,11 @@ function getForwardVector (p_rotation)
 
 function Laser_update (that)
 {
-	var ratio = that.decreasing_speed;// / that._config.delta_time;
+	var ratio = that.decreasing_speed * that._config.delta_time;
 
-	that.mesh.scaling.x *= ratio;
-	that.mesh.scaling.z *= ratio;
-	//that.mesh.scaling.y *= (ratio * 1.1);
+	that.mesh.scaling.x /= ratio;
+	that.mesh.scaling.z /= ratio;
+	//that.mesh.scaling.y /= (ratio * 1.1);
 
 	if (that.mesh.scaling.x <= 0.01)
 	{

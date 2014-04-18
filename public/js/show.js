@@ -98,7 +98,7 @@ function show_constrain(p_config)
 	$("#iconContrainte").css("background-image", "url('assets/" + p_config.player.constraintInfo.name + "_img.png')");
 	$(".TexteContrainte").text(p_config.player.constraintInfo.text);
 	$(".popupContrainte").fadeIn(300, function(){
-			hide_constrain(p_config, 2000)
+			hide_constrain(p_config, p_config.peace_time);
 			
 		});
 ;
