@@ -8,6 +8,26 @@ function run (p_config)
 	p_config.old_time 		= p_config.time;
 	p_config.delta_time 	= elapsed_time * 0.04 || 1;
 
+	$("#test").text(BABYLON.Tools.GetFps() + "")
+
+	if(p_config.time > p_config.oldRayTime + 200 && p_config.player.state == 'playing')
+	{
+		p_config.oldRayTime = p_config.time;
+		pickResult = p_config.scene.pick(p_config.canvas.width / 2, p_config.canvas.height / 2, function(m){return !(m.name=='laser')});
+
+		if(pickResult.pickedMesh && pickResult.pickedMesh.id == p_config.ghost_id)
+		{
+			var txt = "Name: " + p_config.ghosts[pickResult.pickedMesh.name].name
+			p_config.gui_context.clearRect(p_config.nameTextX- (txt.length*20/2+1),p_config.nameTextY-1,txt.length*21,25)
+			fillText(p_config, "#f00", txt, p_config.nameTextX- txt.length*20/2,p_config.nameTextY)
+		}
+		else
+		{
+			p_config.gui_context.clearRect(0,p_config.cursorY+100,window.innerWidth, window.innerHeight)
+		}
+		
+	}
+
 	if (p_config.player._id)
 	{
 		p_config.socket.emit('playerMove',

@@ -46,7 +46,10 @@ function new_config (p_canvas)
 		cursorX						: window.innerWidth / 2 - 4,
 		cursorY						: window.innerHeight / 2 - 4,
 		lifeBackX					: window.innerWidth/2-200,
+		nameTextX					: window.innerWidth/2,
+		nameTextY					: window.innerHeight-300,
 		peace_time 					: 3000,
+		oldRayTime					: 0,
 
 		constraint_names 			: [
 			{name:"dont_miss",text:"Miss and you'll die !"},

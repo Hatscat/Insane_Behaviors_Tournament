@@ -28,8 +28,8 @@ function init_game ()
 	var config = new_config(canvas);
 	config.ctxAudio = init_sound_context();
 	config.backSound = new Sound(config.ctxAudio, config.backSoundUrl, 1, false, true)
-	config.shootSound = new Sound(config.ctxAudio, config.shootSoundUrl, 1, false, false)
-	config.aieSound = new Sound(config.ctxAudio, config.aieSoundUrl, 1, false, false)
+	config.shootSound = new Sound(config.ctxAudio, config.shootSoundUrl, 0.5, false, false)
+	config.aieSound = new Sound(config.ctxAudio, config.aieSoundUrl, 0.4, false, false)
 	config.gui_canvas = canvas.cloneNode(false);
 	config.gui_context = config.gui_canvas.getContext('2d');
 
@@ -96,7 +96,6 @@ function after_scene_is_loaded (p_config)
 
 	window.addEventListener('keydown', function (event)
 	{
-		console.log(event.keyCode)
 		if (event.keyCode == 27) // esc key
 		{
 			p_config.engine.isPointerLock = false;
@@ -131,6 +130,7 @@ function after_scene_is_loaded (p_config)
 		$('body').append("<table id='leaderBoard'><tbody id='leaderBoardBody'></tbody></table>");
 		$('body').append("<div class='popupContrainte'><div class='imageContrainte'></div><p class='TexteContrainte'></p></div>");
 		$('body').append("<div id='iconContrainte'></div>");
+		$('body').append("<p id='test'></p>");
 
 		window.removeEventListener('click', setup);
 	}

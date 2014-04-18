@@ -40,7 +40,6 @@ function Player (p_config)
 	// jump event
 	window.addEventListener('keydown', function (event)
 	{
-		console.log(event.keyCode)
 		if (event.keyCode == that._config.keys.jump)
 		{
 			if (that.on_ground)
@@ -68,7 +67,7 @@ function Player (p_config)
 	// shoot event
 	window.addEventListener('mousedown', function ()
 	{
-		if (that._config)
+		if (that._config && that.state == "playing")
 		{
 			that.is_shooting = true;
 			that.shoot(that);

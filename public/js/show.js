@@ -37,7 +37,6 @@ $('#TitreIndex').addClass('animated bounceIn');
 function show_leaderboard(p_config, delay)
 {
 	delay = delay || 300;
-	console.log(this.show)
 	if(this.show)
 	{
 		this.show = false;
