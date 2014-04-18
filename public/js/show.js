@@ -49,7 +49,7 @@ function show_leaderboard(p_config, delay)
 	this.show = true;
 
 	var tabOrdo = 	[];
-	var balises ="<tr><td>Joueur</td><td>Kill</td><td>Death</td></tr>";
+	var balises ="<tr><td>Player</td><td>Kill</td><td>Death</td></tr>";
 
 	for(var g in p_config.ghosts)
 	{

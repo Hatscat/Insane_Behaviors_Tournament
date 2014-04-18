@@ -99,7 +99,7 @@ function show_laser (p_config, p_data)
 function casseToi (p_config, p_data)
 {
 	localStorage.removeItem("id");
-	localStorage["EROR_INSANE_TOURNAMENT"] = "Problème de connexion, veuillez rééssayer";
+	localStorage["EROR_INSANE_TOURNAMENT"] = "Connection problem, please try again";
 	window.location.reload();
 }
 
