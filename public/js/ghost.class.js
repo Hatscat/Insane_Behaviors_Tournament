@@ -12,6 +12,9 @@ function Ghost (p_config, p_data, id)
 	this.mesh.id 						= p_config.ghost_id;
 	this.mesh.position 					= new BABYLON.Vector3(p_data.position.x, p_data.position.y, p_data.position.z);
 	this.mesh.rotation 					= new BABYLON.Vector3(p_data.rotation.x, p_data.rotation.y, p_data.rotation.z);
+
+	var scaling_ratio = 0.04;
+	this.mesh.scaling = new BABYLON.Vector3(scaling_ratio, scaling_ratio, scaling_ratio);
 }
 
 /*
@@ -41,7 +44,7 @@ Ghost.prototype.anim = function (p_ghost_new)
 Ghost.prototype.move = function (p_data)
 {
 	this.mesh.position.x 	= p_data.position.x;
-	this.mesh.position.y 	= p_data.position.y + 2;
+	this.mesh.position.y 	= p_data.position.y + 2.5;
 	this.mesh.position.z 	= p_data.position.z;
 
 	this.mesh.rotation.x 	= p_data.rotation.x + Math.PI;

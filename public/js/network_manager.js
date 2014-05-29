@@ -32,7 +32,7 @@ function update_ghosts (p_config, p_data)
 				}
 
 				//p_config.ghosts[p].mesh.material.alpha = 1.0;
-				p_config.ghosts[p].anim(p_data.players[p]);
+				//p_config.ghosts[p].anim(p_data.players[p]);
 				p_config.ghosts[p].move(p_data.players[p]);
 				p_config.ghosts[p].death = p_data.players[p].death;
 				p_config.ghosts[p].frag = p_data.players[p].frag;
@@ -52,9 +52,9 @@ function update_ghosts (p_config, p_data)
 function kill (p_config, p_data)
 {
 	p_config.player.frag++;
-	config.gui_context.fillStyle = "#f00";
-	config.gui_context.clearRect(window.innerWidth-200, 10, 500, 500);
-	config.gui_context.fillText("FRAGS : "  + (config.player.frag || 0), window.innerWidth-160, 50);
+	p_config.gui_context.fillStyle = "#f00";
+	p_config.gui_context.clearRect(window.innerWidth-200, 10, 500, 500);
+	p_config.gui_context.fillText("FRAGS : "  + (p_config.player.frag || 0), window.innerWidth-160, 50);
 }
 
 function update_life (p_config, p_data)
@@ -69,7 +69,16 @@ function update_life (p_config, p_data)
 		p_config.aieGUI = 0.2;
 		p_config.aieSound.play(100);
 		p_config.gui_context.clearRect(0,0,window.innerWidth, window.innerHeight);
-		p_config.gui_context.fillStyle = "rgba(255, 0, 0, 0.6)";
+		
+		if (p_data.origin == 'constaint_punishment')
+		{
+			p_config.gui_context.fillStyle = "rgba(0, 255, 0, 0.6)";
+		}
+		else
+		{
+			p_config.gui_context.fillStyle = "rgba(255, 0, 0, 0.6)";
+		}
+
 		p_config.gui_context.fillRect(0,0,window.innerWidth, window.innerHeight);
 		drawHUD(p_config);
 	}
@@ -83,7 +92,7 @@ function update_life (p_config, p_data)
 		p_config.aieGUI = 1000;
 		drawHUD(p_config, "drawemptybar");
 		show_leaderboard(p_config);
-		fillText(p_config, "#00f", 'Click to respawn',  window.innerWidth/2-100, window.innerHeight-250)
+		fillText(p_config, "#00f", '"ENTER" to respawn',  window.innerWidth/2-100, window.innerHeight-250)
 		p_config.player.state = "waitTorespawn";
 		p_config.player.ready_2_be_punish = false;
 		p_config.socket.emit('playerDied');
@@ -92,11 +101,11 @@ function update_life (p_config, p_data)
 
 function show_laser (p_config, p_data)
 {
-	console.log(p_data); // class Laser_ghost (p_config, p_pos, p_rot, p_distance)
+	//console.log(p_data); // class Laser_ghost (p_config, p_pos, p_rot, p_distance)
 	p_config.lasers.push(new Laser_ghost(p_config, p_data.pos, p_data.rot, p_data.dist));
 }
 
-function casseToi (p_config, p_data)
+function casseToi (p_config)
 {
 	localStorage.removeItem("id");
 	localStorage["EROR_INSANE_TOURNAMENT"] = "Connection problem, please try again";

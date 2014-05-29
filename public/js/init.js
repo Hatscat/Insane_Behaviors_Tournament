@@ -71,7 +71,7 @@ function after_scene_is_loaded (p_config)
 
 	document.addEventListener("contextmenu", function (e) { e.preventDefault(); });
 
-	window.addEventListener('click', setup, false);
+	window.addEventListener('click', setup);
 
 	window.addEventListener('click', function ()
 	{
@@ -84,10 +84,10 @@ function after_scene_is_loaded (p_config)
 				p_config.gui_canvas.requestPointerLock();
 			}
 
-			if (p_config.player.state == 'waitTorespawn')
+			/*if (p_config.player.state == 'waitTorespawn')
 			{
 				p_config.player.respawn();
-			}
+			}*/
 		}
 
 		if (!screenfull.isFullscreen)
@@ -115,6 +115,7 @@ function after_scene_is_loaded (p_config)
 
 	function setup ()
 	{
+		window.removeEventListener('click', setup);
 		$("#c2p").remove();
 		p_config.socket = io.connect();
 
@@ -134,7 +135,6 @@ function after_scene_is_loaded (p_config)
 		$('body').append("<div id='iconContrainte'></div>");;
 		$('body').append("<p id='nameSpoted'></p>");
 
-		window.removeEventListener('click', setup);
 	}
 
 }
@@ -148,7 +148,7 @@ function manage_server_events (p_config)
 	p_config.socket.on('newPlayer', function(e){new_player(p_config,e)});
 	p_config.socket.on('deleteGhost', function(e){delete_ghost(p_config,e)});
 	p_config.socket.on('kill', function(e){kill(p_config,e)});
-	p_config.socket.on('wrongID', function(e){casseToi(p_config)});
+	p_config.socket.on('wrongID', function(){casseToi(p_config)});
 	p_config.socket.on('updateLife', function(e){update_life(p_config,e)});
 	p_config.socket.on('showLaser', function(e){show_laser(p_config,e)});
 	p_config.socket.on('disconnect', function(e){

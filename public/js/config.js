@@ -16,14 +16,17 @@ function new_config (p_canvas)
 		gui_context 				: null,
 		canvas_width 				: window.innerWidth,
 		canvas_height 				: window.innerHeight,
+		//canvas_center_w 			: window.innerWidth / 2,
+		//canvas_center_h 			: window.innerHeight / 2,
 		keys_down  					: {},
 		ghosts 						: {},
 		lasers 						: [],
 		player 						: null,
 		hand_speed					: 6,
-		hand_anim					: {x: 0, y:0, z: 0},
-		player_speed_max 			: 14,
-		camera_speed_max 			: 400,
+		hand_anim					: {x: 0, y: 0, z: 0},
+		player_size 				: {w: 0.9, h: 3.5},
+		player_speed_max 			: 17,
+		camera_speed_max 			: 330,
 		player_jump_max 			: 5,
 		ghost_id 					: 'ghost',
 		gravity 					: 0.9,
@@ -33,7 +36,7 @@ function new_config (p_canvas)
 		damage 						: 350,
 		max_hp 						: 1000,
 		min_y 						: -15,
-		laser_margin 				: 2,
+		laser_margin 				: 3,
 		laser_decreasing_speed		: 1.4,
 		backSoundUrl				: "/assets/AMBIANCEnewversion",
 		shootSoundUrl				: "/assets/eclair",
@@ -95,13 +98,49 @@ function new_config (p_canvas)
 		spwan_points				: [
 			{
 				position : {
-					x : 210,
-					y : 20,
-					z : 83
+					x : 240,
+					y : 22,
+					z : 100
 				},
 				rotation : {
 					x: 0,
-					y: 0,
+					y: 5, // 5
+					z: 0
+				}
+			},
+			{
+				position : {
+					x : -120,
+					y : 22,
+					z : 100
+				},
+				rotation : {
+					x: 0,
+					y: -5, // -5
+					z: 0
+				}
+			},
+			{
+				position : {
+					x : 240,
+					y : 22,
+					z : -200
+				},
+				rotation : {
+					x: 0,
+					y: 5, // 5
+					z: 0
+				}
+			},
+			{
+				position : {
+					x : -120,
+					y : 22,
+					z : -200
+				},
+				rotation : {
+					x: 0,
+					y: 13.5, // 13.5
 					z: 0
 				}
 			}

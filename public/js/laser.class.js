@@ -45,14 +45,16 @@ function Laser_ghost (p_config, p_pos, p_rot, p_distance)
 	this.decreasing_speed 	= p_config.laser_decreasing_speed;
 	this.mesh 				= null;
 
-	this.create(that);
+	this.create();
 }
-Laser_ghost.prototype.create = function (that)
+Laser_ghost.prototype.create = function ()
 {
-	that.mesh = that._config.laser_mesh_model.clone('laser');
-	that.mesh.position = that.pos;
-	that.mesh.rotation = that.rot;
-	that.mesh.scaling.y *= that.length;
+	this.mesh = this._config.laser_mesh_model.clone('laser');
+	this.mesh.position = new BABYLON.Vector3(this.pos.x, this.pos.y + 2.5, this.pos.z + 2) // this.pos;
+	this.mesh.rotation = this.rot;
+	this.mesh.scaling.y *= this.length;
+	this.mesh.scaling.x *= 2;
+	this.mesh.scaling.z *= 2;
 };
 
 /*

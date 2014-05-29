@@ -1721,9 +1721,9 @@ var BABYLON = BABYLON || {};
 			}
 		}
 	};
-	var fpsRange = 60;
+	var fpsRange = 40; // 60
 	var previousFramesDuration = [];
-	var fps = 60;
+	var fps = 40; // 60
 	var deltaTime = 0;
 	BABYLON.Tools.GetFps = function () {
 		return fps;

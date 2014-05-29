@@ -23,7 +23,7 @@ function Player (p_config)
 
 	this.camera.checkCollisions 	= true;
 	this.camera.applyGravity 		= true;
-	this.camera.ellipsoid 			= new BABYLON.Vector3(0.4, 2.5, 0.4);
+	this.camera.ellipsoid 			= new BABYLON.Vector3(this._config.player_size.w, this._config.player_size.h, this._config.player_size.w);
 
 	this.camera.speed 				= this._config.player_speed_max;
 	this.camera.angularSensibility 	= this._config.camera_speed_max;
@@ -50,6 +50,13 @@ function Player (p_config)
 				window.setTimeout(function(){that.on_ground = true}, that.velocity_max * 70 / p_config.gravity);
 			}
 		}
+		else if (event.keyCode == 13) // 'ENTER'
+		{
+			if (p_config.player.state == 'waitTorespawn')
+			{
+				p_config.player.respawn();
+			}
+		}
 	});
 
 	window.addEventListener('keyup', function (event)
@@ -58,6 +65,7 @@ function Player (p_config)
 		{
 			that.is_jumping = false;
 
+			that.camera.position.y += 0.2;
 				//that.on_ground = true;
 
 			that.velocity = that.velocity_max;
@@ -65,9 +73,9 @@ function Player (p_config)
 	});
 
 	// shoot event
-	window.addEventListener('mousedown', function ()
+	window.addEventListener('mousedown', function (e)
 	{
-		if (that._config && that.state == "playing" && !that.is_shooting)
+		if (!e.button && that._config && that.state == "playing" && !that.is_shooting)
 		{
 			that.is_shooting = true;
 			that.shoot(that);
@@ -85,18 +93,13 @@ Player.prototype.init = function (p_data)
 	this._id 					= p_data.id;
 	localStorage['id'] 			= this._id;
 	this.name 					= localStorage['Username'];
-	this.camera.position 		= new BABYLON.Vector3(210,20,83);
-	this.camera.rotation 		= new BABYLON.Vector3(0,0,0)
 	this.frag					= p_data.player.frag;
 	this.death					= p_data.player.death;
 	this.hp_max 				= this._config.max_hp;
 	this.current_hp 			= p_data.player.life;
 	this._config.socket.emit('playerCreated');
 
-	this.preparation();
 	this._config.gui_context.clearRect(0, 0, window.innerWidth, window.innerHeight);
-	drawHUD(this._config);
-	show_constrain(this._config);
 	
 	var test = {
 		position : {
@@ -112,6 +115,7 @@ Player.prototype.init = function (p_data)
 	};
 
 	this.set_gun(test);
+	this.preparation();
 }
 
 Player.prototype._new_constraint = function ()
@@ -125,7 +129,7 @@ Player.prototype._new_constraint = function ()
 Player.prototype.jump = function ()
 {
 	var ratio = 0.75;
-	this.camera.cameraDirection.y = this._config.gravity * this.velocity// * this._config.delta_time);
+	this.camera.cameraDirection.y = this._config.gravity * this.velocity;
 	this.velocity *= ratio;
 }
 Player.prototype.shoot = function (that)
@@ -135,12 +139,19 @@ Player.prototype.shoot = function (that)
 
 	if (that._config && that._config.scene)
 	{
-		var pickResult = that._config.scene.pick(that._config.canvas.width / 2, that._config.canvas.height / 2, function(m){return !(m.name=='laser')});
+		var pickResult = that._config.scene.pick(window.innerWidth / 2, window.innerHeight / 2, function (m)
+			{
+				return !(m.name=='laser'
+						|| m.name.indexOf('Plane') > -1 // les murs
+						|| m.name.indexOf('pCube') > -1); // la main
+						//|| m.name.indexOf('polySurface') > -1); // le corp
+						//|| m.name=='skyBox');
+			});
 
 		if (pickResult.pickedMesh)
 		{
-			//console.log("touché :", pickResult.pickedMesh.name);
-			//console.log(pickResult.pickedMesh.id);
+			console.log("touché :", pickResult.pickedMesh.name);
+			//console.log(pickResult);
 			that.miss_a_ghost = pickResult.pickedMesh.id != that._config.ghost_id;
 
 			var laser = new Laser_client(that._config, that.camera, pickResult.distance);
@@ -170,17 +181,12 @@ Player.prototype.check_constraint = function ()
 
 Player.prototype.respawn = function ()
 {
-	var spwan = Math.random() * this._config.spwan_points.length | 0;
 	var that = this;
+
 	this._config.aieGUI = false;
-	this._config.gui_context.clearRect(0,0,window.innerWidth, window.innerHeight);
-	drawHUD(this._config);
+	this._config.gui_context.clearRect(0, 0, window.innerWidth, window.innerHeight);
 	this.state = "playing";
 	show_leaderboard(this._config);
-
-	this.camera.position = new BABYLON.Vector3(210,20,83);//this._config.spwan_points[spwan].position.x, this._config.spwan_points[spwan].position.y, this._config.spwan_points[spwan].position.z);
-	this.camera.rotation = new BABYLON.Vector3(0,0,0)//t
-
 	this._config.socket.emit('respawn',
 	{
 		id: this._id,
@@ -189,16 +195,24 @@ Player.prototype.respawn = function ()
 	});
 
 	this.preparation();
-	show_constrain(this._config);
+	//show_constrain(this._config);
 };
 
 Player.prototype.preparation = function ()
 {
 	var that = this;
-	that.constraintInfo = that._new_constraint();
-	that.constraint = that.constraintInfo.name;
-	that.ready_2_be_punish = false;
-	that.is_shooting = true;
+	var spwan = Math.random() * this._config.spwan_points.length | 0;
+
+	this.constraintInfo = this._new_constraint();
+	this.constraint = this.constraintInfo.name;
+	this.ready_2_be_punish = false;
+
+	this.camera.position = new BABYLON.Vector3(this._config.spwan_points[spwan].position.x, this._config.spwan_points[spwan].position.y, this._config.spwan_points[spwan].position.z);
+	this.camera.rotation = new BABYLON.Vector3(this._config.spwan_points[spwan].rotation.x, this._config.spwan_points[spwan].rotation.y, this._config.spwan_points[spwan].rotation.z);
+
+	drawHUD(this._config);
+	show_constrain(this._config);
+	//that.is_shooting = true;
 	window.setTimeout(function(){that.ready_2_be_punish = true}, that._config.peace_time);
 	window.setTimeout(function(){that.is_shooting = false}, that._config.peace_time / 6);
 }
@@ -307,7 +321,7 @@ function handCalculateDistance (p_config, origin, arivée, speed)
 	return { x: distanceX / normalisationRatio, y:distanceY /normalisationRatio, z: distanceZ / normalisationRatio }
 }
 
-function moveHand(p_config, origin, destination, speed)
+function moveHand (p_config, origin, destination, speed)
 {
 	var distanceXYZ = handCalculateDistance(p_config, origin, destination);
 
